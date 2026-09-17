@@ -6,7 +6,7 @@ import Reveal from '../components/Reveal';
 import {
   projects,
   getHomepagePosts,
-  homeMetrics,
+  partnerMetricGroups,
   homeHeroStats,
   skillPairs,
   processSteps,
@@ -57,10 +57,17 @@ import {
       <h2>Partnering with startups and tech teams shaping the future.</h2>
       <div class="metrics">
         {
-          homeMetrics.map((m) => (
-            <article>
-              <p class="font-display value">{m.value}</p>
-              <p class="label">{m.label}</p>
+          partnerMetricGroups.map((group) => (
+            <article class="metric-card">
+              <img class="partner-logo" src={group.logo} alt="" width="118" height="25" />
+              <div class="pair">
+                {group.stats.map((m) => (
+                  <div>
+                    <p class="font-display value">{m.value}</p>
+                    <p class="label">{m.label}</p>
+                  </div>
+                ))}
+              </div>
             </article>
           ))
         }
@@ -121,22 +128,28 @@ import {
 
   <section class="process section-pad">
     <Reveal client:visible className="reveal-shell">
-      <p class="eyebrow">name of our processes.</p>
-      <div class="steps">
-        {
-          processSteps.map((s) => (
-            <article>
-              <h3>{s.title}</h3>
-              <p>{s.body}</p>
-            </article>
-          ))
-        }
-      </div>
-      <div class="timeline">
-        <p class="eyebrow">progress & timeline</p>
-        <p class="timeline-copy">
-          A structured, flexible process built for fast moving startups and modern brands.
-        </p>
+      <div class="process-board">
+        <p class="eyebrow process-label">name of our processes.</p>
+        <div class="process-visual">
+          <img class="chart" src="/images/ui/process-chart.svg" alt="" />
+          <div class="steps">
+            {
+              processSteps.map((s) => (
+                <article>
+                  <h3>{s.title}</h3>
+                  <p>{s.body}</p>
+                </article>
+              ))
+            }
+          </div>
+          <span class="origin" aria-hidden="true">0</span>
+        </div>
+        <div class="timeline">
+          <p class="eyebrow">progress & timeline</p>
+          <p class="timeline-copy">
+            A structured, flexible process built for fast moving startups and modern brands.
+          </p>
+        </div>
       </div>
     </Reveal>
   </section>
@@ -254,19 +267,43 @@ import {
   .metrics {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 1.5rem;
+    gap: 1.25rem;
+  }
+
+  .metric-card {
+    border: 1px solid var(--line);
+    padding: 1.35rem 1.25rem 1.5rem;
+    transition: border-color 0.25s ease;
+  }
+
+  .metric-card:hover {
+    border-color: rgba(255, 255, 255, 0.28);
+  }
+
+  .partner-logo {
+    display: block;
+    height: 1.55rem;
+    width: auto;
+    margin-bottom: 1.6rem;
+    opacity: 0.85;
+  }
+
+  .pair {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
   }
 
   .metrics .value {
     margin: 0;
-    font-size: clamp(2.5rem, 7vw, 4.5rem);
+    font-size: clamp(2rem, 4.5vw, 3.25rem);
     line-height: 0.9;
   }
 
   .metrics .label {
-    margin: 0.5rem 0 0;
+    margin: 0.45rem 0 0;
     color: var(--muted);
-    font-size: 0.85rem;
+    font-size: 0.8rem;
   }
 
   .featured {
@@ -366,27 +403,99 @@ import {
   }
 
   .process {
-    padding-block: 4rem;
+    padding-block: 4rem 5rem;
     border-top: 1px solid var(--line);
   }
 
-  .steps {
+  .process-board {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 1.5rem;
-    margin: 1.5rem 0 2.5rem;
+    grid-template-columns: auto minmax(0, 1fr) minmax(12rem, 18rem);
+    gap: 1.25rem 1.5rem;
+    align-items: stretch;
+  }
+
+  .process-label {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    margin: 0;
+    align-self: start;
+    padding-top: 0.5rem;
+  }
+
+  .process-visual {
+    position: relative;
+    min-height: 22rem;
+  }
+
+  .chart {
+    width: min(100%, 62rem);
+    height: auto;
+    display: block;
+    animation: chart-rise 1.35s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  @keyframes chart-rise {
+    from {
+      clip-path: inset(100% 0 0 0);
+      opacity: 0.35;
+    }
+    to {
+      clip-path: inset(0);
+      opacity: 1;
+    }
+  }
+
+  .steps {
+    position: absolute;
+    inset: 0;
+    display: block;
+    margin: 0;
+  }
+
+  .steps article {
+    position: absolute;
+    width: min(11.5rem, 32%);
+  }
+
+  .steps article:nth-child(1) {
+    left: 16%;
+    top: 46%;
+  }
+
+  .steps article:nth-child(2) {
+    left: 42%;
+    top: 24%;
+  }
+
+  .steps article:nth-child(3) {
+    left: 68%;
+    top: 2%;
   }
 
   .steps h3 {
-    margin: 0 0 0.5rem;
-    font-size: 1.25rem;
+    margin: 0 0 0.35rem;
+    font-size: 1.15rem;
   }
 
   .steps p,
   .timeline-copy {
     margin: 0;
     color: var(--muted);
-    line-height: 1.5;
+    line-height: 1.45;
+    font-size: 0.85rem;
+  }
+
+  .origin {
+    position: absolute;
+    left: 0;
+    bottom: 0.15rem;
+    font-size: 0.75rem;
+    color: var(--muted);
+  }
+
+  .timeline {
+    align-self: end;
+    padding-bottom: 1.5rem;
   }
 
   .journal {
@@ -411,9 +520,42 @@ import {
     .grid,
     .skills-copy,
     .skill-grid,
-    .steps,
     .journal-grid {
       grid-template-columns: 1fr;
+    }
+
+    .process-board {
+      grid-template-columns: 1fr;
+    }
+
+    .process-label {
+      writing-mode: horizontal-tb;
+      transform: none;
+    }
+
+    .process-visual {
+      min-height: 0;
+    }
+
+    .chart {
+      display: none;
+    }
+
+    .steps {
+      position: relative;
+      inset: auto;
+      display: grid;
+      gap: 1.25rem;
+      margin: 1rem 0;
+    }
+
+    .steps article {
+      position: static;
+      width: auto;
+    }
+
+    .origin {
+      display: none;
     }
 
     .we-are {
@@ -444,6 +586,12 @@ import {
     .hero-meta {
       flex-direction: column;
       gap: 1rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .chart {
+      animation: none;
     }
   }
 </style>

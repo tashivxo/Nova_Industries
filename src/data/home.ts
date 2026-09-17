@@ -34,6 +34,25 @@ export const homeMetrics = [
   { value: '40%', label: 'Con rate optimization' },
 ];
 
+/** Template partner marks from the X-axis Framer strip — not Nova clients. */
+export const partnerMetricGroups = [
+  {
+    name: 'Walter',
+    logo: '/images/ui/partners/walter.svg',
+    stats: [homeMetrics[0], homeMetrics[1]],
+  },
+  {
+    name: 'monosen',
+    logo: '/images/ui/partners/monosen.svg',
+    stats: [homeMetrics[2], homeMetrics[3]],
+  },
+  {
+    name: 'Overcut',
+    logo: '/images/ui/partners/overcut.svg',
+    stats: [homeMetrics[4], homeMetrics[5]],
+  },
+];
+
 export const homeHeroStats = [
   { value: '9+', label: 'years' },
   { value: '500+', label: 'projects' },

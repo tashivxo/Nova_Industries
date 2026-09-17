@@ -21,7 +21,7 @@ import { faqs } from '../data/faqs';
 
 <style>
   .faq {
-    padding-block: 5rem 3rem;
+    padding-block: 4.5rem 2.5rem;
     border-top: 1px solid var(--line);
   }
 
@@ -31,7 +31,7 @@ import { faqs } from '../data/faqs';
     align-items: baseline;
     justify-content: space-between;
     gap: 1rem;
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
   }
 
   .faq-head h2 {
@@ -51,9 +51,28 @@ import { faqs } from '../data/faqs';
   summary {
     list-style: none;
     cursor: pointer;
-    padding: 1.25rem 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding: 1.1rem 0;
     font-size: 0.95rem;
     font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+
+  summary::after {
+    content: '+';
+    flex: 0 0 auto;
+    color: var(--accent);
+    font-family: var(--font-mono);
+    font-size: 1.1rem;
+    font-weight: 400;
+    transition: transform 0.25s ease;
+  }
+
+  .faq-item[open] summary::after {
+    transform: rotate(45deg);
   }
 
   summary::-webkit-details-marker {
@@ -61,7 +80,7 @@ import { faqs } from '../data/faqs';
   }
 
   .faq-item p {
-    margin: 0 0 1.25rem;
+    margin: 0 2rem 1.1rem 0;
     max-width: 42rem;
     color: var(--muted);
     line-height: 1.6;

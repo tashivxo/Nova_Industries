@@ -67,8 +67,8 @@ img {
 
 .font-display {
   font-family: var(--font-display);
-  font-weight: 600;
-  letter-spacing: -0.02em;
+  font-weight: 500;
+  letter-spacing: -0.04em;
   text-transform: uppercase;
 }
 
@@ -87,8 +87,8 @@ img {
 
 .crosshair {
   background-image:
-    radial-gradient(circle at center, transparent 28%, rgba(255, 255, 255, 0.06) 28.5%, transparent 29%),
-    radial-gradient(circle at center, transparent 48%, rgba(255, 255, 255, 0.04) 48.5%, transparent 49%),
+    radial-gradient(circle at center, transparent 27%, rgba(255, 255, 255, 0.065) 27.2%, transparent 27.5%),
+    radial-gradient(circle at center, transparent 47%, rgba(255, 255, 255, 0.04) 47.2%, transparent 47.5%),
     linear-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px),
     linear-gradient(90deg, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
   background-size: 100% 100%, 100% 100%, 100% 1px, 1px 100%;
@@ -97,34 +97,48 @@ img {
 }
 
 .mark {
-  display: inline-grid;
-  grid-template-columns: 11px 11px;
-  grid-template-rows: 11px 11px;
-  gap: 0;
-  width: 22px;
-  height: 22px;
+  display: inline-block;
+  width: 24px;
+  height: 24px;
   position: relative;
 }
 
 .mark span {
-  width: 11px;
-  height: 11px;
+  position: absolute;
+  display: block;
+  width: 15px;
+  height: 15px;
 }
 
 .mark span:nth-child(1) {
   background: var(--accent);
+  top: 1px;
+  left: 1px;
 }
 .mark span:nth-child(2) {
   background: #fff;
-  transform: translate(-3px, 3px);
+  right: 1px;
+  bottom: 1px;
+  transform: skewY(-32deg);
+  transform-origin: center;
 }
 .mark span:nth-child(3) {
-  background: #fff;
+  background: var(--accent);
   opacity: 0;
 }
 .mark span:nth-child(4) {
   background: #fff;
   opacity: 0;
+}
+
+.reveal-shell {
+  width: 100%;
+}
+
+@media (max-width: 900px) {
+  .crosshair {
+    background-size: 100% 100%, 100% 100%, 100% 2.5rem, 2.5rem 100%;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

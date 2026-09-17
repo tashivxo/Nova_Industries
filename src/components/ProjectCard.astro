@@ -71,6 +71,10 @@ const { project, variant = 'grid' } = Astro.props;
   }
 
   .stack .media {
-    aspect-ratio: 16 / 9;
+    aspect-ratio: 1.65 / 1;
+  }
+
+  .stack .titles h3 {
+    font-size: clamp(1.8rem, 4vw, 3.5rem);
   }
 </style>

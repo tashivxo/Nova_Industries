@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import JournalCard from '../../components/JournalCard.astro';
+import Reveal from '../../components/Reveal';
 import { posts } from '../../data/posts';
 ---
 
@@ -10,24 +11,26 @@ import { posts } from '../../data/posts';
   </section>
 
   <section class="list section-pad">
-    {
-      posts.map((post) => (
-        <a class="row" href={`/blog/${post.slug}`}>
-          <div class="meta">
-            <span>{post.readTime}</span>
-            <span>{post.dateLabel}</span>
-          </div>
-          <div class="main">
-            <p class="eyebrow">{post.category}</p>
-            <h2>{post.title}</h2>
-            <p class="author">{post.author}</p>
-          </div>
-          <div class="thumb">
-            <img src={post.image} alt={post.imageAlt} loading="lazy" />
-          </div>
-        </a>
-      ))
-    }
+    <Reveal client:visible className="reveal-shell">
+      {
+        posts.map((post) => (
+          <a class="row" href={`/blog/${post.slug}`}>
+            <div class="meta">
+              <span>{post.readTime}</span>
+              <span>{post.dateLabel}</span>
+            </div>
+            <div class="main">
+              <p class="eyebrow">{post.category}</p>
+              <h2>{post.title}</h2>
+              <p class="author">{post.author}</p>
+            </div>
+            <div class="thumb">
+              <img src={post.image} alt={post.imageAlt} loading="lazy" />
+            </div>
+          </a>
+        ))
+      }
+    </Reveal>
   </section>
 
   <section class="more section-pad">
@@ -40,26 +43,27 @@ import { posts } from '../../data/posts';
 
 <style>
   .hero {
-    padding-block: 2rem 1rem;
+    padding-block: 2.5rem 1.5rem;
   }
 
   h1 {
     margin: 0;
-    font-size: clamp(3rem, 10vw, 6.5rem);
-    line-height: 0.9;
+    font-size: clamp(4.75rem, 18vw, 13rem);
+    line-height: 0.76;
   }
 
   .list {
     display: grid;
     gap: 0;
+    padding-bottom: 0;
   }
 
   .row {
     display: grid;
-    grid-template-columns: 10rem 1fr 7rem;
-    gap: 1.25rem;
+    grid-template-columns: 10rem 1fr 6.5rem;
+    gap: 1rem;
     align-items: center;
-    padding: 1.25rem 0;
+    padding: 0.9rem 0;
     border-top: 1px solid var(--line);
   }
 
@@ -69,18 +73,18 @@ import { posts } from '../../data/posts';
 
   .meta {
     display: grid;
-    gap: 0.35rem;
+    gap: 0.25rem;
     color: var(--muted);
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     text-transform: uppercase;
-    letter-spacing: 0.06em;
+    letter-spacing: 0.08em;
   }
 
   .main h2 {
-    margin: 0.35rem 0;
-    font-size: clamp(1.1rem, 2.4vw, 1.6rem);
+    margin: 0.25rem 0;
+    font-size: clamp(1.1rem, 2.4vw, 1.55rem);
     font-weight: 500;
-    line-height: 1.2;
+    line-height: 1.15;
   }
 
   .author {
@@ -102,12 +106,13 @@ import { posts } from '../../data/posts';
   }
 
   .more {
-    padding-block: 4rem 2rem;
+    padding-block: 3.5rem 2rem;
+    border-top: 1px solid var(--line);
   }
 
   .more h2 {
-    margin: 0 0 1.5rem;
-    font-size: clamp(2.2rem, 7vw, 4rem);
+    margin: 0 0 1.25rem;
+    font-size: clamp(2.5rem, 8vw, 5rem);
     line-height: 0.9;
   }
 

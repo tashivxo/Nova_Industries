@@ -59,7 +59,7 @@ import {
         {
           partnerMetricGroups.map((group) => (
             <article class="metric-card">
-              <img class="partner-logo" src={group.logo} alt="" width="118" height="25" />
+              <img class="partner-logo" src={group.logo} alt={group.name} width="118" height="25" />
               <div class="pair">
                 {group.stats.map((m) => (
                   <div>

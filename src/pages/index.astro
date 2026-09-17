@@ -174,17 +174,20 @@ import {
 
   .hero-title {
     margin: 0;
-    font-size: clamp(4.75rem, 18vw, 13rem);
+    font-size: clamp(4.5rem, 12.5vw, 11.25rem);
     line-height: 0.76;
+    letter-spacing: -0.05em;
     display: grid;
-    width: 100%;
+    width: max-content;
+    max-width: 100%;
+    justify-self: center;
   }
 
   .hero-media {
-    width: min(520px, 70vw);
-    aspect-ratio: 2.2 / 1;
+    width: min(16.5rem, 42vw);
+    aspect-ratio: 263 / 171;
     overflow: hidden;
-    margin-block: 0.65rem 1rem;
+    margin-block: 0.35rem 0.55rem;
     background:
       linear-gradient(135deg, rgba(255, 59, 31, 0.8), transparent 42%),
       #171717;
@@ -430,7 +433,7 @@ import {
     }
 
     .hero-media {
-      width: min(88vw, 420px);
+      width: min(16.5rem, 58vw);
     }
 
     .hero-stats {

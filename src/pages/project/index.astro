@@ -1,23 +1,39 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import ProjectCard from '../../components/ProjectCard.astro';
 import { projects } from '../../data/projects';
 ---
 
 <BaseLayout title="Works — Nova Industries" activePath="/project">
-  <section class="hero section-pad crosshair">
-    <p class="eyebrow our">Our</p>
-    <h1 class="font-display">
-      <span>featured</span>
-      <span>work</span>
-    </h1>
+  <section class="hero crosshair">
+    <div class="lockup">
+      <p class="our">Our</p>
+      <h1 class="font-display">
+        <span class="line featured">featured</span>
+        <span class="line work">work</span>
+      </h1>
+    </div>
   </section>
 
-  <section class="stack section-pad" data-works-stack>
+  <section class="stack" data-works-stack>
     {
       projects.map((project, index) => (
         <article class="stack-item" style={`--i:${index}`}>
-          <ProjectCard project={project} variant="stack" />
+          <a class="case" href={`/project/${project.slug}`}>
+            <div class="media">
+              <img src={project.image} alt={project.imageAlt} loading="lazy" />
+              <div class="side-meta">
+                <span class="eyebrow">{project.category}</span>
+                <span class="eyebrow year">{project.year}</span>
+              </div>
+            </div>
+            <div class="titles">
+              <div class="copy">
+                <p class="client">{project.client}</p>
+                <h2>{project.titleLine2}</h2>
+              </div>
+              <span class="arrow" aria-hidden="true">↗</span>
+            </div>
+          </a>
         </article>
       ))
     }
@@ -26,56 +42,178 @@ import { projects } from '../../data/projects';
 
 <style>
   .hero {
-    min-height: 70vh;
+    min-height: 72svh;
     display: grid;
-    align-content: center;
-    justify-items: center;
-    text-align: center;
-    padding-block: 3rem;
+    place-items: center;
+    padding: 5.5rem 1rem 3.5rem;
+    overflow: hidden;
+  }
+
+  .lockup {
+    width: max-content;
+    max-width: 100%;
   }
 
   .our {
-    justify-self: start;
-    margin: 0 0 -0.5rem clamp(0rem, 10vw, 7rem);
+    width: max-content;
+    margin: 0 0 0.45rem 1rem;
+    font-size: 1rem;
+    font-weight: 400;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
   }
 
   .hero h1 {
     margin: 0;
-    font-size: clamp(4rem, 15vw, 10rem);
-    line-height: 0.82;
-    display: grid;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    font-size: clamp(5.5rem, 12.5vw, 11.25rem);
+    line-height: 0.94;
+    letter-spacing: -0.05em;
+  }
+
+  .line {
+    display: block;
+  }
+
+  .work {
+    margin-left: 0.64em;
   }
 
   .stack {
-    display: grid;
-    gap: 0;
-    padding-top: 1rem;
-    padding-bottom: 10rem;
+    padding: 0 0 18rem;
   }
 
   .stack-item {
     position: sticky;
-    top: 6rem;
-    background: var(--bg);
-    padding-bottom: clamp(4rem, 8vw, 8rem);
-    margin-inline: clamp(0rem, 2vw, 2rem);
-    margin-bottom: clamp(-7rem, -8vw, -3rem);
-    isolation: isolate;
+    top: 5.5rem;
     z-index: calc(10 + var(--i));
+    background: var(--bg);
+    padding-bottom: 22vh;
+    margin-bottom: -18vh;
+  }
+
+  .stack-item:last-child {
+    margin-bottom: 0;
+    padding-bottom: 4rem;
+  }
+
+  .case {
+    display: grid;
+    gap: 0;
+    color: inherit;
+  }
+
+  .media {
+    position: relative;
+    width: 100%;
+    height: min(72vh, 46rem);
+    overflow: hidden;
+    background: #151515;
+  }
+
+  .media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .side-meta {
+    position: absolute;
+    inset: 0 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+    padding: 0.95rem clamp(1.25rem, 4vw, 3.5rem) 0.95rem clamp(7.25rem, 12vw, 10.5rem);
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.58), transparent);
+    z-index: 1;
+  }
+
+  .case:hover .media img,
+  .case:focus-visible .media img,
+  .stack-item:hover .media img {
+    transform: scale(1.045);
+  }
+
+  .titles {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1.5rem;
+    padding: 0.85rem clamp(1.25rem, 4vw, 3.5rem) 0;
+  }
+
+  .client {
+    margin: 0;
+    font-size: 0.8rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .titles h2 {
+    margin: 0.2rem 0 0;
+    font-family: var(--font-display);
+    font-size: clamp(1.6rem, 3.4vw, 2.75rem);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: -0.03em;
+    line-height: 0.95;
+  }
+
+  .arrow {
+    color: var(--accent);
+    font-size: 1.35rem;
+    line-height: 1;
+    transform: translateY(0.35rem);
+    transition: transform 0.25s ease;
+  }
+
+  .case:hover .arrow,
+  .case:focus-visible .arrow {
+    transform: translate(0.15rem, 0.15rem);
   }
 
   @media (max-width: 900px) {
+    .hero {
+      min-height: 0;
+      place-items: start center;
+      padding: 1.5rem 1.15rem 2rem;
+    }
+
     .our {
-      margin-left: 0;
-      justify-self: center;
+      margin-left: 0.15rem;
+      font-size: 0.85rem;
+    }
+
+    .hero h1 {
+      font-size: clamp(4.4rem, 22.5vw, 5.5rem);
+      line-height: 0.9;
     }
 
     .stack-item {
       position: relative;
       top: auto;
-      margin-inline: 0;
-      margin-bottom: 2rem;
+      margin-bottom: 2.75rem;
       padding-bottom: 0;
+    }
+
+    .media {
+      height: auto;
+      aspect-ratio: 350 / 333;
+      width: calc(100% - 2.3rem);
+      margin-inline: 1.15rem;
+    }
+
+    .side-meta {
+      padding: 0.75rem 0.85rem;
+    }
+
+    .titles {
+      padding-inline: 1.15rem;
     }
   }
 
@@ -83,6 +221,18 @@ import { projects } from '../../data/projects';
     .stack-item {
       position: relative;
       top: auto;
+      margin-bottom: 3rem;
+      padding-bottom: 0;
+    }
+
+    .media img {
+      transition: none;
+    }
+
+    .case:hover .media img,
+    .case:focus-visible .media img,
+    .stack-item:hover .media img {
+      transform: none;
     }
   }
 </style>

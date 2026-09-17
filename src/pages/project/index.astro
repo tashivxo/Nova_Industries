@@ -19,12 +19,12 @@ import { projects } from '../../data/projects';
       projects.map((project, index) => (
         <article class="stack-item" style={`--i:${index}`}>
           <a class="case" href={`/project/${project.slug}`}>
-            <div class="side-meta">
-              <span class="eyebrow">{project.category}</span>
-              <span class="eyebrow year">{project.year}</span>
-            </div>
             <div class="media">
               <img src={project.image} alt={project.imageAlt} loading="lazy" />
+              <div class="side-meta">
+                <span class="eyebrow">{project.category}</span>
+                <span class="eyebrow year">{project.year}</span>
+              </div>
             </div>
             <div class="titles">
               <div class="copy">
@@ -55,6 +55,7 @@ import { projects } from '../../data/projects';
   }
 
   .our {
+    width: max-content;
     margin: 0 0 0.45rem 1rem;
     font-size: 1rem;
     font-weight: 400;
@@ -100,19 +101,12 @@ import { projects } from '../../data/projects';
 
   .case {
     display: grid;
-    gap: 0.7rem;
+    gap: 0;
     color: inherit;
   }
 
-  .side-meta {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    gap: 1rem;
-    padding-inline: clamp(1.25rem, 4vw, 3.5rem);
-  }
-
   .media {
+    position: relative;
     width: 100%;
     height: min(72vh, 46rem);
     overflow: hidden;
@@ -126,8 +120,21 @@ import { projects } from '../../data/projects';
     transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
   }
 
+  .side-meta {
+    position: absolute;
+    inset: 0 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+    padding: 0.95rem clamp(1.25rem, 4vw, 3.5rem);
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.58), transparent);
+    z-index: 1;
+  }
+
   .case:hover .media img,
-  .case:focus-visible .media img {
+  .case:focus-visible .media img,
+  .stack-item:hover .media img {
     transform: scale(1.045);
   }
 
@@ -136,7 +143,7 @@ import { projects } from '../../data/projects';
     justify-content: space-between;
     align-items: flex-start;
     gap: 1.5rem;
-    padding: 0.15rem clamp(1.25rem, 4vw, 3.5rem) 0;
+    padding: 0.85rem clamp(1.25rem, 4vw, 3.5rem) 0;
   }
 
   .client {
@@ -197,9 +204,14 @@ import { projects } from '../../data/projects';
     .media {
       height: auto;
       aspect-ratio: 350 / 333;
+      width: calc(100% - 2.3rem);
+      margin-inline: 1.15rem;
     }
 
-    .side-meta,
+    .side-meta {
+      padding: 0.75rem 0.85rem;
+    }
+
     .titles {
       padding-inline: 1.15rem;
     }
@@ -218,7 +230,8 @@ import { projects } from '../../data/projects';
     }
 
     .case:hover .media img,
-    .case:focus-visible .media img {
+    .case:focus-visible .media img,
+    .stack-item:hover .media img {
       transform: none;
     }
   }

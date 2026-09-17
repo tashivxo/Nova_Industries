@@ -1,0 +1,124 @@
+---
+import { contact, footerNav, brand } from '../data/site';
+---
+
+<section class="footer-cta section-pad">
+  <div class="cta-lockup">
+    <h2 class="font-display line">Let's</h2>
+    <a class="contact-pill" href="/contact">Contact</a>
+    <h2 class="font-display line">collaborate</h2>
+  </div>
+</section>
+
+<footer class="site-footer section-pad">
+  <div class="socials">
+    {
+      contact.socials.map((s) => (
+        <a href={s.href} target="_blank" rel="noreferrer">
+          {s.label}
+        </a>
+      ))
+    }
+  </div>
+
+  <div class="meta">
+    <a href={`mailto:${contact.email}`}>{contact.email}</a>
+    <a href={contact.phoneHref}>{contact.phone}</a>
+    <a href={contact.mapsUrl} target="_blank" rel="noreferrer">
+      {contact.addressLine1}
+      <br />
+      {contact.addressLine2}
+    </a>
+  </div>
+
+  <div class="footer-bottom">
+    <nav class="footer-nav">
+      {
+        footerNav.map((item) => (
+          <a href={item.href}>{item.label}</a>
+        ))
+      }
+    </nav>
+    <p class="copy">{contact.copyright}</p>
+  </div>
+</footer>
+
+<style>
+  .footer-cta {
+    padding-block: 6rem 4rem;
+    border-top: 1px solid var(--line);
+  }
+
+  .cta-lockup {
+    display: grid;
+    justify-items: center;
+    gap: 0.75rem;
+    text-align: center;
+  }
+
+  .line {
+    font-size: clamp(3rem, 12vw, 8rem);
+    margin: 0;
+    line-height: 0.85;
+  }
+
+  .contact-pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 7rem;
+    padding: 0.7rem 1.4rem;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    border-radius: 999px;
+    font-size: 0.75rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .site-footer {
+    padding-bottom: 2.5rem;
+  }
+
+  .socials {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem 1.5rem;
+    margin-bottom: 2rem;
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .meta {
+    display: grid;
+    gap: 0.75rem;
+    margin-bottom: 3rem;
+    color: var(--muted);
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+
+  .footer-bottom {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 1rem;
+    border-top: 1px solid var(--line);
+    padding-top: 1.25rem;
+  }
+
+  .footer-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.85rem 1.25rem;
+  }
+
+  .footer-nav a,
+  .copy {
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 0;
+  }
+</style>

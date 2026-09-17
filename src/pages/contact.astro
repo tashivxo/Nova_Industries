@@ -1,0 +1,150 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { contact } from '../data/site';
+---
+
+<BaseLayout title="Contact — Nova Industries" activePath="/contact">
+  <section class="hero section-pad">
+    <a class="email" href={`mailto:${contact.contactEmail}`}>{contact.contactEmail}</a>
+    <p class="eyebrow">Company Email</p>
+    <h1 class="font-display">Contact</h1>
+    <div class="socials">
+      {
+        contact.socials.map((s) => (
+          <a href={s.href} target="_blank" rel="noreferrer">
+            {s.label === 'Dribble' ? 'Dribbble' : s.label}
+          </a>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="form-wrap section-pad">
+    <form class="form" data-visual-form>
+      <label>
+        <span>Name</span>
+        <input type="text" name="name" autocomplete="name" />
+      </label>
+      <label>
+        <span>Email</span>
+        <input type="email" name="email" autocomplete="email" />
+      </label>
+      <label>
+        <span>Company</span>
+        <input type="text" name="company" autocomplete="organization" />
+      </label>
+      <label class="full">
+        <span>Message</span>
+        <textarea name="message" rows="5"></textarea>
+      </label>
+      <button type="submit">Send message</button>
+      <p class="note">Visual form only — submissions are not sent in Phase 1.</p>
+    </form>
+  </section>
+</BaseLayout>
+
+<script>
+  document.querySelector('[data-visual-form]')?.addEventListener('submit', (e) => {
+    e.preventDefault();
+  });
+</script>
+
+<style>
+  .hero {
+    padding-block: 2rem 3rem;
+  }
+
+  .email {
+    display: inline-block;
+    font-size: clamp(1.4rem, 4vw, 2.4rem);
+    font-weight: 500;
+    margin-bottom: 0.35rem;
+  }
+
+  h1 {
+    margin: 1.5rem 0;
+    font-size: clamp(3.5rem, 12vw, 8rem);
+    line-height: 0.85;
+  }
+
+  .socials {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem 1.5rem;
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .form-wrap {
+    padding-bottom: 3rem;
+  }
+
+  .form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    max-width: 48rem;
+  }
+
+  label {
+    display: grid;
+    gap: 0.45rem;
+  }
+
+  label span {
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  input,
+  textarea {
+    width: 100%;
+    background: transparent;
+    border: 0;
+    border-bottom: 1px solid var(--line);
+    color: #fff;
+    padding: 0.7rem 0;
+    font: inherit;
+    outline: none;
+  }
+
+  input:focus,
+  textarea:focus {
+    border-bottom-color: #fff;
+  }
+
+  .full {
+    grid-column: 1 / -1;
+  }
+
+  button {
+    grid-column: 1 / -1;
+    justify-self: start;
+    margin-top: 0.5rem;
+    background: #fff;
+    color: #000;
+    border: 0;
+    border-radius: 999px;
+    padding: 0.85rem 1.4rem;
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    cursor: pointer;
+  }
+
+  .note {
+    grid-column: 1 / -1;
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.8rem;
+  }
+
+  @media (max-width: 700px) {
+    .form {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

@@ -1,0 +1,124 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import JournalCard from '../components/JournalCard.astro';
+import { pricingPlans } from '../data/home';
+import { getHomepagePosts } from '../data/posts';
+---
+
+<BaseLayout title="Pricing — Nova Industries" activePath="/pricing">
+  <section class="hero section-pad">
+    <h1 class="font-display">Pricing</h1>
+  </section>
+
+  <section class="plans section-pad">
+    {
+      pricingPlans.map((plan) => (
+        <article class="card">
+          <h2>{plan.name}</h2>
+          <p class="blurb">{plan.blurb}</p>
+          <p class="font-display price">{plan.price}</p>
+          <p class="period">{plan.period}</p>
+          <ul>
+            {plan.features.map((f) => (
+              <li>{f}</li>
+            ))}
+          </ul>
+          <a class="cta" href="/contact">Get Started</a>
+        </article>
+      ))
+    }
+  </section>
+
+  <section class="journal section-pad">
+    <h2 class="font-display">The Journal</h2>
+    <div class="grid">
+      {getHomepagePosts().map((post) => <JournalCard post={post} />)}
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .hero {
+    padding-block: 2rem 1rem;
+  }
+
+  h1 {
+    margin: 0;
+    font-size: clamp(3.5rem, 12vw, 8rem);
+    line-height: 0.85;
+  }
+
+  .plans {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.25rem;
+    padding-block: 2rem 4rem;
+  }
+
+  .card {
+    border: 1px solid var(--line);
+    padding: 1.75rem;
+    display: grid;
+    align-content: start;
+    gap: 0.75rem;
+  }
+
+  .card h2 {
+    margin: 0;
+    font-size: 1.25rem;
+  }
+
+  .blurb,
+  .period,
+  li {
+    color: var(--muted);
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  .price {
+    margin: 0.5rem 0 0;
+    font-size: clamp(3rem, 8vw, 5rem);
+    line-height: 0.9;
+  }
+
+  ul {
+    margin: 0.5rem 0 1rem;
+    padding-left: 1.1rem;
+  }
+
+  .cta {
+    display: inline-flex;
+    justify-content: center;
+    padding: 0.85rem 1.2rem;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    border-radius: 999px;
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .journal {
+    border-top: 1px solid var(--line);
+    padding-block: 3rem 2rem;
+  }
+
+  .journal h2 {
+    margin: 0 0 1.5rem;
+    font-size: clamp(2.2rem, 7vw, 4rem);
+    line-height: 0.9;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.25rem;
+  }
+
+  @media (max-width: 900px) {
+    .plans,
+    .grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

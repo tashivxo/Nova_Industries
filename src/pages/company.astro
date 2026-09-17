@@ -1,0 +1,214 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { companyStats, coreStandards, team } from '../data/company';
+---
+
+<BaseLayout title="Company — Nova Industries" activePath="/company">
+  <section class="hero section-pad">
+    <p class="eyebrow">WHO</p>
+    <h1 class="font-display">
+      <span>Creative</span>
+      <span>Systems</span>
+    </h1>
+    <p class="lede">
+      A creative agency built on specialisation, systems, and craft.
+    </p>
+    <p class="body">
+      We are a specialist creative agency working at the intersection of brand, design, and
+      technology. We partner with founders, product teams, and growing companies to build
+      identities and experiences that last.
+    </p>
+  </section>
+
+  <section class="stats section-pad">
+    {
+      companyStats.map((s) => (
+        <article>
+          <p class="font-display value">{s.value}</p>
+          <p class="label">{s.label}</p>
+        </article>
+      ))
+    }
+  </section>
+
+  <section class="powerhouse section-pad">
+    <h2 class="font-display">
+      We're a
+      <br />
+      Creative
+      <br />
+      Powerhouse
+    </h2>
+    <blockquote>
+      In a world where everyone is trying to do everything, we choose to specialise in the
+      creative design, marketing and tech industries.
+    </blockquote>
+    <p class="by">Neatian Meyal</p>
+    <p class="role">CEO, Nova Industries tech agency</p>
+  </section>
+
+  <section class="standards section-pad">
+    <h2 class="font-display">Core Standards</h2>
+    <div class="grid">
+      {
+        coreStandards.map((s) => (
+          <article>
+            <h3>{s.title}</h3>
+            <p>{s.body}</p>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="team section-pad">
+    <h2 class="font-display">Meet the Team</h2>
+    <div class="team-grid">
+      {
+        team.map((m) => (
+          <article>
+            <div class="avatar" aria-hidden="true">{m.name.slice(0, 1)}</div>
+            <h3>{m.name}</h3>
+            <p>{m.role}</p>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .hero {
+    padding-block: 2rem 4rem;
+  }
+
+  .hero h1 {
+    margin: 0.35rem 0 1.5rem;
+    font-size: clamp(4rem, 14vw, 9rem);
+    line-height: 0.85;
+    display: grid;
+  }
+
+  .lede {
+    max-width: 28rem;
+    font-size: 1.2rem;
+    margin: 0 0 1rem;
+  }
+
+  .body {
+    max-width: 40rem;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1.25rem;
+    padding-block: 3rem;
+    border-top: 1px solid var(--line);
+  }
+
+  .value {
+    margin: 0;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    line-height: 0.9;
+  }
+
+  .label {
+    margin: 0.5rem 0 0;
+    color: var(--muted);
+    font-size: 0.85rem;
+  }
+
+  .powerhouse {
+    padding-block: 5rem;
+    border-top: 1px solid var(--line);
+  }
+
+  .powerhouse h2 {
+    margin: 0 0 2rem;
+    font-size: clamp(2.8rem, 9vw, 6rem);
+    line-height: 0.9;
+  }
+
+  blockquote {
+    margin: 0;
+    max-width: 40rem;
+    font-size: 1.15rem;
+    line-height: 1.5;
+  }
+
+  .by {
+    margin: 1.5rem 0 0.2rem;
+    font-weight: 600;
+  }
+
+  .role {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.85rem;
+  }
+
+  .standards,
+  .team {
+    padding-block: 4rem;
+    border-top: 1px solid var(--line);
+  }
+
+  .standards h2,
+  .team h2 {
+    margin: 0 0 2rem;
+    font-size: clamp(2.5rem, 7vw, 4.5rem);
+    line-height: 0.9;
+  }
+
+  .grid,
+  .team-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.5rem;
+  }
+
+  .grid h3,
+  .team-grid h3 {
+    margin: 0 0 0.5rem;
+    font-size: 1.1rem;
+  }
+
+  .grid p,
+  .team-grid p {
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.5;
+    font-size: 0.95rem;
+  }
+
+  .avatar {
+    width: 100%;
+    aspect-ratio: 1;
+    display: grid;
+    place-items: center;
+    background: #171717;
+    border: 1px solid var(--line);
+    margin-bottom: 0.85rem;
+    font-family: var(--font-display);
+    font-size: 3rem;
+  }
+
+  @media (max-width: 900px) {
+    .stats,
+    .grid,
+    .team-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .stats,
+    .grid,
+    .team-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

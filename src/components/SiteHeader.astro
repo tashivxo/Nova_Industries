@@ -1,0 +1,207 @@
+---
+import { navItems, brand } from '../data/site';
+
+interface Props {
+  activePath?: string;
+}
+
+const { activePath = '/' } = Astro.props;
+
+function isActive(href: string, path: string) {
+  if (href === '/') return path === '/';
+  return path === href || path.startsWith(href + '/');
+}
+---
+
+<header class="site-header">
+  <nav class="site-nav" aria-label="Primary">
+    {
+      navItems.map((item) => (
+        <a
+          href={item.href}
+          class:list={['nav-link', { active: isActive(item.href, activePath) }]}
+        >
+          {item.label}
+        </a>
+      ))
+    }
+  </nav>
+
+  <a href="/" class="wordmark" aria-label={brand.name}>
+    <span class="mark" aria-hidden="true">
+      <span></span><span></span><span></span><span></span>
+    </span>
+    <span class="wordmark-text">{brand.name}</span>
+  </a>
+
+  <a href="/contact" class="contact-cta">
+    <span class="contact-arrow" aria-hidden="true">↗</span>
+    Contact
+  </a>
+
+  <button type="button" class="mobile-toggle" aria-label="Open menu" data-menu-toggle>
+    <span></span><span></span>
+  </button>
+</header>
+
+<div class="mobile-drawer" data-menu-drawer hidden>
+  <nav aria-label="Mobile">
+    {
+      navItems.map((item) => (
+        <a href={item.href} class:list={[{ active: isActive(item.href, activePath) }]}>
+          {item.label}
+        </a>
+      ))
+    }
+    <a href="/contact">Contact</a>
+  </nav>
+</div>
+
+<style>
+  .site-header {
+    position: fixed;
+    inset: 0 0 auto 0;
+    z-index: 50;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    padding: 1.1rem clamp(1rem, 3vw, 2rem);
+    pointer-events: none;
+  }
+
+  .site-header > * {
+    pointer-events: auto;
+  }
+
+  .site-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    align-items: flex-start;
+  }
+
+  .nav-link {
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.45);
+    transition: color 0.2s ease;
+  }
+
+  .nav-link:hover,
+  .nav-link.active {
+    color: #fff;
+  }
+
+  .wordmark {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    justify-self: center;
+  }
+
+  .wordmark-text {
+    font-family: var(--font-sans);
+    font-size: clamp(0.72rem, 1.4vw, 0.95rem);
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .contact-cta {
+    justify-self: end;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .contact-arrow {
+    color: var(--accent);
+    font-size: 0.85rem;
+    line-height: 1;
+  }
+
+  .mobile-toggle {
+    display: none;
+    justify-self: end;
+    width: 2rem;
+    height: 1.4rem;
+    border: 0;
+    background: transparent;
+    padding: 0;
+    cursor: pointer;
+  }
+
+  .mobile-toggle span {
+    display: block;
+    height: 1px;
+    background: #fff;
+    margin: 0.4rem 0;
+  }
+
+  .mobile-drawer {
+    position: fixed;
+    inset: 0;
+    z-index: 60;
+    background: rgba(0, 0, 0, 0.96);
+    padding: 5rem 1.5rem 2rem;
+  }
+
+  .mobile-drawer nav {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .mobile-drawer a {
+    font-size: 1.1rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.55);
+  }
+
+  .mobile-drawer a.active,
+  .mobile-drawer a:hover {
+    color: #fff;
+  }
+
+  @media (max-width: 900px) {
+    .site-nav,
+    .contact-cta {
+      display: none;
+    }
+
+    .site-header {
+      grid-template-columns: 1fr auto;
+    }
+
+    .wordmark {
+      justify-self: start;
+    }
+
+    .wordmark-text {
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+    }
+
+    .mobile-toggle {
+      display: block;
+    }
+  }
+</style>
+
+<script>
+  const toggle = document.querySelector('[data-menu-toggle]');
+  const drawer = document.querySelector('[data-menu-drawer]');
+  toggle?.addEventListener('click', () => {
+    const open = !drawer?.hasAttribute('hidden');
+    if (open) drawer?.setAttribute('hidden', '');
+    else drawer?.removeAttribute('hidden');
+  });
+</script>

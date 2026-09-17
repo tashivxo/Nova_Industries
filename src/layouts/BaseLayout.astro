@@ -1,0 +1,46 @@
+---
+import '../styles/global.css';
+import SiteHeader from '../components/SiteHeader.astro';
+import FAQSection from '../components/FAQSection.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+
+interface Props {
+  title?: string;
+  activePath?: string;
+  showFaq?: boolean;
+}
+
+const {
+  title = 'Nova Industries',
+  activePath = Astro.url.pathname,
+  showFaq = true,
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Nova Industries — design agency for tech brands."
+    />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{title}</title>
+  </head>
+  <body>
+    <SiteHeader activePath={activePath} />
+    <main>
+      <slot />
+    </main>
+    {showFaq && <FAQSection />}
+    <SiteFooter />
+  </body>
+</html>
+
+<style is:global>
+  main {
+    padding-top: 5.5rem;
+  }
+</style>

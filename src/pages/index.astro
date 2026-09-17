@@ -1,0 +1,399 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import JournalCard from '../components/JournalCard.astro';
+import {
+  projects,
+  getHomepagePosts,
+  homeMetrics,
+  homeHeroStats,
+  skillPairs,
+  processSteps,
+} from '../data';
+---
+
+<BaseLayout title="Nova Industries — Design Agency" activePath="/">
+  <section class="hero section-pad crosshair">
+    <p class="we-are">WE ARE</p>
+    <h1 class="font-display hero-title">
+      <span>Design</span>
+    </h1>
+    <div class="hero-media">
+      <img src={projects[0].image} alt="Featured studio work" />
+    </div>
+    <h1 class="font-display hero-title agency">
+      <span>Agency</span>
+    </h1>
+    <div class="hero-meta">
+      <p class="eyebrow">For tech brands</p>
+      <div class="hero-stats">
+        {
+          homeHeroStats.map((s) => (
+            <div>
+              <strong>{s.value}</strong>
+              <span>{s.label}</span>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+    <p class="hero-copy">
+      We don’t believe in one-size-fits-all solutions. Every brand has its own story.
+      Our job is to align strategy.
+    </p>
+  </section>
+
+  <section class="impact section-pad">
+    <h2>Partnering with startups and tech teams shaping the future.</h2>
+    <div class="metrics">
+      {
+        homeMetrics.map((m) => (
+          <article>
+            <p class="font-display value">{m.value}</p>
+            <p class="label">{m.label}</p>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="featured section-pad">
+    <div class="featured-head">
+      <p class="eyebrow">featured</p>
+      <h2 class="font-display">works</h2>
+    </div>
+    <div class="grid">
+      {projects.map((p) => <ProjectCard project={p} />)}
+    </div>
+  </section>
+
+  <section class="skills section-pad">
+    <h2 class="font-display">our core skills</h2>
+    <div class="skills-copy">
+      <p>Creative and digital solutions designed for modern brands and tech startups.</p>
+      <p>
+        We provide creative services to help brands communicate, move faster & stand out.
+        Our work supports growth, consistency & brand value.
+      </p>
+    </div>
+    <div class="skill-grid">
+      {
+        skillPairs.map(([a, b]) => (
+          <div class="skill">
+            <h3>{a}</h3>
+            <h3>{b}</h3>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="testimonial section-pad">
+    <blockquote>
+      Before joining Be-tech, I was just going through the motions. Now, I'm part of a team
+      that's genuinely changing the world. The support here is incredible.
+    </blockquote>
+    <div class="person">
+      <img src="/images/ui/testimonial.jpg" alt="Neatian Meyal" />
+      <div>
+        <p class="name">Neatian Meyal</p>
+        <p class="role">Head of Product, SaaS Company</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="process section-pad">
+    <p class="eyebrow">name of our processes.</p>
+    <div class="steps">
+      {
+        processSteps.map((s) => (
+          <article>
+            <h3>{s.title}</h3>
+            <p>{s.body}</p>
+          </article>
+        ))
+      }
+    </div>
+    <div class="timeline">
+      <p class="eyebrow">progress & timeline</p>
+      <p class="timeline-copy">
+        A structured, flexible process built for fast moving startups and modern brands.
+      </p>
+    </div>
+  </section>
+
+  <section class="journal section-pad">
+    <h2 class="font-display">The Journal</h2>
+    <div class="journal-grid">
+      {getHomepagePosts().map((post) => <JournalCard post={post} />)}
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .hero {
+    min-height: calc(100vh - 5.5rem);
+    display: grid;
+    align-content: center;
+    justify-items: center;
+    text-align: center;
+    gap: 1rem;
+    padding-block: 2rem 4rem;
+    position: relative;
+  }
+
+  .we-are {
+    margin: 0;
+    font-size: 0.75rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    justify-self: start;
+    margin-left: clamp(0rem, 8vw, 6rem);
+  }
+
+  .hero-title {
+    margin: 0;
+    font-size: clamp(4rem, 16vw, 11rem);
+    line-height: 0.82;
+    display: grid;
+  }
+
+  .hero-media {
+    width: min(720px, 86vw);
+    aspect-ratio: 16 / 7;
+    overflow: hidden;
+    margin-block: 0.5rem 1rem;
+  }
+
+  .hero-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .hero-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem 3rem;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .hero-stats {
+    display: flex;
+    gap: 1.5rem 2rem;
+  }
+
+  .hero-stats strong {
+    display: block;
+    font-size: 1.1rem;
+  }
+
+  .hero-stats span {
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .hero-copy {
+    max-width: 34rem;
+    color: var(--muted);
+    line-height: 1.55;
+    margin: 0.5rem 0 0;
+  }
+
+  .impact {
+    padding-block: 5rem;
+    border-top: 1px solid var(--line);
+  }
+
+  .impact h2 {
+    max-width: 28rem;
+    font-size: clamp(1.4rem, 3vw, 2rem);
+    font-weight: 500;
+    line-height: 1.25;
+    margin: 0 0 2.5rem;
+  }
+
+  .metrics {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.5rem;
+  }
+
+  .metrics .value {
+    margin: 0;
+    font-size: clamp(2.5rem, 7vw, 4.5rem);
+    line-height: 0.9;
+  }
+
+  .metrics .label {
+    margin: 0.5rem 0 0;
+    color: var(--muted);
+    font-size: 0.85rem;
+  }
+
+  .featured {
+    padding-block: 4rem;
+  }
+
+  .featured-head {
+    margin-bottom: 2rem;
+  }
+
+  .featured-head h2 {
+    margin: 0;
+    font-size: clamp(3rem, 10vw, 7rem);
+    line-height: 0.85;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 2rem 1.25rem;
+  }
+
+  .skills {
+    padding-block: 5rem;
+    border-top: 1px solid var(--line);
+  }
+
+  .skills h2 {
+    margin: 0 0 1.5rem;
+    font-size: clamp(2.5rem, 8vw, 5rem);
+    line-height: 0.9;
+  }
+
+  .skills-copy {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
+    color: var(--muted);
+  }
+
+  .skill-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+  }
+
+  .skill {
+    border-top: 1px solid var(--line);
+    padding-top: 1rem;
+  }
+
+  .skill h3 {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: clamp(1.6rem, 4vw, 2.6rem);
+    line-height: 0.95;
+    text-transform: uppercase;
+  }
+
+  .testimonial {
+    padding-block: 5rem;
+    border-top: 1px solid var(--line);
+  }
+
+  blockquote {
+    margin: 0;
+    max-width: 48rem;
+    font-size: clamp(1.35rem, 3vw, 2.1rem);
+    line-height: 1.3;
+    font-weight: 500;
+  }
+
+  .person {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+
+  .person img {
+    width: 56px;
+    height: 56px;
+    object-fit: cover;
+    border-radius: 999px;
+  }
+
+  .name {
+    margin: 0;
+    font-weight: 600;
+  }
+
+  .role {
+    margin: 0.2rem 0 0;
+    color: var(--muted);
+    font-size: 0.85rem;
+  }
+
+  .process {
+    padding-block: 4rem;
+    border-top: 1px solid var(--line);
+  }
+
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.5rem;
+    margin: 1.5rem 0 2.5rem;
+  }
+
+  .steps h3 {
+    margin: 0 0 0.5rem;
+    font-size: 1.25rem;
+  }
+
+  .steps p,
+  .timeline-copy {
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  .journal {
+    padding-block: 4rem 2rem;
+    border-top: 1px solid var(--line);
+  }
+
+  .journal h2 {
+    margin: 0 0 2rem;
+    font-size: clamp(2.5rem, 8vw, 5rem);
+    line-height: 0.9;
+  }
+
+  .journal-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.25rem;
+  }
+
+  @media (max-width: 900px) {
+    .metrics,
+    .grid,
+    .skills-copy,
+    .skill-grid,
+    .steps,
+    .journal-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .we-are {
+      margin-left: 0;
+      justify-self: center;
+    }
+
+    .hero {
+      justify-items: center;
+      text-align: center;
+    }
+
+    .hero-stats {
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+  }
+</style>

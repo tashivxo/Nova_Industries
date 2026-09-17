@@ -1,0 +1,136 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import JournalCard from '../../components/JournalCard.astro';
+import { posts } from '../../data/posts';
+---
+
+<BaseLayout title="Blog — Nova Industries" activePath="/blog">
+  <section class="hero section-pad">
+    <h1 class="font-display">Insights Drive</h1>
+  </section>
+
+  <section class="list section-pad">
+    {
+      posts.map((post) => (
+        <a class="row" href={`/blog/${post.slug}`}>
+          <div class="meta">
+            <span>{post.readTime}</span>
+            <span>{post.dateLabel}</span>
+          </div>
+          <div class="main">
+            <p class="eyebrow">{post.category}</p>
+            <h2>{post.title}</h2>
+            <p class="author">{post.author}</p>
+          </div>
+          <div class="thumb">
+            <img src={post.image} alt={post.imageAlt} loading="lazy" />
+          </div>
+        </a>
+      ))
+    }
+  </section>
+
+  <section class="more section-pad">
+    <h2 class="font-display">More journal</h2>
+    <div class="grid">
+      {posts.slice(0, 4).map((post) => <JournalCard post={post} />)}
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .hero {
+    padding-block: 2rem 1rem;
+  }
+
+  h1 {
+    margin: 0;
+    font-size: clamp(3rem, 10vw, 6.5rem);
+    line-height: 0.9;
+  }
+
+  .list {
+    display: grid;
+    gap: 0;
+  }
+
+  .row {
+    display: grid;
+    grid-template-columns: 10rem 1fr 7rem;
+    gap: 1.25rem;
+    align-items: center;
+    padding: 1.25rem 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .row:last-child {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .meta {
+    display: grid;
+    gap: 0.35rem;
+    color: var(--muted);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .main h2 {
+    margin: 0.35rem 0;
+    font-size: clamp(1.1rem, 2.4vw, 1.6rem);
+    font-weight: 500;
+    line-height: 1.2;
+  }
+
+  .author {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.85rem;
+  }
+
+  .thumb {
+    aspect-ratio: 1;
+    overflow: hidden;
+    background: #151515;
+  }
+
+  .thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .more {
+    padding-block: 4rem 2rem;
+  }
+
+  .more h2 {
+    margin: 0 0 1.5rem;
+    font-size: clamp(2.2rem, 7vw, 4rem);
+    line-height: 0.9;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1rem;
+  }
+
+  @media (max-width: 900px) {
+    .row {
+      grid-template-columns: 1fr 5rem;
+    }
+
+    .meta {
+      grid-column: 1 / -1;
+      grid-auto-flow: column;
+      justify-content: start;
+      gap: 1rem;
+    }
+
+    .grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+</style>

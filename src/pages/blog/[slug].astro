@@ -1,0 +1,96 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import JournalCard from '../../components/JournalCard.astro';
+import { posts, getPost } from '../../data/posts';
+
+export function getStaticPaths() {
+  return posts.map((p) => ({ params: { slug: p.slug } }));
+}
+
+const { slug } = Astro.params;
+const post = getPost(slug!);
+if (!post) throw new Error(`Unknown post: ${slug}`);
+const related = posts.filter((p) => p.slug !== post.slug).slice(0, 3);
+---
+
+<BaseLayout title={`${post.title} — Nova Industries`} activePath="/blog">
+  <article class="post section-pad">
+    <p class="eyebrow">{post.category}</p>
+    <h1>{post.title}</h1>
+    <p class="date">{post.dateLabel}</p>
+    <div class="hero-img">
+      <img src={post.image} alt={post.imageAlt} />
+    </div>
+    <div class="body">
+      {post.body.map((p) => <p>{p}</p>)}
+    </div>
+  </article>
+
+  <section class="journal section-pad">
+    <h2 class="font-display">The Journal</h2>
+    <div class="grid">
+      {related.map((p) => <JournalCard post={p} />)}
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .post {
+    padding-block: 1rem 3rem;
+    max-width: 48rem;
+  }
+
+  h1 {
+    margin: 0.5rem 0 0.75rem;
+    font-size: clamp(2rem, 5vw, 3.4rem);
+    line-height: 1.1;
+    font-weight: 500;
+  }
+
+  .date {
+    color: var(--muted);
+    margin: 0 0 1.5rem;
+  }
+
+  .hero-img {
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    margin-bottom: 2rem;
+    background: #151515;
+  }
+
+  .hero-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .body p {
+    color: var(--muted);
+    line-height: 1.7;
+    font-size: 1.05rem;
+  }
+
+  .journal {
+    border-top: 1px solid var(--line);
+    padding-block: 3rem 2rem;
+  }
+
+  .journal h2 {
+    margin: 0 0 1.5rem;
+    font-size: clamp(2.2rem, 7vw, 4rem);
+    line-height: 0.9;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.25rem;
+  }
+
+  @media (max-width: 900px) {
+    .grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

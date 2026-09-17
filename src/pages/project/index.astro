@@ -1,0 +1,80 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import { projects } from '../../data/projects';
+---
+
+<BaseLayout title="Works — Nova Industries" activePath="/project">
+  <section class="hero section-pad crosshair">
+    <p class="eyebrow our">Our</p>
+    <h1 class="font-display">
+      <span>featured</span>
+      <span>work</span>
+    </h1>
+  </section>
+
+  <section class="stack section-pad" data-works-stack>
+    {
+      projects.map((project, index) => (
+        <article class="stack-item" style={`--i:${index}`}>
+          <ProjectCard project={project} variant="stack" />
+        </article>
+      ))
+    }
+  </section>
+</BaseLayout>
+
+<style>
+  .hero {
+    min-height: 70vh;
+    display: grid;
+    align-content: center;
+    justify-items: center;
+    text-align: center;
+    padding-block: 3rem;
+  }
+
+  .our {
+    justify-self: start;
+    margin: 0 0 -0.5rem clamp(0rem, 10vw, 7rem);
+  }
+
+  .hero h1 {
+    margin: 0;
+    font-size: clamp(4rem, 15vw, 10rem);
+    line-height: 0.82;
+    display: grid;
+  }
+
+  .stack {
+    display: grid;
+    gap: 3rem;
+    padding-bottom: 4rem;
+  }
+
+  .stack-item {
+    position: sticky;
+    top: 5.5rem;
+    background: var(--bg);
+    padding-bottom: 1rem;
+  }
+
+  @media (max-width: 900px) {
+    .our {
+      margin-left: 0;
+      justify-self: center;
+    }
+
+    .stack-item {
+      position: relative;
+      top: auto;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .stack-item {
+      position: relative;
+      top: auto;
+    }
+  }
+</style>

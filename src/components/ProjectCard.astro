@@ -18,8 +18,11 @@ const { project, variant = 'grid' } = Astro.props;
     <span class="eyebrow year">{project.year}</span>
   </div>
   <div class="titles">
-    <p class="client">{project.client}</p>
-    <h3>{project.titleLine2}</h3>
+    <div class="copy">
+      <p class="client">{project.client}</p>
+      <h3>{project.titleLine2}</h3>
+    </div>
+    <span class="arrow" aria-hidden="true">↗</span>
   </div>
 </a>
 
@@ -53,12 +56,32 @@ const { project, variant = 'grid' } = Astro.props;
     gap: 1rem;
   }
 
+  .titles {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
   .titles .client {
     margin: 0;
     font-size: 0.85rem;
     color: var(--muted);
     text-transform: uppercase;
     letter-spacing: 0.06em;
+  }
+
+  .arrow {
+    color: var(--accent);
+    font-size: 1.15rem;
+    line-height: 1;
+    transform: translateY(0.15rem);
+    transition: transform 0.25s ease;
+  }
+
+  .project-card:hover .arrow,
+  .project-card:focus-visible .arrow {
+    transform: translate(0.12rem, 0.02rem);
   }
 
   .titles h3 {

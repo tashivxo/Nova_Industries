@@ -16,6 +16,8 @@ Could **not list** png/svg/webp/jpg assets in [odwamanitshana/bxrds-eye-website]
 | **Nova Industries** (`public/images/`) | Folders: `blog/`, `hero/`, `projects/` (template case-study stills only), `ui/`, `staging/`. **No** `birdseye/` or `bxrds/` media besides this staging placeholder (`README.md` only) |
 | Tashiv Vercel team | Only `free-period`; no Birds Eye deployment to pull a mark from |
 
+Do **not** substitute the Wikipedia / Nomad Foods Birds Eye frozen-food logo. Only BXRDS.EYE marks from `odwamanitshana/bxrds-eye-website` belong here.
+
 ## To finish
 
 Install the Cloud Agent GitHub App on `odwamanitshana/bxrds-eye-website` (or add it to this environment’s repository list) and re-run, **or** drop 1–3 real high-res dark-friendly SVG/PNG marks into this folder.

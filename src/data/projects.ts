@@ -25,9 +25,9 @@ export type Project = {
 export const projects: Project[] = [
   {
     slug: 'crosswith-swag',
-    title: 'Crosswith Swag',
-    titleLine2: 'Crosswith Swag',
-    client: 'Crosswith Swag',
+    title: 'crosswithswag',
+    titleLine2: 'crosswithswag',
+    client: 'crosswithswag',
     category: 'Branding // Marketing // UIUX Design',
     year: '2026',
     image: '/images/staging/crosswith/crosswith-01.jpg',
@@ -35,7 +35,7 @@ export const projects: Project[] = [
       'Kloof Street Nights campaign poster: interlocking globe mark, quoted KLOOFSTREETNIGHTS lockup, and crosswithswag wordmark on white',
     headline: 'Wearable editions. One thought. Permanently closed.',
     intro:
-      'Crosswith Swag is a Cape Town label that treats each drop as a closed edition: one idea held in a garment, a campaign image, and a framed print—conceived, released, then never reissued. Edition 001, Kloof Street Nights, is the winter drop: black hoodies, crewnecks, and tees with cream type that carry the after-dinner hour on Kloof Street—après le dîner, after the noise, before tomorrow. We built the identity, the drop campaign, and the Current / Archive / Manifesto site so the clothes, posters, and UI speak the same language.',
+      'crosswithswag is a Cape Town label that treats each drop as a closed edition: one idea held in a garment, a campaign image, and a framed print—conceived, released, then never reissued. Edition 001, Kloof Street Nights, is the winter drop: black hoodies, crewnecks, and tees with cream type that carry the after-dinner hour on Kloof Street—après le dîner, after the noise, before tomorrow. We built the identity, the drop campaign, and the Current / Archive / Manifesto site so the clothes, posters, and UI speak the same language.',
     challenges: [
       'Streetwear that reads as merch instead of a numbered, closed edition',
       'A Cape Town nightlife story with no visual system to wear or archive',

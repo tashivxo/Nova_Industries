@@ -20,11 +20,14 @@ Crosswith / SWAG campaign and identity stills.
 
 ### `freeperiod/`
 
-- **Source:** [tashivxo/freePeriod](https://github.com/tashivxo/freePeriod) pictogram.
+- **Pictogram source:** [tashivxo/freePeriod](https://github.com/tashivxo/freePeriod).
 - `freeperiod-pictogram.png`
 - `freeperiod-pictogram-colour.png`
 - The two pictogram files currently hash-identical (colour mark as uploaded).
-- Free Period UI screenshots may arrive in a follow-up. A live capture from https://free-period.vercel.app was skipped: headless Chrome hit the site’s client error fallback (“This page couldn’t load”) rather than a clean marketing view, so nothing from that attempt is staged.
+- **UI screenshots** (marketing site, no personal data):
+  - `freeperiod-01.png` — dark-mode hero (“Lesson plans in seconds, not hours”)
+  - `freeperiod-02.png` — “Why Teachers Love FreePeriod” feature cards
+  - `freeperiod-03.png` — closing CTA (“Ready to reclaim your evenings?”)
 
 ### `birdseye/`
 

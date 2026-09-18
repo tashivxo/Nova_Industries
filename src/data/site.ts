@@ -25,13 +25,13 @@ export const brand = {
 };
 
 export const contact = {
-  email: 'info@ref.digital',
-  contactEmail: 'hello@youragency.com',
-  phone: '+1 514 281-8901',
-  phoneHref: 'tel:+15142818901',
-  addressLine1: '4051 Molson Street',
-  addressLine2: 'Suite 100, Montreal, QC, H1Y 3L1',
-  mapsUrl: 'https://maps.app.goo.gl/c1X7NhfmDLF7ydeK9',
+  email: 'info@novaindustries.com',
+  contactEmail: 'info@novaindustries.com',
+  phone: '+27 63 046 6417',
+  phoneHref: 'tel:+27630466417',
+  addressLine1: 'Cape Town,',
+  addressLine2: 'South Africa',
+  mapsUrl: '#',
   socials: [
     { label: 'Instagram', href: 'https://www.instagram.com/' },
     { label: 'LinkedIn', href: 'https://www.linkedin.com/' },

@@ -31,8 +31,10 @@ Crosswith / SWAG campaign and identity stills.
 
 ### `birdseye/`
 
-- Birds Eye / BXRDS logo **still needed** — no files copied (do not invent).
-- Tashiv confirmed Bakang assets live in [odwamanitshana/bxrds-eye-website](https://github.com/odwamanitshana/bxrds-eye-website). This agent **could not list** logos/marks there: GitHub App installation and environment `repos` only include `tashivxo/Nova_Industries`, so the private repo 404s on view/clone/API.
-- **Nova Industries check:** `public/images/` has `blog/`, `hero/`, `projects/` (template stills), `ui/`, and `staging/` only. No existing `birdseye/` or `bxrds/` media folders besides this placeholder (`birdseye/README.md`).
-- Do **not** use the Wikipedia / Nomad Foods Birds Eye frozen-food logo. Only BXRDS.EYE marks from that repo belong here.
-- See `birdseye/README.md` for the access log and how to finish.
+- Studio marks **not copied yet** (this agent cannot read the private source repo).
+- **Intended files** from [odwamanitshana/bxrds-eye-website](https://github.com/odwamanitshana/bxrds-eye-website) branch `cursor/brand-export-logos-7bcf` (PR #2):
+  - `brand-export/bxrds-eye-lockup-sand-transparent.png` → PRIMARY sand lockup for dark backgrounds
+  - `brand-export/bxrds-eye-diamond-axis-cyprus-transparent.png` → icon only
+- Bakang’s big drop lives on `development` under `assets/website-2.0/` (client campaigns — **not** the studio logo). Not copied.
+- Do **not** use the Wikipedia / Nomad Foods Birds Eye frozen-food logo.
+- GitHub App / environment grant is only `tashivxo/Nova_Industries`, so clone/API of that repo 404s. See `birdseye/README.md`.

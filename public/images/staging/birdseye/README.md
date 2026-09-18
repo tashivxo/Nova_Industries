@@ -1,23 +1,14 @@
-# Birds Eye — logo still needed
+# Birds Eye — studio marks not copied (access blocked)
 
-No logo/lockup was copied. Nothing was invented, and `projects.ts` was not wired.
+Intended studio logos (not staged in this folder yet — GitHub 404 from this agent):
 
-Could **not list** png/svg/webp/jpg assets in [odwamanitshana/bxrds-eye-website](https://github.com/odwamanitshana/bxrds-eye-website). This Cloud Agent’s GitHub token is an installation grant for `tashivxo/Nova_Industries` only. Cursor “connected GitHub” on Tashiv’s machine can see that private repo; this agent cannot.
-
-## Checks (this PR)
-
-| Source | Result |
+| Destination name | Source |
 | --- | --- |
-| `GET /installation/repositories` | Only `tashivxo/Nova_Industries` |
-| Environment `repos` | Only `github.com/tashivxo/Nova_Industries` |
-| `odwamanitshana/bxrds-eye-website` | `gh repo view`, REST, `git ls-remote`, `git clone`, and unauthenticated `https://github.com/odwamanitshana/bxrds-eye-website` → **404** (private / out of grant, not a public empty repo) |
-| Name variants (`bxrds-eye`, `birdseye`, `birds-eye`, under `odwamanitshana` and `tashivxo`) | Not found |
-| `tashivxo/Tashiv_Portfolio`, `tashivxo/OnlinePortfolio` | No birdseye / bxrds files or references |
-| **Nova Industries** (`public/images/`) | Folders: `blog/`, `hero/`, `projects/` (template case-study stills only), `ui/`, `staging/`. **No** `birdseye/` or `bxrds/` media besides this staging placeholder (`README.md` only) |
-| Tashiv Vercel team | Only `free-period`; no Birds Eye deployment to pull a mark from |
+| `bxrds-eye-lockup-sand-transparent.png` (PRIMARY, sand lockup for dark bg) | `odwamanitshana/bxrds-eye-website` @ `cursor/brand-export-logos-7bcf` (PR #2) → `brand-export/bxrds-eye-lockup-sand-transparent.png` |
+| `bxrds-eye-diamond-axis-cyprus-transparent.png` (icon only) | same branch → `brand-export/bxrds-eye-diamond-axis-cyprus-transparent.png` |
 
-Do **not** substitute the Wikipedia / Nomad Foods Birds Eye frozen-food logo. Only BXRDS.EYE marks from `odwamanitshana/bxrds-eye-website` belong here.
+Bakang’s large campaign drop lives on `development` under `assets/website-2.0/` (client campaigns — **not** the studio logo). Do not copy that 130MB drop here.
 
-## To finish
+Do **not** substitute the Wikipedia / Nomad Foods Birds Eye frozen-food logo. Only BXRDS.EYE marks from that repo belong here.
 
-Install the Cloud Agent GitHub App on `odwamanitshana/bxrds-eye-website` (or add it to this environment’s repository list) and re-run, **or** drop 1–3 real high-res dark-friendly SVG/PNG marks into this folder.
+This Cloud Agent’s GitHub grant is only `tashivxo/Nova_Industries`. `gh repo view`, clone, and contents API for `odwamanitshana/bxrds-eye-website` (including that brand-export branch) all return 404. Grant the Cloud Agent GitHub App on that repo and re-run, or drop the two PNGs into this folder.

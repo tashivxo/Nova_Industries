@@ -28,7 +28,7 @@ export const projects: Project[] = [
     title: 'crosswithswag',
     titleLine2: 'crosswithswag',
     client: 'crosswithswag',
-    category: 'Branding // Marketing // UIUX Design',
+    category: 'Brand Design // Marketing // UIUX Design',
     year: '2026',
     image: '/images/staging/crosswith/crosswith-01.jpg',
     imageAlt:
@@ -83,7 +83,7 @@ export const projects: Project[] = [
     title: 'Free Period',
     titleLine2: 'Free Period',
     client: 'Free Period',
-    category: 'UI/UX design // product',
+    category: 'UI/UX design // product // SaaS // app development',
     year: '2026',
     image: '/images/staging/freeperiod/freeperiod-01-card.png',
     imageAlt:

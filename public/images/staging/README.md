@@ -28,6 +28,7 @@ Crosswith / SWAG campaign and identity stills.
 
 ### `birdseye/`
 
-- Birds Eye / BXRDS logo **still needed**.
-- Tashiv confirmed assets live in [odwamanitshana/bxrds-eye-website](https://github.com/odwamanitshana/bxrds-eye-website). This agent’s GitHub App grant only includes `tashivxo/Nova_Industries`, so that private repo returns 404 (clone, `ls-remote`, and API). Public `odwamanitshana` repos and Tashiv’s public portfolios have no Birds Eye mark either.
-- Nova Industries itself has no existing `birdseye` / `bxrds` asset folders besides this staging placeholder. No logo was invented. See `birdseye/README.md`.
+- Birds Eye / BXRDS logo **still needed** — no files copied (do not invent).
+- Tashiv confirmed Bakang assets live in [odwamanitshana/bxrds-eye-website](https://github.com/odwamanitshana/bxrds-eye-website). This agent **could not list** logos/marks there: GitHub App installation and environment `repos` only include `tashivxo/Nova_Industries`, so the private repo 404s on view/clone/API.
+- **Nova Industries check:** `public/images/` has `blog/`, `hero/`, `projects/` (template stills), `ui/`, and `staging/` only. No existing `birdseye/` or `bxrds/` media folders besides this placeholder (`birdseye/README.md`).
+- See `birdseye/README.md` for the access log and how to finish.

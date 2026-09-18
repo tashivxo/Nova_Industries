@@ -19,7 +19,7 @@ import { projects } from '../../data/projects';
       projects.map((project, index) => (
         <article class="stack-item" style={`--i:${index}`}>
           <a class="case" href={`/project/${project.slug}`}>
-            <div class="media">
+            <div class:list={['media', { 'media-free-period': project.slug === 'free-period' }]}>
               <img src={project.image} alt={project.imageAlt} loading="lazy" />
               <div class="side-meta">
                 <span class="eyebrow">{project.category}</span>
@@ -113,11 +113,20 @@ import { projects } from '../../data/projects';
     background: #151515;
   }
 
+  .media-free-period {
+    height: auto;
+    aspect-ratio: 2.5 / 1;
+  }
+
   .media img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .media-free-period img {
+    object-position: center top;
   }
 
   .side-meta {

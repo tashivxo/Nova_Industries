@@ -10,7 +10,7 @@ const { project, variant = 'grid' } = Astro.props;
 ---
 
 <a class:list={['project-card', variant]} href={`/project/${project.slug}`}>
-  <div class="media">
+  <div class:list={['media', { 'media-free-period': project.slug === 'free-period' }]}>
     <img src={project.image} alt={project.imageAlt} loading="lazy" />
   </div>
   <div class="meta">
@@ -48,6 +48,14 @@ const { project, variant = 'grid' } = Astro.props;
 
   .project-card:hover .media img {
     transform: scale(1.04);
+  }
+
+  .media-free-period {
+    aspect-ratio: 2.5 / 1;
+  }
+
+  .media-free-period img {
+    object-position: center top;
   }
 
   .meta {

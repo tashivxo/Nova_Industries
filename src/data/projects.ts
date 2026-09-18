@@ -85,7 +85,7 @@ export const projects: Project[] = [
     client: 'Free Period',
     category: 'UI/UX design // product',
     year: '2026',
-    image: '/images/staging/freeperiod/freeperiod-01.png',
+    image: '/images/staging/freeperiod/freeperiod-01-card.png',
     imageAlt:
       'Dark-mode Free Period marketing hero: “Lesson plans in seconds, not hours” beside a coffee-cup clock pictogram, with Start for free and Sign in actions',
     headline: 'Lesson plans in seconds — evenings given back to teachers',

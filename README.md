@@ -1,9 +1,15 @@
 # Nova Industries
 
-Design agency site cloned from the free [X-axis](https://x-axis.framer.website/) Framer template, with Phase 1 copy swaps:
+Design agency site built from the free X-axis Framer template, with Phase 1 copy swaps:
 
 - **X-AXIS** → **NOVA INDUSTRIES**
 - Home hero **Creative Agency** → **Design Agency**
+
+## Design source of truth
+
+Use the live Framer site as the visual and layout reference when building or reviewing pages:
+
+**https://x-axis.framer.website/**
 
 ## Stack
 

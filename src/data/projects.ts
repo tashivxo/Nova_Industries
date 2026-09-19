@@ -307,6 +307,10 @@ const projectList: Project[] = [
 ];
 
 const stagedSlugs = new Set(['crosswith-swag', 'free-period', 'better-built']);
+
+// Leftover X-axis stills (no semantic match in public/images/staging/):
+// only-the-brave, sunscreen, custom-designed, web-design, face-seram.
+// Do not map Crosswith / Free Period / BetterBuilt / BXRDS.EYE assets onto those names.
 export const projects = [
   ...projectList.filter((project) => stagedSlugs.has(project.slug)),
   ...projectList.filter((project) => !stagedSlugs.has(project.slug)),

@@ -65,7 +65,7 @@ export const skillPairs = [
   {
     a: 'Creative',
     b: 'Direction',
-    image: '/images/projects/custom-designed.webp',
+    image: '/images/staging/crosswith/crosswith-04.jpg',
   },
   {
     a: 'UI/UX',

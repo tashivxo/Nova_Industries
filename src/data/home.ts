@@ -2,7 +2,8 @@ export const pricingPlans = [
   {
     name: 'Starter',
     blurb: 'Perfect for freelancers and solo creators just getting started.',
-    price: '$49',
+    from: 49,
+    to: 79,
     period: 'Per month',
     features: [
       '1 active brand project',
@@ -14,7 +15,8 @@ export const pricingPlans = [
   {
     name: 'Professional',
     blurb: 'For growing brands and startups that need full creative support.',
-    price: '$99',
+    from: 99,
+    to: 149,
     period: 'Per month',
     features: [
       'Up to 5 active brand projects',
@@ -25,13 +27,14 @@ export const pricingPlans = [
   },
 ];
 
+// Counters count from -> to when scrolled into view (Framer's Animated Number Counter values).
 export const homeMetrics = [
-  { value: '100+', label: 'Digital experiences' },
-  { value: '32%', label: 'More Qualified rate' },
-  { value: '160+', label: 'Eng user interfaces' },
-  { value: '47%', label: 'Higher retention rate' },
-  { value: '115+', label: 'Innovative solutions' },
-  { value: '40%', label: 'Con rate optimization' },
+  { from: 100, to: 150, suffix: '+', label: 'Digital experiences' },
+  { from: 32, to: 67, suffix: '%', label: 'More Qualified rate' },
+  { from: 160, to: 200, suffix: '+', label: 'Eng user interfaces' },
+  { from: 47, to: 75, suffix: '%', label: 'Higher retention rate' },
+  { from: 115, to: 150, suffix: '+', label: 'Innovative solutions' },
+  { from: 40, to: 80, suffix: '%', label: 'Con rate optimization' },
 ];
 
 export const partnerMetricGroups = [
@@ -90,5 +93,30 @@ export const processSteps = [
   {
     title: 'Launch & Scale',
     body: 'We ensure a smooth launch and help brands grow.',
+  },
+];
+
+// TEMPLATE PLACEHOLDERS from the X-axis template. Replace with real Nova client quotes before launch.
+export const testimonials = [
+  {
+    quote:
+      "Before joining Be-tech, I was just going through the motions. Now, I'm part of a team that's genuinely changing the world. The support here is incredible.",
+    name: 'Neatian Meyal',
+    role: 'Head of Product, SaaS Company',
+    image: '/images/ui/testimonial.jpg',
+  },
+  {
+    quote:
+      "I came in skeptical, but Be-tech changed everything. The culture, the people, the mission — it's unlike anywhere I've worked before.",
+    name: 'James Whitford',
+    role: 'Engineering Lead, Fintech Company',
+    image: '/images/ui/testimonial-2.png',
+  },
+  {
+    quote:
+      'Be-tech gave me the confidence to step up. The mentorship and resources here pushed me further than I ever thought possible.',
+    name: 'Priya Kalani',
+    role: 'Product Manager, SaaS Platform',
+    image: '/images/ui/testimonial-3.png',
   },
 ];

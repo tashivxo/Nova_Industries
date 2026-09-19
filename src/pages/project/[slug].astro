@@ -17,28 +17,29 @@ const related = getRelatedProjects(project.slug);
 
 <BaseLayout title={`${project.title} — Nova Industries`} activePath="/project">
   <section class="hero section-pad">
-    <p class="eyebrow">{project.category}</p>
-    <p class="eyebrow year">{project.year}</p>
-    <h1 class="font-display">{project.title}</h1>
+    <p class="eyebrow" data-appear style="--ay:170;--ad:.3">{project.category}</p>
+    <p class="eyebrow year" data-appear style="--ay:170;--ad:.3">{project.year}</p>
+    <h1 class="font-display mask"><span class="line" data-appear style="--ay:170;--ad:.3">{project.title}</span></h1>
     <div
+      data-appear
       class:list={['media', { 'media-contain': project.imageFit === 'contain' }]}
-      style={project.imagePosition ? `--media-pos: ${project.imagePosition}` : undefined}
+      style={`--ay:170;--ad:.5;${project.imagePosition ? `--media-pos: ${project.imagePosition}` : ''}`}
     >
       <img src={project.image} alt={project.imageAlt} />
     </div>
   </section>
 
   <section class="narrative section-pad">
-    <h2>{project.headline}</h2>
-    <p class="intro">{project.intro}</p>
+    <h2 data-rise>{project.headline}</h2>
+    <p class="intro" data-rise>{project.intro}</p>
 
-    <h3>The Challenge</h3>
-    <ul>
+    <h3 data-rise>The Challenge</h3>
+    <ul data-rise>
       {project.challenges.map((c) => <li>{c}</li>)}
     </ul>
 
-    <h3>Our Solution</h3>
-    <div class="solutions">
+    <h3 data-rise>Our Solution</h3>
+    <div class="solutions" data-rise>
       {
         project.solutions.map((s) => (
           <article>
@@ -55,7 +56,7 @@ const related = getRelatedProjects(project.slug);
 
     {
       project.identity && (
-        <div class="identity">
+        <div class="identity" data-rise>
           <h4>Visual Identity Direction</h4>
           <p>
             <strong>Primary Colors:</strong> {project.identity.colors}
@@ -72,7 +73,7 @@ const related = getRelatedProjects(project.slug);
 
     {
       project.gallery && project.gallery.length > 0 && (
-        <div class="gallery">
+        <div class="gallery" data-rise>
           <h3>{project.galleryLabel ?? 'Selected frames'}</h3>
           <div class="gallery-grid">
             {project.gallery.map((item) => (
@@ -87,7 +88,7 @@ const related = getRelatedProjects(project.slug);
   </section>
 
   <section class="related section-pad">
-    <h2 class="font-display">Works</h2>
+    <h2 class="font-display mask"><span class="line" data-rise>Works</span></h2>
     <div class="grid">
       {related.map((p) => <ProjectCard project={p} />)}
     </div>

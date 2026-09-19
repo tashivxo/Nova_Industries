@@ -38,16 +38,26 @@
   --accent: #ff3b1f;
   --line: rgba(255, 255, 255, 0.12);
   --page-x: clamp(1.25rem, 4.2vw, 3.75rem);
-  --hero-chrome: 0;
+  /* Framer hover springs as CSS easings (generated from motion's spring solver):
+     nav 0.4s/b0.1, nav-footer 0.6s/b0, card 0.4s/b0.2, zoom 0.8s/b0.1, contact k400 d40, menu k400 d50. */
+  --ease-nav: linear(0, 0.0698, 0.2176, 0.3835, 0.5372, 0.6662, 0.7677, 0.8438, 0.8986, 0.9367, 0.9623, 0.9789, 0.9893, 0.9954, 0.9989, 1.0006, 1.0013, 1.0015, 1.0014, 1.0012, 1);
+  --dur-nav: 400ms;
+  --ease-nav-footer: linear(0, 0.0387, 0.1271, 0.2361, 0.3486, 0.4551, 0.5509, 0.6342, 0.7049, 0.7638, 0.8122, 0.8515, 0.8832, 0.9085, 0.9286, 0.9445, 0.957, 0.9667, 0.9743, 0.9802, 0.9848, 0.9884, 0.9911, 0.9932, 0.9948, 0.996, 0.997, 0.9977, 0.9983, 0.9987, 1);
+  --dur-nav-footer: 600ms;
+  --ease-card: linear(0, 0.0794, 0.2486, 0.4375, 0.6093, 0.7484, 0.8518, 0.9231, 0.9688, 0.9954, 1.0091, 1.0144, 1.015, 1.0131, 1.0104, 1.0076, 1.0051, 1.0032, 1.0018, 1.0009, 1);
+  --dur-card: 400ms;
+  --ease-zoom: linear(0, 0.0198, 0.0698, 0.1386, 0.2176, 0.3007, 0.3835, 0.4629, 0.5372, 0.6051, 0.6662, 0.7203, 0.7677, 0.8086, 0.8438, 0.8735, 0.8986, 0.9195, 0.9367, 0.9509, 0.9623, 0.9716, 0.9789, 0.9848, 0.9893, 0.9928, 0.9954, 0.9974, 0.9989, 0.9999, 1.0006, 1.0011, 1.0013, 1.0015, 1.0015, 1.0015, 1.0014, 1.0013, 1.0012, 1.0011, 1);
+  --dur-zoom: 800ms;
+  --ease-contact: linear(0, 0.0616, 0.1912, 0.3374, 0.4751, 0.594, 0.6916, 0.7689, 0.8288, 0.8743, 0.9084, 0.9337, 0.9523, 0.9658, 0.9756, 0.9826, 0.9877, 0.9913, 0.9939, 0.9957, 0.997, 0.9979, 0.9985, 0.999, 0.9993, 1);
+  --dur-contact: 500ms;
+  --ease-menu: linear(0, 0.0581, 0.1735, 0.2985, 0.4145, 0.5156, 0.6012, 0.6724, 0.7314, 0.7799, 0.8197, 0.8523, 0.8791, 0.901, 0.9189, 0.9336, 0.9457, 0.9555, 0.9636, 0.9702, 0.9756, 0.98, 0.9836, 0.9866, 0.989, 0.991, 0.9926, 0.994, 0.9951, 0.996, 0.9967, 0.9973, 0.9978, 0.9982, 0.9985, 0.9988, 1);
+  --dur-menu: 720ms;
 }
 
 * {
   box-sizing: border-box;
 }
 
-html {
-  scroll-behavior: smooth;
-}
 
 body {
   margin: 0;
@@ -166,6 +176,30 @@ img {
   width: 100%;
 }
 
+/* Motion initial states (src/scripts/motion.ts). Only under html.js, so no-JS and
+   reduced-motion visitors get the finished layout. Vars are unitless px/seconds. */
+html.js [data-appear] {
+  opacity: 0.001;
+  transform: translateY(calc(var(--ay, 0) * 1px)) scale(var(--as, 1));
+}
+html.js [data-appear='tween'] {
+  transform: translateY(-10px);
+}
+html.js [data-reveal] {
+  opacity: var(--ro, 0);
+  transform: translate(calc(var(--rx, 0) * 1px), calc(var(--ry, 0) * 1px)) scale(var(--rs, 1));
+}
+.mask {
+  display: block;
+  overflow: clip;
+  /* room for descenders (the Q in FAQ) without shifting layout */
+  padding-bottom: 0.12em;
+  margin-bottom: -0.12em;
+}
+.mask > .line {
+  display: block;
+}
+
 .stagger-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -205,9 +239,6 @@ img {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
   *,
   *::before,
   *::after {

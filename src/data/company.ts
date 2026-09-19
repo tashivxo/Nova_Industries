@@ -13,11 +13,12 @@ export const team: TeamMember[] = [
   { name: 'Olivia Bennett', role: 'Senior UI/UX Designer' },
 ];
 
+// Counters count from -> to when scrolled into view (Framer's Feature Label values).
 export const companyStats = [
-  { value: '100+', label: 'Digital Projects Executed' },
-  { value: '0x', label: 'Product Teams Supported' },
-  { value: '2+', label: 'Years Creative Experience' },
-  { value: '82%', label: 'Client Satisfaction Rate' },
+  { from: 100, to: 150, suffix: '+', label: 'Digital Projects Executed' },
+  { from: 0, to: 2, suffix: 'x', label: 'Product Teams Supported' },
+  { from: 2, to: 9, suffix: '+', label: 'Years Creative Experience' },
+  { from: 82, to: 98, suffix: '%', label: 'Client Satisfaction Rate' },
 ];
 
 export const coreStandards = [

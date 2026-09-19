@@ -1,0 +1,88 @@
+---
+// Framer "Nav Item": on hover the [ ] brackets appear instantly and the label springs right
+// by one bracket + 4px gap. Color flips are instant (Framer uses plain :hover).
+interface Props {
+  href: string;
+  label: string;
+  active?: boolean;
+  size?: 'sm' | 'lg';
+  external?: boolean;
+  appear?: boolean;
+}
+const { href, label, active = false, size = 'sm', external = false, appear = false } = Astro.props;
+---
+
+<a
+  href={href}
+  class:list={['nav-item', size, { active }]}
+  data-appear={appear ? 'tween' : undefined}
+  target={external ? '_blank' : undefined}
+  rel={external ? 'noreferrer' : undefined}
+>
+  <span class="br l" aria-hidden="true">[</span>
+  <span class="label">{label}</span>
+  <span class="br r" aria-hidden="true">]</span>
+</a>
+
+<style>
+  .nav-item {
+    --bw: 0.36em;
+    --shift: calc(var(--bw) + 4px);
+    position: relative;
+    display: inline-flex;
+    font-weight: 500;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .sm {
+    font-size: 14px;
+    line-height: 1.25;
+    color: #808080;
+  }
+
+  .lg {
+    font-size: 28px;
+    line-height: 1.2;
+    letter-spacing: -0.56px;
+    color: #fff;
+  }
+
+  .active,
+  .nav-item:hover,
+  .nav-item:focus-visible {
+    color: #fff;
+  }
+
+  .label {
+    transition: transform var(--dur-nav) var(--ease-nav);
+  }
+
+  .lg .label {
+    transition: transform var(--dur-nav-footer) var(--ease-nav-footer) 0.1s;
+  }
+
+  .br {
+    position: absolute;
+    top: 0;
+    visibility: hidden;
+  }
+
+  .br.l {
+    left: 0;
+  }
+
+  .br.r {
+    left: calc(100% + var(--shift) + 4px);
+  }
+
+  .nav-item:hover .br,
+  .nav-item:focus-visible .br {
+    visibility: visible;
+  }
+
+  .nav-item:hover .label,
+  .nav-item:focus-visible .label {
+    transform: translateX(var(--shift));
+  }
+</style>

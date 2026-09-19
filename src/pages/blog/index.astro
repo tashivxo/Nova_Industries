@@ -1,20 +1,19 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import JournalCard from '../../components/JournalCard.astro';
-import Reveal from '../../components/Reveal';
 import { posts } from '../../data/posts';
 ---
 
 <BaseLayout title="Blog — Nova Industries" activePath="/blog">
   <section class="hero section-pad">
-    <h1 class="font-display">Insights Drive</h1>
+    <h1 class="font-display mask"><span class="line" data-appear style="--ay:170;--ad:.3">Insights Drive</span></h1>
   </section>
 
   <section class="list section-pad">
-    <Reveal client:visible className="reveal-shell">
+    <div class="reveal-shell">
       {
         posts.map((post) => (
-          <a class="row" href={`/blog/${post.slug}`}>
+          <a class="row" href={`/blog/${post.slug}`} data-rise>
             <div class="meta">
               <span>{post.readTime}</span>
               <span>{post.dateLabel}</span>
@@ -30,11 +29,11 @@ import { posts } from '../../data/posts';
           </a>
         ))
       }
-    </Reveal>
+    </div>
   </section>
 
   <section class="more section-pad">
-    <h2 class="font-display">More journal</h2>
+    <h2 class="font-display mask"><span class="line" data-rise>More journal</span></h2>
     <div class="grid">
       {posts.slice(0, 4).map((post) => <JournalCard post={post} />)}
     </div>

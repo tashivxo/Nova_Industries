@@ -10,4 +10,5 @@ export {
   homeHeroStats,
   skillPairs,
   processSteps,
+  testimonials,
 } from './home';

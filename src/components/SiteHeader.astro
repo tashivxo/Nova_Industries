@@ -1,11 +1,13 @@
 ---
 import { navItems, brand } from '../data/site';
+import NavItem from './NavItem.astro';
 
 interface Props {
   activePath?: string;
 }
 
 const { activePath = '/' } = Astro.props;
+const arrow = '<svg viewBox="0 0 11 12"><path d="M1.5 10.5 9.5 2.5M3.5 2.5h6v6" /></svg>';
 
 function isActive(href: string, path: string) {
   if (href === '/') return path === '/';
@@ -13,18 +15,9 @@ function isActive(href: string, path: string) {
 }
 ---
 
-<header class="site-header">
+<header class="site-header" data-appear style="--ay:170;--ad:.3">
   <nav class="site-nav" aria-label="Primary">
-    {
-      navItems.map((item) => (
-        <a
-          href={item.href}
-          class:list={['nav-link', { active: isActive(item.href, activePath) }]}
-        >
-          {item.label}
-        </a>
-      ))
-    }
+    {navItems.map((item) => <NavItem href={item.href} label={item.label} active={isActive(item.href, activePath)} appear />)}
   </nav>
 
   <a href="/" class="wordmark" aria-label={brand.name}>
@@ -35,27 +28,29 @@ function isActive(href: string, path: string) {
   </a>
 
   <a href="/contact" class="contact-cta">
-    <span class="contact-arrow" aria-hidden="true">↗</span>
-    Contact
+    <span class="ca l" aria-hidden="true" set:html={arrow} />
+    <span class="ct">Contact</span>
+    <span class="ca r" aria-hidden="true" set:html={arrow} />
   </a>
 
-  <button type="button" class="mobile-toggle" aria-label="Menu" aria-expanded="false" data-menu-toggle>
-    <span></span><span></span><span></span>
+  <button type="button" class="mobile-toggle" aria-label="Menu" aria-expanded="false" aria-controls="mobile-menu" data-menu-toggle>
+    <svg class="i-open" viewBox="0 0 20 14" aria-hidden="true"><path d="M0 .7h20M0 6.8h20M0 12.9h20" /></svg>
+    <svg class="i-close" viewBox="0 0 20 14" aria-hidden="true"><path d="M3 0l14 14M17 0 3 14" /></svg>
   </button>
-</header>
 
-<div class="mobile-drawer" data-menu-drawer hidden>
-  <nav aria-label="Mobile">
-    {
-      navItems.map((item) => (
-        <a href={item.href} class:list={[{ active: isActive(item.href, activePath) }]}>
-          {item.label}
-        </a>
-      ))
-    }
-    <a href="/contact">Contact</a>
-  </nav>
-</div>
+  <div class="mobile-drawer" id="mobile-menu">
+    <nav aria-label="Mobile">
+      {
+        navItems.map((item) => (
+          <a href={item.href} class:list={[{ active: isActive(item.href, activePath) }]}>
+            {item.label}
+          </a>
+        ))
+      }
+      <a href="/contact">Contact</a>
+    </nav>
+  </div>
+</header>
 
 <style>
   .site-header {
@@ -68,7 +63,6 @@ function isActive(href: string, path: string) {
     align-items: start;
     padding: 1.75rem var(--page-x) 0;
     pointer-events: none;
-    opacity: calc(1 - var(--hero-chrome, 0));
   }
 
   .site-header > * {
@@ -80,21 +74,6 @@ function isActive(href: string, path: string) {
     flex-direction: column;
     gap: 0.75rem;
     align-items: flex-start;
-  }
-
-  .nav-link {
-    font-size: 0.875rem;
-    font-weight: 500;
-    letter-spacing: 0;
-    line-height: 1.25;
-    text-transform: uppercase;
-    color: var(--nav);
-    transition: color 0.2s ease;
-  }
-
-  .nav-link:hover,
-  .nav-link.active {
-    color: #fff;
   }
 
   .wordmark {
@@ -114,63 +93,132 @@ function isActive(href: string, path: string) {
     white-space: nowrap;
   }
 
+  /* Framer "Contact Button": arrows swap sides instantly, the text slides 21px (spring k400 d40). */
   .contact-cta {
     justify-self: end;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    margin-top: 0.05rem;
-    font-size: 0.875rem;
+    position: relative;
+    display: inline-block;
+    padding-left: 21px;
+    font-size: 14px;
+    line-height: 20px;
     font-weight: 500;
-    letter-spacing: 0;
     text-transform: uppercase;
   }
 
-  .contact-arrow {
-    color: var(--accent);
-    font-size: 0.95rem;
-    line-height: 1;
-    transform: translateY(-0.02em);
+  .ct {
+    display: inline-block;
+    transition: transform var(--dur-contact) var(--ease-contact);
+  }
+
+  .ca {
+    position: absolute;
+    top: 4px;
+    width: 11px;
+    height: 12px;
+    color: #ff531a;
+  }
+
+  .ca :global(svg) {
+    display: block;
+    width: 11px;
+    height: 12px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.5;
+  }
+
+  .ca.l {
+    left: 0;
+  }
+
+  .ca.r {
+    left: calc(100% - 11px);
+    visibility: hidden;
+  }
+
+  .contact-cta:hover .ct,
+  .contact-cta:focus-visible .ct {
+    transform: translateX(-21px);
+  }
+
+  .contact-cta:hover .ca.l,
+  .contact-cta:focus-visible .ca.l {
+    visibility: hidden;
+  }
+
+  .contact-cta:hover .ca.r,
+  .contact-cta:focus-visible .ca.r {
+    visibility: visible;
+  }
+
+  .mobile-toggle,
+  .mobile-drawer {
+    display: none;
   }
 
   .mobile-toggle {
-    display: none;
     justify-self: end;
-    width: 1.7rem;
-    height: 1.15rem;
+    width: 20px;
+    height: 14px;
     border: 0;
     background: transparent;
     padding: 0;
     cursor: pointer;
+    color: #fff;
   }
 
-  .mobile-toggle span {
+  .mobile-toggle svg {
     display: block;
-    height: 1.5px;
-    background: #fff;
-    margin: 0.28rem 0;
+    width: 20px;
+    height: 14px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.4;
   }
 
+  /* Framer swaps the icons instantly, no morph. */
+  .mobile-toggle .i-close,
+  .menu-open .mobile-toggle .i-open {
+    display: none;
+  }
+
+  .menu-open .mobile-toggle .i-close {
+    display: block;
+  }
+
+  /* Framer phone nav: a dropdown whose height springs open (k400 d50); links never fade. */
   .mobile-drawer {
-    position: fixed;
-    inset: 0;
-    z-index: 40; /* under the header so the toggle stays tappable to close */
-    background: rgba(13, 13, 13, 0.98);
-    padding: 5.5rem var(--page-x) 2rem;
+    grid-column: 1 / -1;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows var(--dur-menu) var(--ease-menu);
+  }
+
+  .menu-open .mobile-drawer {
+    grid-template-rows: 1fr;
   }
 
   .mobile-drawer nav {
+    overflow: hidden;
     display: flex;
     flex-direction: column;
-    gap: 1.15rem;
+    align-items: center;
+    gap: 24px;
+  }
+
+  .mobile-drawer nav::before {
+    content: '';
+    height: 8px;
   }
 
   .mobile-drawer a {
-    font-size: 1.15rem;
+    font-size: 14px;
     font-weight: 500;
-    letter-spacing: 0;
     text-transform: uppercase;
-    color: var(--nav);
+    color: #808080;
+  }
+
+  .mobile-drawer a:last-child {
+    margin-bottom: 16px;
   }
 
   .mobile-drawer a.active,
@@ -200,19 +248,29 @@ function isActive(href: string, path: string) {
       letter-spacing: 0.04em;
     }
 
+    .site-header {
+      background: var(--bg);
+      padding: 16px var(--page-x) 0;
+    }
+
     .mobile-toggle {
       display: block;
+    }
+
+    .mobile-drawer {
+      display: grid;
     }
   }
 </style>
 
 <script>
-  const toggle = document.querySelector('[data-menu-toggle]');
-  const drawer = document.querySelector('[data-menu-drawer]');
-  toggle?.addEventListener('click', () => {
-    const open = !drawer?.hasAttribute('hidden');
-    if (open) drawer?.setAttribute('hidden', '');
-    else drawer?.removeAttribute('hidden');
-    toggle?.setAttribute('aria-expanded', String(!open));
-  });
+  const header = document.querySelector<HTMLElement>('.site-header');
+  const toggle = document.querySelector<HTMLElement>('[data-menu-toggle]');
+  const setOpen = (open: boolean) => {
+    header?.classList.toggle('menu-open', open);
+    toggle?.setAttribute('aria-expanded', String(open));
+  };
+  toggle?.addEventListener('click', () => setOpen(!header?.classList.contains('menu-open')));
+  // Framer: tapping a mobile link closes the menu.
+  document.querySelectorAll('#mobile-menu a').forEach((a) => a.addEventListener('click', () => setOpen(false)));
 </script>

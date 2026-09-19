@@ -31,6 +31,9 @@ const fullBleed = pathname === '/' || pathname === '/project';
     />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{title}</title>
+    <script is:inline>
+      if (!matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('js');
+    </script>
   </head>
   <body class:list={[{ 'full-bleed': fullBleed }]}>
     <SiteHeader activePath={activePath} />
@@ -39,6 +42,9 @@ const fullBleed = pathname === '/' || pathname === '/project';
     </main>
     {showFaq && <FAQSection />}
     <SiteFooter />
+    <script>
+      import '../scripts/motion';
+    </script>
   </body>
 </html>
 

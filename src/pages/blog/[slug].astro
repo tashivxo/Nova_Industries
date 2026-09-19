@@ -15,19 +15,19 @@ const related = posts.filter((p) => p.slug !== post.slug).slice(0, 3);
 
 <BaseLayout title={`${post.title} — Nova Industries`} activePath="/blog">
   <article class="post section-pad">
-    <p class="eyebrow">{post.category}</p>
-    <h1>{post.title}</h1>
-    <p class="date">{post.dateLabel}</p>
-    <div class="hero-img">
+    <p class="eyebrow" data-appear style="--ay:170;--ad:.3">{post.category}</p>
+    <h1 data-appear style="--ay:170;--ad:.5">{post.title}</h1>
+    <p class="date" data-appear style="--ay:170;--ad:.5">{post.dateLabel}</p>
+    <div class="hero-img" data-appear style="--ay:170;--ad:.9">
       <img src={post.image} alt={post.imageAlt} />
     </div>
-    <div class="body">
+    <div class="body" data-rise>
       {post.body.map((p) => <p>{p}</p>)}
     </div>
   </article>
 
   <section class="journal section-pad">
-    <h2 class="font-display">The Journal</h2>
+    <h2 class="font-display mask"><span class="line" data-rise>The Journal</span></h2>
     <div class="grid">
       {related.map((p) => <JournalCard post={p} />)}
     </div>

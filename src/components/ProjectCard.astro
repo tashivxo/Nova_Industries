@@ -1,5 +1,6 @@
 ---
 import type { Project } from '../data/projects';
+import ImageFlip from './ImageFlip.astro';
 
 interface Props {
   project: Project;
@@ -7,14 +8,17 @@ interface Props {
 }
 
 const { project } = Astro.props;
+const arrow = '<svg viewBox="0 0 21 21" aria-hidden="true"><path d="M5 16 16 5M7.5 5H16v8.5" /></svg>';
 ---
 
-<a class="project-card" href={`/project/${project.slug}`}>
+<a class="project-card" href={`/project/${project.slug}`} data-rise data-scramble-card>
   <div class="meta">
     <span class="eyebrow">{project.category}</span>
     <span class="eyebrow year">{project.year}</span>
   </div>
-  <div
+  <ImageFlip
+    src={project.image}
+    alt={project.imageAlt}
     class:list={[
       'media',
       {
@@ -23,17 +27,87 @@ const { project } = Astro.props;
       },
     ]}
     style={project.imagePosition ? `--media-pos: ${project.imagePosition}` : undefined}
-  >
-    <img src={project.image} alt={project.imageAlt} loading="lazy" />
-  </div>
+  />
   <div class="titles">
     <div class="copy">
-      <p class="client">{project.client}</p>
-      <h3>{project.titleLine2}</h3>
+      <p class="client" data-scramble>{project.client}</p>
+      <h3 data-scramble>{project.titleLine2}</h3>
     </div>
-    <span class="arrow" aria-hidden="true">↗</span>
+    <span class="arrow" aria-hidden="true"><span class="a-in" set:html={arrow} /><span class="a-out" set:html={arrow} /></span>
   </div>
 </a>
+
+<script>
+  // Framer card "wave" override: company + title letters flicker through 3 random glyphs
+  // (120ms apart) and settle, 36ms per letter, second line 90ms later. Plays 500ms after
+  // load and again on every mouseenter.
+  const CH = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  const EASE = 'cubic-bezier(0.16,1,0.3,1)';
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const raf2 = (fn: () => void) => requestAnimationFrame(() => requestAnimationFrame(fn));
+  const set = (el: HTMLElement, t: string, tf: string, op: number) => {
+    el.style.transition = t;
+    el.style.transform = tf;
+    el.style.opacity = String(op);
+  };
+
+  function split(el: HTMLElement) {
+    const text = el.textContent!.trim();
+    el.setAttribute('aria-label', text);
+    const inner = document.createElement('span');
+    inner.setAttribute('aria-hidden', 'true');
+    const letters: { el: HTMLElement; orig: string }[] = [];
+    text.split(/( )/).forEach((word) => {
+      const w = document.createElement('span');
+      w.style.whiteSpace = 'nowrap';
+      for (const c of word) {
+        const mask = document.createElement('span');
+        mask.className = 'cw-mask';
+        const l = document.createElement('span');
+        l.className = 'cw-letter';
+        l.textContent = c === ' ' ? ' ' : c;
+        mask.append(l);
+        w.append(mask);
+        letters.push({ el: l, orig: l.textContent });
+      }
+      inner.append(w);
+    });
+    el.replaceChildren(inner);
+    return letters;
+  }
+
+  for (const card of document.querySelectorAll<HTMLElement>('[data-scramble-card]')) {
+    const lines = [...card.querySelectorAll<HTMLElement>('[data-scramble]')].map(split);
+    let timers: number[] = [];
+    const play = () => {
+      timers.forEach(clearTimeout);
+      timers = [];
+      lines.forEach((chars, li) =>
+        chars.forEach(({ el, orig }, ci) => {
+          let n = 0;
+          const step = () => {
+            if (n >= 3) {
+              el.textContent = orig;
+              set(el, 'none', 'rotateX(-15deg) translateY(4px)', 0);
+              raf2(() => set(el, `transform 380ms ${EASE}, opacity 228ms ${EASE}`, 'rotateX(0) translateY(0)', 1));
+              return;
+            }
+            el.textContent = CH[Math.floor(Math.random() * CH.length)];
+            set(el, 'none', 'rotateX(-10deg) translateY(2px)', 0.15);
+            raf2(() => set(el, `transform 100ms ${EASE}, opacity 100ms ease-out`, 'rotateX(0) translateY(0)', 0.5));
+            n++;
+            timers.push(window.setTimeout(step, 120));
+          };
+          timers.push(window.setTimeout(step, li * 90 + ci * 36));
+        }),
+      );
+    };
+    if (!reduced) {
+      window.setTimeout(play, 500);
+      card.addEventListener('mouseenter', play);
+    }
+  }
+</script>
 
 <style>
   .project-card {
@@ -50,36 +124,21 @@ const { project } = Astro.props;
   }
 
   .meta .eyebrow {
-    font-size: 0.7rem;
-    color: rgba(255, 255, 255, 0.55);
+    font-size: 0.875rem;
+    color: #808080;
   }
 
-  .media {
-    overflow: hidden;
-    background: #151515;
+  .project-card :global(.media) {
     aspect-ratio: 400 / 494;
   }
 
-  .media img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: var(--media-pos, center);
-    transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
-  }
-
-  .media-top img {
+  .project-card :global(.media-top img) {
     object-position: var(--media-pos, center top);
   }
 
-  .media-contain img {
+  .project-card :global(.media-contain img) {
     object-fit: contain;
     padding: clamp(1.25rem, 8%, 3rem);
-  }
-
-  .project-card:hover .media img,
-  .project-card:focus-visible .media img {
-    transform: scale(1.045);
   }
 
   .titles {
@@ -91,44 +150,72 @@ const { project } = Astro.props;
 
   .titles .client {
     margin: 0;
-    font-size: 0.75rem;
+    font-size: 16px;
+    line-height: 24px;
     font-weight: 500;
-    color: var(--muted);
+    color: #808080;
     text-transform: uppercase;
-    letter-spacing: 0.02em;
-  }
-
-  .arrow {
-    color: var(--accent);
-    font-size: 1.2rem;
-    line-height: 1;
-    transform: translateY(0.35rem);
-    transition: transform 0.25s ease;
-  }
-
-  .project-card:hover .arrow,
-  .project-card:focus-visible .arrow {
-    transform: translate(0.12rem, 0.2rem);
   }
 
   .titles h3 {
-    margin: 0.15rem 0 0;
-    font-family: var(--font-display);
-    font-size: clamp(1.35rem, 2.4vw, 1.85rem);
+    margin: 0;
+    font-family: var(--font-sans);
+    font-size: 24px;
+    line-height: 32px;
     font-weight: 500;
+    letter-spacing: -0.48px;
     text-transform: uppercase;
-    letter-spacing: -0.03em;
-    line-height: 0.95;
   }
 
-  @media (prefers-reduced-motion: reduce) {
-    .media img {
-      transition: none;
-    }
+  /* Two arrows in a 21px clip box: hover sends one out top-right and brings the other in. */
+  .arrow {
+    position: relative;
+    flex: 0 0 auto;
+    width: 21px;
+    height: 21px;
+    overflow: hidden;
+    color: #ff531a;
+  }
 
-    .project-card:hover .media img,
-    .project-card:focus-visible .media img {
-      transform: none;
-    }
+  .arrow > span {
+    position: absolute;
+    inset: 0;
+    transition: transform var(--dur-card) var(--ease-card);
+  }
+
+  .arrow :global(svg) {
+    display: block;
+    width: 21px;
+    height: 21px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.6;
+  }
+
+  .a-in {
+    transform: translate(-48px, 48px);
+  }
+
+  .project-card:hover .a-in,
+  .project-card:focus-visible .a-in {
+    transform: none;
+  }
+
+  .project-card:hover .a-out,
+  .project-card:focus-visible .a-out {
+    transform: translate(60px, -51px);
+  }
+
+  .project-card :global(.cw-mask) {
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: bottom;
+    perspective: 800px;
+  }
+
+  .project-card :global(.cw-letter) {
+    display: inline-block;
+    transform-origin: center 80%;
+    backface-visibility: hidden;
   }
 </style>

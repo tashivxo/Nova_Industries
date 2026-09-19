@@ -1,15 +1,16 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import Reveal from '../components/Reveal';
 import { contact } from '../data/site';
+
+const arrow = '<svg viewBox="0 0 11 12"><path d="M1.5 10.5 9.5 2.5M3.5 2.5h6v6" /></svg>';
 ---
 
 <BaseLayout title="Contact — Nova Industries" activePath="/contact">
   <section class="hero section-pad">
-    <a class="email" href="#">{contact.contactEmail}</a>
-    <p class="eyebrow">Company Email</p>
-    <h1 class="font-display">Contact</h1>
-    <div class="socials">
+    <a class="email" href={`mailto:${contact.contactEmail}`} data-appear style="--ay:170;--ad:.3">{contact.contactEmail}</a>
+    <p class="eyebrow" data-appear style="--ay:170;--ad:.3">Company Email</p>
+    <h1 class="font-display mask"><span class="line" data-appear style="--ay:170;--ad:.3">Contact</span></h1>
+    <div class="socials" data-appear style="--ay:170;--ad:.3">
       {
         contact.socials.map((s) => (
           <a href={s.href} target="_blank" rel="noreferrer">
@@ -21,8 +22,8 @@ import { contact } from '../data/site';
   </section>
 
   <section class="form-wrap section-pad">
-    <Reveal client:visible className="reveal-shell">
-      <form class="form" data-visual-form>
+    <div class="reveal-shell">
+      <form class="form" data-visual-form data-appear style="--ay:170;--ad:.3">
         <label>
           <span>Name</span>
           <input type="text" name="name" autocomplete="name" />
@@ -39,10 +40,14 @@ import { contact } from '../data/site';
           <span>Message</span>
           <textarea name="message" rows="5"></textarea>
         </label>
-        <button type="submit">Send message</button>
+        <button type="submit">
+          <span class="sa l" aria-hidden="true" set:html={arrow} />
+          <span class="st">Send message</span>
+          <span class="sa r" aria-hidden="true" set:html={arrow} />
+        </button>
         <p class="note">Visual form only — submissions are not sent in Phase 1.</p>
       </form>
-    </Reveal>
+    </div>
   </section>
 </BaseLayout>
 
@@ -130,20 +135,71 @@ import { contact } from '../data/site';
     grid-column: 1 / -1;
   }
 
+  /* Framer Submit Button: arrow swaps sides instantly, label slides 19px (tween .2s). */
   button {
     grid-column: 1 / -1;
     justify-self: start;
+    position: relative;
     margin-top: 0.25rem;
-    background: #fff;
-    color: #000;
+    padding: 0 0 0 19px;
+    background: transparent;
+    color: #fff;
     border: 0;
-    border-radius: 999px;
-    padding: 0.75rem 1.35rem;
-    font-size: 0.75rem;
-    letter-spacing: 0.12em;
+    border-radius: 10px;
+    font: inherit;
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 500;
     text-transform: uppercase;
     cursor: pointer;
   }
+
+  .st {
+    display: inline-block;
+    transition: transform 0.2s cubic-bezier(0.44, 0, 0.56, 1);
+  }
+
+  .sa {
+    position: absolute;
+    top: 4px;
+    width: 11px;
+    height: 12px;
+    color: #ff531a;
+  }
+
+  .sa :global(svg) {
+    display: block;
+    width: 11px;
+    height: 12px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.5;
+  }
+
+  .sa.l {
+    left: 0;
+  }
+
+  .sa.r {
+    left: calc(100% - 11px);
+    visibility: hidden;
+  }
+
+  button:hover .st,
+  button:active .st {
+    transform: translateX(-19px);
+  }
+
+  button:hover .sa.l,
+  button:active .sa.l {
+    visibility: hidden;
+  }
+
+  button:hover .sa.r,
+  button:active .sa.r {
+    visibility: visible;
+  }
+
 
   .note {
     grid-column: 1 / -1;

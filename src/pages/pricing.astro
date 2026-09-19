@@ -1,24 +1,23 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import JournalCard from '../components/JournalCard.astro';
-import Reveal from '../components/Reveal';
 import { pricingPlans } from '../data/home';
 import { getHomepagePosts } from '../data/posts';
 ---
 
 <BaseLayout title="Pricing — Nova Industries" activePath="/pricing">
-  <section class="hero section-pad">
-    <h1 class="font-display">Pricing</h1>
+  <section class="hero section-pad" data-reveal="tween" style="--rdur:.6;--rd:.4;--rt:.5">
+    <h1 class="font-display" data-appear style="--ay:170;--ad:.3">Pricing</h1>
   </section>
 
   <section class="plans section-pad">
-    <Reveal client:visible className="reveal-shell plans-grid">
+    <div class="reveal-shell plans-grid">
       {
         pricingPlans.map((plan) => (
-          <article class="card">
+          <article class="card" data-appear style="--ay:170;--ad:.5">
             <h2>{plan.name}</h2>
             <p class="blurb">{plan.blurb}</p>
-            <p class="font-display price">{plan.price}</p>
+            <p class="font-display price" data-count={`${plan.from},${plan.to}`} data-prefix="$">${plan.from}</p>
             <p class="period">{plan.period}</p>
             <ul>
               {plan.features.map((f) => (
@@ -29,16 +28,16 @@ import { getHomepagePosts } from '../data/posts';
           </article>
         ))
       }
-    </Reveal>
+    </div>
   </section>
 
   <section class="journal section-pad">
-    <Reveal client:visible className="reveal-shell">
-      <h2 class="font-display">The Journal</h2>
+    <div class="reveal-shell">
+      <h2 class="font-display mask"><span class="line" data-rise>The Journal</span></h2>
       <div class="grid">
         {getHomepagePosts().map((post) => <JournalCard post={post} />)}
       </div>
-    </Reveal>
+    </div>
   </section>
 </BaseLayout>
 

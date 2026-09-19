@@ -1,20 +1,29 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import Reveal from '../components/Reveal';
 import { companyStats, coreStandards, team } from '../data/company';
+
+// Cursor trail images: Nova's own staged client work.
+const trailImages = [
+  '/images/staging/crosswith/crosswith-01.jpg',
+  '/images/staging/freeperiod/freeperiod-02.png',
+  '/images/staging/crosswith/crosswith-05.jpg',
+  '/images/staging/betterbuilt/site/bb-site-01.png',
+  '/images/staging/crosswith/crosswith-06.jpg',
+  '/images/staging/freeperiod/freeperiod-03.png',
+];
 ---
 
 <BaseLayout title="Company — Nova Industries" activePath="/company">
-  <section class="hero section-pad">
-    <p class="eyebrow">WHO</p>
+  <section class="hero section-pad" data-trail={JSON.stringify(trailImages)}>
+    <p class="eyebrow" data-appear style="--ay:170;--ad:.3">WHO</p>
     <h1 class="font-display">
-      <span>Creative</span>
-      <span>Systems</span>
+      <span class="mask"><span class="line" data-appear style="--ay:170;--ad:.5">Creative</span></span>
+      <span class="mask"><span class="line" data-appear style="--ay:170;--ad:.5">Systems</span></span>
     </h1>
-    <p class="lede">
+    <p class="lede" data-appear style="--ay:170;--ad:.9">
       A creative agency built on specialisation, systems, and craft.
     </p>
-    <p class="body">
+    <p class="body" data-appear style="--ay:170;--ad:.9">
       We are a specialist creative agency working at the intersection of brand, design, and
       technology. We partner with founders, product teams, and growing companies to build
       identities and experiences that last.
@@ -22,40 +31,40 @@ import { companyStats, coreStandards, team } from '../data/company';
   </section>
 
   <section class="stats section-pad">
-    <Reveal client:visible className="reveal-shell">
+    <div class="reveal-shell" data-rise>
       {
         companyStats.map((s) => (
           <article>
-            <p class="font-display value">{s.value}</p>
+            <p class="font-display value" data-count={`${s.from},${s.to}`} data-suffix={s.suffix}>{s.from}{s.suffix}</p>
             <p class="label">{s.label}</p>
           </article>
         ))
       }
-    </Reveal>
+    </div>
   </section>
 
   <section class="powerhouse section-pad">
-    <Reveal client:visible className="reveal-shell">
-      <h2 class="font-display">
+    <div class="reveal-shell">
+      <h2 class="font-display" data-flip>
         We're a
         <br />
         Creative
         <br />
         Powerhouse
       </h2>
-      <blockquote>
+      <blockquote data-rise>
         In a world where everyone is trying to do everything, we choose to specialise in the
         creative design, marketing and tech industries.
       </blockquote>
       <p class="by">Neatian Meyal</p>
       <p class="role">CEO, Nova Industries tech agency</p>
-    </Reveal>
+    </div>
   </section>
 
   <section class="standards section-pad">
-    <Reveal client:visible className="reveal-shell">
-      <h2 class="font-display">Core Standards</h2>
-      <div class="grid">
+    <div class="reveal-shell">
+      <h2 class="font-display mask"><span class="line" data-rise>Core Standards</span></h2>
+      <div class="grid" data-rise>
         {
           coreStandards.map((s) => (
             <article>
@@ -65,13 +74,13 @@ import { companyStats, coreStandards, team } from '../data/company';
           ))
         }
       </div>
-    </Reveal>
+    </div>
   </section>
 
   <section class="team section-pad">
-    <Reveal client:visible className="reveal-shell">
-      <h2 class="font-display">Meet the Team</h2>
-      <div class="team-grid">
+    <div class="reveal-shell">
+      <h2 class="font-display mask"><span class="line" data-rise>Meet the Team</span></h2>
+      <div class="team-grid" data-rise>
         {
           team.map((m) => (
             <article>
@@ -82,13 +91,57 @@ import { companyStats, coreStandards, team } from '../data/company';
           ))
         }
       </div>
-    </Reveal>
+    </div>
   </section>
 </BaseLayout>
 
+<script>
+  // Framer "Cursor Image Trail" (desktop >= 1200): a 200x250 image spawns on the cursor every
+  // 163.45px of travel (frequency 10), cycling in order; springs in from blur/scale .8, holds
+  // 0.5s, springs out (k500 d60).
+  import { animate } from 'motion';
+
+  const hero = document.querySelector<HTMLElement>('[data-trail]');
+  if (hero && matchMedia('(min-width: 1200px)').matches && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const imgs: string[] = JSON.parse(hero.dataset.trail!);
+    imgs.forEach((src) => (new Image().src = src));
+    const spring = { type: 'spring' as const, stiffness: 500, damping: 60, mass: 1 };
+    let last: { x: number; y: number } | null = null;
+    let i = 0;
+    hero.addEventListener('mousemove', (e) => {
+      const r = hero.getBoundingClientRect();
+      const x = e.clientX - r.left;
+      const y = e.clientY - r.top;
+      if (last && Math.hypot(x - last.x, y - last.y) <= 163.45) return;
+      last = { x, y };
+      const el = document.createElement('div');
+      el.className = 'trail-img';
+      el.style.cssText = `left:${x - 100}px;top:${y - 125}px;background-image:url(${imgs[i]})`;
+      i = (i + 1) % imgs.length;
+      hero.append(el);
+      animate(el, { opacity: [0, 1], scale: [0.8, 1], filter: ['blur(10px)', 'blur(0px)'] }, spring);
+      setTimeout(() => animate(el, { opacity: 0, scale: 0.8, filter: 'blur(10px)' }, spring).then(() => el.remove()), 500);
+    });
+  }
+</script>
+
 <style>
   .hero {
+    position: relative;
     padding-block: 2.5rem 3.5rem;
+  }
+
+  .hero :global(.trail-img) {
+    position: absolute;
+    z-index: 2;
+    width: 200px;
+    height: 250px;
+    background: center / cover no-repeat;
+    pointer-events: none;
+  }
+
+  .powerhouse {
+    perspective: 1400px;
   }
 
   .hero h1 {

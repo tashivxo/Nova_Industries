@@ -5,12 +5,13 @@ import { projects } from '../../data/projects';
 ---
 
 <BaseLayout title="Works — Nova Industries" activePath="/project">
-  <section class="hero orb-field">
+  <section class="hero">
+    <div class="hero-bg orb-field" data-appear style="--ad:.1" aria-hidden="true"></div>
     <div class="lockup">
-      <p class="our">Our</p>
+      <p class="our" data-appear style="--ay:170;--ad:.3">Our</p>
       <h1 class="display-hero">
-        <span class="line featured">featured</span>
-        <span class="line work">work</span>
+        <span class="mask"><span class="line featured" data-appear style="--ay:170;--ad:.5">featured</span></span>
+        <span class="mask"><span class="line work" data-appear style="--ay:170;--ad:.7">work</span></span>
       </h1>
     </div>
   </section>
@@ -23,7 +24,14 @@ import { projects } from '../../data/projects';
 </BaseLayout>
 
 <style>
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
   .hero {
+    position: relative;
     min-height: 100svh;
     display: grid;
     place-items: center;

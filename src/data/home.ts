@@ -37,7 +37,7 @@ export const homeMetrics = [
 export const partnerMetricGroups = [
   {
     name: 'BetterBuilt',
-    logo: '/images/staging/betterbuilt/bb-box-logo.png',
+    logo: '/images/staging/betterbuilt/bb-wordmark.png',
     logoClass: 'logo-bb',
     stats: [homeMetrics[0], homeMetrics[1]],
   },

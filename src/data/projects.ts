@@ -22,7 +22,7 @@ export type Project = {
   relatedSlugs: string[];
 };
 
-export const projects: Project[] = [
+const projectList: Project[] = [
   {
     slug: 'crosswith-swag',
     title: 'crosswithswag',
@@ -304,6 +304,12 @@ export const projects: Project[] = [
     },
     relatedSlugs: ['crosswith-swag', 'custom-designed', 'only-the-brave'],
   },
+];
+
+const stagedSlugs = new Set(['crosswith-swag', 'free-period', 'better-built']);
+export const projects = [
+  ...projectList.filter((project) => stagedSlugs.has(project.slug)),
+  ...projectList.filter((project) => !stagedSlugs.has(project.slug)),
 ];
 
 export function getProject(slug: string) {

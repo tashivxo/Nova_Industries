@@ -60,11 +60,13 @@ import {
           partnerMetricGroups.map((group) => (
             <article class="metric-card">
               <div class:list={['partner-logo-wrap', group.logoClass]}>
-                {group.logoClass === 'logo-swag' ? (
-                  <span class="partner-word">{group.name}</span>
-                ) : (
-                  <img class="partner-logo" src={group.logo} alt={group.name} />
-                )}
+                {
+                  group.logoClass === 'logo-swag' ? (
+                    <span class="partner-word">{group.name}</span>
+                  ) : (
+                    <img class="partner-logo" src={group.logo} alt={group.name} />
+                  )
+                }
               </div>
               <div class="pair">
                 {group.stats.map((m) => (
@@ -385,11 +387,10 @@ import {
   }
 
   .logo-bb .partner-logo {
-    height: 3.6rem;
+    height: 2.25rem;
     width: 9.5rem;
-    object-fit: cover;
-    object-position: center 62%;
-    margin: -1rem 0;
+    object-fit: contain;
+    margin: -0.35rem 0;
   }
 
   .logo-bx .partner-logo {
@@ -398,11 +399,18 @@ import {
     max-width: 9.5rem;
   }
 
+  .logo-swag {
+    width: 7.2rem;
+    height: 1.55rem;
+    overflow: hidden;
+  }
+
   .partner-word {
     font-size: 0.95rem;
     font-weight: 500;
     letter-spacing: 0.04em;
     text-transform: lowercase;
+    color: rgba(255, 255, 255, 0.72);
   }
 
   .pair {

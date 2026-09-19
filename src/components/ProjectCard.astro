@@ -14,7 +14,15 @@ const { project } = Astro.props;
     <span class="eyebrow">{project.category}</span>
     <span class="eyebrow year">{project.year}</span>
   </div>
-  <div class:list={['media', { 'media-top': project.slug === 'free-period' || project.slug === 'better-built' }]}>
+  <div
+    class:list={[
+      'media',
+      {
+        'media-top': project.slug === 'free-period' || project.slug === 'better-built',
+        'media-wide': project.slug === 'free-period' || project.slug === 'better-built',
+      },
+    ]}
+  >
     <img src={project.image} alt={project.imageAlt} loading="lazy" />
   </div>
   <div class="titles">
@@ -60,6 +68,10 @@ const { project } = Astro.props;
 
   .media-top img {
     object-position: center top;
+  }
+
+  .media-wide {
+    aspect-ratio: 16 / 8.2;
   }
 
   .project-card:hover .media img,

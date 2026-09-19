@@ -1,3 +1,9 @@
+export type ProjectImage = {
+  src: string;
+  alt: string;
+  fit?: 'cover' | 'contain';
+};
+
 export type Project = {
   slug: string;
   title: string;
@@ -7,6 +13,8 @@ export type Project = {
   year: string;
   image: string;
   imageAlt: string;
+  imageFit?: 'cover' | 'contain';
+  imagePosition?: string;
   headline: string;
   intro: string;
   challenges: string[];
@@ -20,6 +28,8 @@ export type Project = {
     style: string;
   };
   relatedSlugs: string[];
+  galleryLabel?: string;
+  gallery?: ProjectImage[];
 };
 
 export const projects: Project[] = [
@@ -76,7 +86,7 @@ export const projects: Project[] = [
       typography: 'Condensed display, SWAG script, tight poster type',
       style: 'Closed-edition streetwear, cream on black, editorial dark UI',
     },
-    relatedSlugs: ['free-period', 'only-the-brave', 'sunscreen', 'custom-designed'],
+    relatedSlugs: ['free-period', 'betterbuilt', 'birdseye', 'custom-designed'],
   },
   {
     slug: 'free-period',
@@ -122,65 +132,130 @@ export const projects: Project[] = [
       typography: 'Geometric sans, high-contrast display headlines',
       style: 'Dark product marketing, aurora glow, tea-break clock pictogram',
     },
-    relatedSlugs: ['only-the-brave', 'web-design', 'crosswith-swag'],
+    relatedSlugs: ['betterbuilt', 'web-design', 'crosswith-swag'],
   },
   {
-    slug: 'only-the-brave',
-    title: 'Only The Brave',
-    titleLine2: 'Only The Brave',
-    client: 'Lereve',
-    category: 'ui/ux design // website design',
+    slug: 'betterbuilt',
+    title: 'Better Built',
+    titleLine2: 'Better Built',
+    client: 'Better Built',
+    category: 'branding // ecommerce // website',
     year: '2026',
-    image: '/images/projects/only-the-brave.webp',
-    imageAlt: 'Denim-wrapped cologne bottle held by hand',
-    headline: 'A digital experience with fragrance-level intensity',
+    image: '/images/staging/betterbuilt/site/bb-site-05.png',
+    imageAlt:
+      'Better Built collections: Bundles, Gym Apparel, and Accessories cards with leak-proof bottles, MagGrip bag, and gym towel',
+    imagePosition: 'center 22%',
+    headline: 'BETTER GEAR / BETTER PERFORMANCE / BETTER YOU',
     intro:
-      'Lereve needed a website that matched the boldness of Only The Brave—cinematic motion, confident typography, and a product story that feels exclusive.',
+      'Better Built is a South African gym-gear store at betterbuilt.co.za. Collections cover Bundles, Gym Apparel, and Accessories — leak-proof water bottle, MagGrip gym bag, premium towel, and the Ultimate Gym Bundle — with delivery anywhere in South Africa and free delivery on orders over R750. Home promo: complimentary gift with every bundle. Contact: support@betterbuilt.co.za. The case study uses store screenshots and the supplied BETTER BUILT™ lockup.',
     challenges: [
-      'Generic ecommerce templates',
-      'Weak narrative around scent identity',
-      'Low conversion on campaign landings',
-    ],
-    solutions: [
-      {
-        title: 'UI/UX Design',
-        items: ['Information Architecture', 'Campaign Pages', 'Product Detail UX', 'Motion Specs'],
-      },
-      {
-        title: 'Website Design',
-        items: ['Visual System', 'Responsive Layouts', 'Component Library', 'Launch QA'],
-      },
-    ],
-    relatedSlugs: ['web-design', 'crosswith-swag', 'custom-designed'],
-  },
-  {
-    slug: 'sunscreen',
-    title: 'sunscreen',
-    titleLine2: 'sunscreen',
-    client: 'syagi',
-    category: 'branding // marketing',
-    year: '2026',
-    image: '/images/projects/sunscreen.png',
-    imageAlt: 'SYAGI SPF 50++ sunscreen lotion on sand with water',
-    headline: 'Sun care branding that feels coastal and clinical',
-    intro:
-      'Syagi SPF needed a brand system that balanced outdoor lifestyle energy with trust and clarity for SPF messaging.',
-    challenges: [
-      'Crowded sunscreen aisle',
-      'Complex SPF claims hard to communicate',
-      'Inconsistent lifestyle photography',
+      'Gym gear that reads generic next to global sportswear templates',
+      'Bundles, apparel, and accessories need one clear shop hierarchy',
+      'Promo and delivery messaging easy to miss above the fold',
+      'Product lineup (bottle, bag, towel, bundle) needs equal shelf presence',
     ],
     solutions: [
       {
         title: 'Branding',
-        items: ['Identity Refresh', 'Packaging Hierarchy', 'Claim Typography', 'Campaign Art Direction'],
+        items: [
+          'BETTER BUILT™ speed-B lockup',
+          'Box logo system',
+          'Performance tagline hierarchy',
+          'Bundle gift promo line',
+        ],
       },
       {
-        title: 'Marketing',
-        items: ['Launch Narrative', 'Social Templates', 'Retail Story', 'Influencer Kit'],
+        title: 'Ecommerce',
+        items: [
+          'Collections: Bundles, Gym Apparel, Accessories',
+          'Products grid and filter/sort UX',
+          'Featured Ultimate Gym Bundle',
+          'Free delivery over R750 messaging',
+        ],
+      },
+      {
+        title: 'Website',
+        items: [
+          'Home hero and announcement bars',
+          'Shop and contact IA',
+          'support@betterbuilt.co.za contact flow',
+          'Email capture for drops and deals',
+        ],
       },
     ],
-    relatedSlugs: ['face-seram', 'custom-designed', 'crosswith-swag'],
+    identity: {
+      colors: 'Black, White, Smoke Grey',
+      typography: 'Bold sans headlines, uppercase nav',
+      style: 'High-contrast gym ecommerce, product-led grids, speed-B mark',
+    },
+    galleryLabel: 'Store & identity',
+    gallery: [
+      {
+        src: '/images/staging/betterbuilt/site/bb-site-04.png',
+        alt: 'Home hero: BETTER GEAR, BETTER PERFORMANCE, BETTER YOU over gym photography',
+      },
+      {
+        src: '/images/staging/betterbuilt/bb-logo-whatsapp.jpeg',
+        alt: 'BETTER BUILT™ speed-B lockup on black',
+        fit: 'contain',
+      },
+      {
+        src: '/images/staging/betterbuilt/site/bb-site-02.png',
+        alt: 'Products grid: leak-proof water bottle, MagGrip bag, towel, and Ultimate Gym Bundle',
+      },
+      {
+        src: '/images/staging/betterbuilt/site/bb-site-01.png',
+        alt: 'Home header, promo bars, and hero opening',
+      },
+      {
+        src: '/images/staging/betterbuilt/site/bb-site-03.png',
+        alt: 'Contact page: Get in Touch headline and support@betterbuilt.co.za',
+      },
+    ],
+    relatedSlugs: ['birdseye', 'crosswith-swag', 'free-period'],
+  },
+  {
+    slug: 'birdseye',
+    title: 'BXRDS.EYE',
+    titleLine2: 'BXRDS.EYE',
+    client: 'Birds Eye',
+    category: 'branding // identity',
+    year: '2026',
+    image: '/images/staging/birdseye/logo-mark-sand.png',
+    imageAlt: 'Sand BXRDS.EYE studio mark',
+    imageFit: 'contain',
+    headline: 'Sand mark. Dark field. Studio identity first.',
+    intro:
+      'BXRDS.EYE is a creative studio. This case holds the supplied studio identity — sand mark and wordmark — on dark, as specified for presentation. No campaign stills are in this set; the marks are the work on show.',
+    challenges: [
+      'A studio mark that has to read on dark without campaign photography',
+      'Mark, word, and lockup living as separate files',
+      'Keeping the studio distinct from unrelated Birds Eye brands',
+    ],
+    solutions: [
+      {
+        title: 'Branding',
+        items: ['Sand mark', 'Sand wordmark', 'Cyprus green and imperial red variants'],
+      },
+      {
+        title: 'Presentation',
+        items: ['Dark-background application', 'Mark-led Works card', 'Wordmark lockup in the case'],
+      },
+    ],
+    identity: {
+      colors: 'Sand, Cyprus Green, Imperial Red, Black',
+      typography: 'BXRDS.EYE wordmark',
+      style: 'Mark-led studio identity on dark',
+    },
+    galleryLabel: 'Studio marks',
+    gallery: [
+      {
+        src: '/images/staging/birdseye/logo-word-sand.png',
+        alt: 'Sand BXRDS.EYE Creative Studio wordmark',
+        fit: 'contain',
+      },
+    ],
+    relatedSlugs: ['betterbuilt', 'free-period', 'crosswith-swag'],
   },
   {
     slug: 'custom-designed',
@@ -209,7 +284,7 @@ export const projects: Project[] = [
         items: ['Launch Cadence', 'Community Content', 'Lookbook Direction', 'Email Visuals'],
       },
     ],
-    relatedSlugs: ['crosswith-swag', 'casual-shirt-marketing', 'sunscreen'],
+    relatedSlugs: ['crosswith-swag', 'casual-shirt-marketing', 'birdseye'],
   },
   {
     slug: 'web-design',
@@ -238,7 +313,7 @@ export const projects: Project[] = [
         items: ['Art Direction', 'Typography System', 'Responsive Grid', 'CMS Structure'],
       },
     ],
-    relatedSlugs: ['only-the-brave', 'free-period', 'face-seram'],
+    relatedSlugs: ['betterbuilt', 'free-period', 'face-seram'],
   },
   {
     slug: 'face-seram',
@@ -267,7 +342,7 @@ export const projects: Project[] = [
         items: ['Campaign Concept', 'Social System', 'Packaging Story', 'Retail Scripts'],
       },
     ],
-    relatedSlugs: ['sunscreen', 'custom-designed', 'web-design'],
+    relatedSlugs: ['birdseye', 'custom-designed', 'web-design'],
   },
   {
     slug: 'casual-shirt-marketing',
@@ -296,7 +371,7 @@ export const projects: Project[] = [
         items: ['Visual Motifs', 'Type Lockups', 'Color Accents', 'Merch Extensions'],
       },
     ],
-    relatedSlugs: ['crosswith-swag', 'custom-designed', 'only-the-brave'],
+    relatedSlugs: ['crosswith-swag', 'custom-designed', 'betterbuilt'],
   },
 ];
 

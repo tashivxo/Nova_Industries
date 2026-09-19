@@ -10,7 +10,16 @@ const { project, variant = 'grid' } = Astro.props;
 ---
 
 <a class:list={['project-card', variant]} href={`/project/${project.slug}`}>
-  <div class:list={['media', { 'media-free-period': project.slug === 'free-period' }]}>
+  <div
+    class:list={[
+      'media',
+      {
+        'media-free-period': project.slug === 'free-period',
+        'media-contain': project.imageFit === 'contain',
+      },
+    ]}
+    style={project.imagePosition ? `--media-pos: ${project.imagePosition}` : undefined}
+  >
     <img src={project.image} alt={project.imageAlt} loading="lazy" />
   </div>
   <div class="meta">
@@ -43,7 +52,13 @@ const { project, variant = 'grid' } = Astro.props;
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: var(--media-pos, center);
     transition: transform 0.6s ease;
+  }
+
+  .media-contain img {
+    object-fit: contain;
+    padding: clamp(1.25rem, 8%, 3rem);
   }
 
   .project-card:hover .media img {

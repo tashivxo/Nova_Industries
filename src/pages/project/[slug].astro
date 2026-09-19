@@ -20,7 +20,10 @@ const related = getRelatedProjects(project.slug);
     <p class="eyebrow">{project.category}</p>
     <p class="eyebrow year">{project.year}</p>
     <h1 class="font-display">{project.title}</h1>
-    <div class="media">
+    <div
+      class:list={['media', { 'media-contain': project.imageFit === 'contain' }]}
+      style={project.imagePosition ? `--media-pos: ${project.imagePosition}` : undefined}
+    >
       <img src={project.image} alt={project.imageAlt} />
     </div>
   </section>
@@ -66,6 +69,21 @@ const related = getRelatedProjects(project.slug);
         </div>
       )
     }
+
+    {
+      project.gallery && project.gallery.length > 0 && (
+        <div class="gallery">
+          <h3>{project.galleryLabel ?? 'Selected frames'}</h3>
+          <div class="gallery-grid">
+            {project.gallery.map((item) => (
+              <figure class:list={{ contain: item.fit === 'contain' }}>
+                <img src={item.src} alt={item.alt} loading="lazy" />
+              </figure>
+            ))}
+          </div>
+        </div>
+      )
+    }
   </section>
 
   <section class="related section-pad">
@@ -101,6 +119,12 @@ const related = getRelatedProjects(project.slug);
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: var(--media-pos, center);
+  }
+
+  .media-contain img {
+    object-fit: contain;
+    padding: clamp(1.5rem, 6%, 4rem);
   }
 
   .narrative {
@@ -133,7 +157,7 @@ const related = getRelatedProjects(project.slug);
 
   .solutions {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
     gap: 1.25rem;
   }
 
@@ -144,6 +168,46 @@ const related = getRelatedProjects(project.slug);
 
   .identity {
     margin-top: 2rem;
+  }
+
+  .gallery {
+    margin-top: 2.5rem;
+  }
+
+  .gallery h3 {
+    margin: 0 0 1rem;
+    font-size: 1.1rem;
+  }
+
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+  }
+
+  .gallery-grid figure {
+    margin: 0;
+    overflow: hidden;
+    background: #151515;
+    border: 1px solid var(--line);
+    aspect-ratio: 16 / 10;
+  }
+
+  .gallery-grid figure:first-child {
+    grid-column: 1 / -1;
+    aspect-ratio: 16 / 9;
+  }
+
+  .gallery-grid img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .gallery-grid figure.contain img {
+    object-fit: contain;
+    padding: 12%;
   }
 
   .related {
@@ -165,7 +229,8 @@ const related = getRelatedProjects(project.slug);
 
   @media (max-width: 900px) {
     .solutions,
-    .grid {
+    .grid,
+    .gallery-grid {
       grid-template-columns: 1fr;
     }
   }

@@ -6,25 +6,25 @@ interface Props {
   variant?: 'grid' | 'stack';
 }
 
-const { project, variant = 'grid' } = Astro.props;
+const { project } = Astro.props;
 ---
 
-<a class:list={['project-card', variant]} href={`/project/${project.slug}`}>
+<a class="project-card" href={`/project/${project.slug}`}>
+  <div class="meta">
+    <span class="eyebrow">{project.category}</span>
+    <span class="eyebrow year">{project.year}</span>
+  </div>
   <div
     class:list={[
       'media',
       {
-        'media-free-period': project.slug === 'free-period',
+        'media-top': project.slug === 'free-period' || project.slug === 'betterbuilt',
         'media-contain': project.imageFit === 'contain',
       },
     ]}
     style={project.imagePosition ? `--media-pos: ${project.imagePosition}` : undefined}
   >
     <img src={project.image} alt={project.imageAlt} loading="lazy" />
-  </div>
-  <div class="meta">
-    <span class="eyebrow">{project.category}</span>
-    <span class="eyebrow year">{project.year}</span>
   </div>
   <div class="titles">
     <div class="copy">
@@ -38,14 +38,26 @@ const { project, variant = 'grid' } = Astro.props;
 <style>
   .project-card {
     display: grid;
-    gap: 0.85rem;
+    gap: 0.7rem;
     color: inherit;
+  }
+
+  .meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+  }
+
+  .meta .eyebrow {
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.55);
   }
 
   .media {
     overflow: hidden;
     background: #151515;
-    aspect-ratio: 16 / 10;
+    aspect-ratio: 400 / 494;
   }
 
   .media img {
@@ -53,7 +65,11 @@ const { project, variant = 'grid' } = Astro.props;
     height: 100%;
     object-fit: cover;
     object-position: var(--media-pos, center);
-    transition: transform 0.6s ease;
+    transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .media-top img {
+    object-position: var(--media-pos, center top);
   }
 
   .media-contain img {
@@ -61,22 +77,9 @@ const { project, variant = 'grid' } = Astro.props;
     padding: clamp(1.25rem, 8%, 3rem);
   }
 
-  .project-card:hover .media img {
-    transform: scale(1.04);
-  }
-
-  .media-free-period {
-    aspect-ratio: 2.5 / 1;
-  }
-
-  .media-free-period img {
-    object-position: center top;
-  }
-
-  .meta {
-    display: flex;
-    justify-content: space-between;
-    gap: 1rem;
+  .project-card:hover .media img,
+  .project-card:focus-visible .media img {
+    transform: scale(1.045);
   }
 
   .titles {
@@ -88,39 +91,44 @@ const { project, variant = 'grid' } = Astro.props;
 
   .titles .client {
     margin: 0;
-    font-size: 0.85rem;
+    font-size: 0.75rem;
+    font-weight: 500;
     color: var(--muted);
     text-transform: uppercase;
-    letter-spacing: 0.06em;
+    letter-spacing: 0.02em;
   }
 
   .arrow {
     color: var(--accent);
-    font-size: 1.15rem;
+    font-size: 1.2rem;
     line-height: 1;
-    transform: translateY(0.15rem);
+    transform: translateY(0.35rem);
     transition: transform 0.25s ease;
   }
 
   .project-card:hover .arrow,
   .project-card:focus-visible .arrow {
-    transform: translate(0.12rem, 0.02rem);
+    transform: translate(0.12rem, 0.2rem);
   }
 
   .titles h3 {
-    margin: 0.2rem 0 0;
+    margin: 0.15rem 0 0;
     font-family: var(--font-display);
-    font-size: clamp(1.4rem, 3vw, 2rem);
+    font-size: clamp(1.35rem, 2.4vw, 1.85rem);
+    font-weight: 500;
     text-transform: uppercase;
-    letter-spacing: 0.04em;
-    line-height: 1;
+    letter-spacing: -0.03em;
+    line-height: 0.95;
   }
 
-  .stack .media {
-    aspect-ratio: 1.65 / 1;
-  }
+  @media (prefers-reduced-motion: reduce) {
+    .media img {
+      transition: none;
+    }
 
-  .stack .titles h3 {
-    font-size: clamp(1.8rem, 4vw, 3.5rem);
+    .project-card:hover .media img,
+    .project-card:focus-visible .media img {
+      transform: none;
+    }
   }
 </style>

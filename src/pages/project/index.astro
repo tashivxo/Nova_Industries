@@ -1,57 +1,30 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
 import { projects } from '../../data/projects';
 ---
 
 <BaseLayout title="Works — Nova Industries" activePath="/project">
-  <section class="hero crosshair">
+  <section class="hero orb-field">
     <div class="lockup">
       <p class="our">Our</p>
-      <h1 class="font-display">
+      <h1 class="display-hero">
         <span class="line featured">featured</span>
         <span class="line work">work</span>
       </h1>
     </div>
   </section>
 
-  <section class="stack" data-works-stack>
-    {
-      projects.map((project, index) => (
-        <article class="stack-item" style={`--i:${index}`}>
-          <a class="case" href={`/project/${project.slug}`}>
-            <div
-              class:list={[
-                'media',
-                {
-                  'media-free-period': project.slug === 'free-period',
-                  'media-contain': project.imageFit === 'contain',
-                },
-              ]}
-              style={project.imagePosition ? `--media-pos: ${project.imagePosition}` : undefined}
-            >
-              <img src={project.image} alt={project.imageAlt} loading="lazy" />
-              <div class="side-meta">
-                <span class="eyebrow">{project.category}</span>
-                <span class="eyebrow year">{project.year}</span>
-              </div>
-            </div>
-            <div class="titles">
-              <div class="copy">
-                <p class="client">{project.client}</p>
-                <h2>{project.titleLine2}</h2>
-              </div>
-              <span class="arrow" aria-hidden="true">↗</span>
-            </div>
-          </a>
-        </article>
-      ))
-    }
+  <section class="works section-pad">
+    <div class="stagger-grid">
+      {projects.map((project) => <ProjectCard project={project} />)}
+    </div>
   </section>
 </BaseLayout>
 
 <style>
   .hero {
-    min-height: 72svh;
+    min-height: 100svh;
     display: grid;
     place-items: center;
     padding: 5.5rem 1rem 3.5rem;
@@ -65,10 +38,11 @@ import { projects } from '../../data/projects';
 
   .our {
     width: max-content;
-    margin: 0 0 0.45rem 1rem;
+    margin: 0 0 0.2rem 0.22em;
     font-size: 1rem;
     font-weight: 400;
-    letter-spacing: 0.04em;
+    letter-spacing: 0;
+    line-height: 1.5;
     text-transform: uppercase;
   }
 
@@ -77,9 +51,6 @@ import { projects } from '../../data/projects';
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    font-size: clamp(5.5rem, 12.5vw, 11.25rem);
-    line-height: 0.94;
-    letter-spacing: -0.05em;
   }
 
   .line {
@@ -87,176 +58,35 @@ import { projects } from '../../data/projects';
   }
 
   .work {
-    margin-left: 0.64em;
+    margin-left: 0.42em;
   }
 
-  .stack {
-    padding: 0 0 18rem;
-  }
-
-  .stack-item {
-    position: sticky;
-    top: 5.5rem;
-    z-index: calc(10 + var(--i));
-    background: var(--bg);
-    padding-bottom: 22vh;
-    margin-bottom: -18vh;
-  }
-
-  .stack-item:last-child {
-    margin-bottom: 0;
-    padding-bottom: 4rem;
-  }
-
-  .case {
-    display: grid;
-    gap: 0;
-    color: inherit;
-  }
-
-  .media {
-    position: relative;
-    width: 100%;
-    height: min(72vh, 46rem);
-    overflow: hidden;
-    background: #151515;
-  }
-
-  .media-free-period {
-    height: auto;
-    aspect-ratio: 2.5 / 1;
-  }
-
-  .media img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: var(--media-pos, center);
-    transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
-  }
-
-  .media-contain img {
-    object-fit: contain;
-    padding: clamp(2rem, 10vh, 5rem);
-  }
-
-  .media-free-period img {
-    object-position: center top;
-  }
-
-  .side-meta {
-    position: absolute;
-    inset: 0 0 auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    gap: 1rem;
-    padding: 0.95rem clamp(1.25rem, 4vw, 3.5rem) 0.95rem clamp(7.25rem, 12vw, 10.5rem);
-    background: linear-gradient(180deg, rgba(0, 0, 0, 0.58), transparent);
-    z-index: 1;
-  }
-
-  .case:hover .media img,
-  .case:focus-visible .media img,
-  .stack-item:hover .media img {
-    transform: scale(1.045);
-  }
-
-  .titles {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 1.5rem;
-    padding: 0.85rem clamp(1.25rem, 4vw, 3.5rem) 0;
-  }
-
-  .client {
-    margin: 0;
-    font-size: 0.8rem;
-    color: var(--muted);
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-  }
-
-  .titles h2 {
-    margin: 0.2rem 0 0;
-    font-family: var(--font-display);
-    font-size: clamp(1.6rem, 3.4vw, 2.75rem);
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: -0.03em;
-    line-height: 0.95;
-  }
-
-  .arrow {
-    color: var(--accent);
-    font-size: 1.35rem;
-    line-height: 1;
-    transform: translateY(0.35rem);
-    transition: transform 0.25s ease;
-  }
-
-  .case:hover .arrow,
-  .case:focus-visible .arrow {
-    transform: translate(0.15rem, 0.15rem);
+  .works {
+    padding-block: 1rem 8rem;
   }
 
   @media (max-width: 900px) {
     .hero {
       min-height: 0;
       place-items: start center;
-      padding: 1.5rem 1.15rem 2rem;
+      padding: 5.25rem 1.15rem 2.25rem;
     }
 
     .our {
-      margin-left: 0.15rem;
-      font-size: 0.85rem;
+      margin-left: 0.12em;
+      font-size: 0.9rem;
     }
 
     .hero h1 {
       font-size: clamp(4.4rem, 22.5vw, 5.5rem);
-      line-height: 0.9;
     }
 
-    .stack-item {
-      position: relative;
-      top: auto;
-      margin-bottom: 2.75rem;
-      padding-bottom: 0;
+    .work {
+      margin-left: 0.28em;
     }
 
-    .media {
-      height: auto;
-      aspect-ratio: 350 / 333;
-      width: calc(100% - 2.3rem);
-      margin-inline: 1.15rem;
-    }
-
-    .side-meta {
-      padding: 0.75rem 0.85rem;
-    }
-
-    .titles {
-      padding-inline: 1.15rem;
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .stack-item {
-      position: relative;
-      top: auto;
-      margin-bottom: 3rem;
-      padding-bottom: 0;
-    }
-
-    .media img {
-      transition: none;
-    }
-
-    .case:hover .media img,
-    .case:focus-visible .media img,
-    .stack-item:hover .media img {
-      transform: none;
+    .works {
+      padding-block: 0.5rem 4rem;
     }
   }
 </style>

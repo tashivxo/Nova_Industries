@@ -32,7 +32,7 @@ export type Project = {
   gallery?: ProjectImage[];
 };
 
-export const projects: Project[] = [
+const projectList: Project[] = [
   {
     slug: 'crosswith-swag',
     title: 'crosswithswag',
@@ -373,6 +373,15 @@ export const projects: Project[] = [
     ],
     relatedSlugs: ['crosswith-swag', 'custom-designed', 'betterbuilt'],
   },
+];
+
+const stagedSlugs = new Set(['crosswith-swag', 'free-period', 'betterbuilt', 'birdseye']);
+
+// Leftover X-axis stills still in the grid: custom-designed, web-design, face-seram, casual-shirt-marketing.
+// Tashiv replaced only-the-brave and sunscreen with Better Built and BXRDS.EYE on main.
+export const projects = [
+  ...projectList.filter((project) => stagedSlugs.has(project.slug)),
+  ...projectList.filter((project) => !stagedSlugs.has(project.slug)),
 ];
 
 export function getProject(slug: string) {

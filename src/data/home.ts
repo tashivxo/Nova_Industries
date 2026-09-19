@@ -34,21 +34,23 @@ export const homeMetrics = [
   { value: '40%', label: 'Con rate optimization' },
 ];
 
-/** Template partner marks from the X-axis Framer strip — not Nova clients. */
 export const partnerMetricGroups = [
   {
-    name: 'Walter',
-    logo: '/images/ui/partners/walter.svg',
+    name: 'BetterBuilt',
+    logo: '/images/staging/betterbuilt/bb-wordmark.png',
+    logoClass: 'logo-bb',
     stats: [homeMetrics[0], homeMetrics[1]],
   },
   {
-    name: 'monosen',
-    logo: '/images/ui/partners/monosen.svg',
+    name: 'BXRDS.EYE',
+    logo: '/images/staging/birdseye/logo-word-sand.png',
+    logoClass: 'logo-bx',
     stats: [homeMetrics[2], homeMetrics[3]],
   },
   {
-    name: 'Overcut',
-    logo: '/images/ui/partners/overcut.svg',
+    name: 'crosswithswag',
+    logo: '/images/staging/crosswith/swag-logo.svg',
+    logoClass: 'logo-swag',
     stats: [homeMetrics[4], homeMetrics[5]],
   },
 ];
@@ -60,12 +62,20 @@ export const homeHeroStats = [
 ];
 
 export const skillPairs = [
-  ['Creative', 'Direction'],
-  ['UI/UX', 'Design'],
-  ['Branding', 'Strategy'],
-  ['Video', 'Editing'],
-  ['Motion', 'Design'],
-  ['Digital', 'Marketing'],
+  {
+    a: 'Creative',
+    b: 'Direction',
+    image: '/images/staging/crosswith/crosswith-04.jpg',
+  },
+  {
+    a: 'UI/UX',
+    b: 'Design',
+    image: '/images/staging/freeperiod/freeperiod-01-card.png',
+  },
+  { a: 'Branding', b: 'Strategy' },
+  { a: 'Video', b: 'Editing' },
+  { a: 'Motion', b: 'Design' },
+  { a: 'Digital', b: 'Marketing' },
 ];
 
 export const processSteps = [

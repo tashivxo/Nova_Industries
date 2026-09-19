@@ -25,11 +25,12 @@ Source: https://x-axis.framer.website/
 - `/pricing`
 - `/contact`
 
-## Works stack behavior
-- Full-bleed stacked case studies with scroll progression on desktop
-- Overlapping cards; category/year meta on sides
-- Mobile: stacked vertical cards without sticky overlap if needed
-- Reduced motion: static stack, no scroll-linked transform
+## Works layout (live Framer, 2026-09-19)
+
+- **Not** a sticky full-bleed stack. `/project` and home featured works are **staggered 2-up pairs**: items 1–2 left-aligned (cols 1–2 of 3), items 3–4 right-aligned (cols 2–3), repeating.
+- Category / year sit **above** the image; client + title + orange ↗ below.
+- Portrait-ish cards (~400×494 home). Mobile: single column, no sticky overlap.
+- Iteration 1 implemented this in `.stagger-grid` (`src/styles/global.css`). Do not restore sticky overlap.
 
 ## Assets
 Downloaded under `public/images/projects|blog|ui` from framerusercontent.com

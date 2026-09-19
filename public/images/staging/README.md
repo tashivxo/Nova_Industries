@@ -15,6 +15,7 @@ Better Built identity marks and store research.
 - **Logo sources (two different files — do not treat as the same asset):**
   - `bb-box-logo.png` — box logo from Juran’s BB Logo email (Gmail).
   - `bb-logo-whatsapp.jpeg` — BETTER BUILT™ speed-B lockup from WhatsApp.
+  - `bb-wordmark.png` — transparent, tightly cropped derivative used by the Nova partner strip.
 - **Site research** (password-gated store at [betterbuilt.co.za](https://betterbuilt.co.za/) — do **not** commit the store password):
   - `site/bb-site-01.png` — home/header and hero opening view
   - `site/bb-site-02.png` — Products collection page

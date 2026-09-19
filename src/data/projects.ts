@@ -151,7 +151,7 @@ export const projects: Project[] = [
         items: ['Visual System', 'Responsive Layouts', 'Component Library', 'Launch QA'],
       },
     ],
-    relatedSlugs: ['web-design', 'crosswith-swag', 'custom-designed'],
+    relatedSlugs: ['web-design', 'crosswith-swag', 'better-built'],
   },
   {
     slug: 'sunscreen',
@@ -209,7 +209,7 @@ export const projects: Project[] = [
         items: ['Launch Cadence', 'Community Content', 'Lookbook Direction', 'Email Visuals'],
       },
     ],
-    relatedSlugs: ['crosswith-swag', 'casual-shirt-marketing', 'sunscreen'],
+    relatedSlugs: ['crosswith-swag', 'better-built', 'sunscreen'],
   },
   {
     slug: 'web-design',
@@ -270,32 +270,38 @@ export const projects: Project[] = [
     relatedSlugs: ['sunscreen', 'custom-designed', 'web-design'],
   },
   {
-    slug: 'casual-shirt-marketing',
-    title: 'casual shirt marketing',
-    titleLine2: 'casual shirt marketing',
-    client: 'easy fashion',
-    category: 'marketing // branding',
+    slug: 'better-built',
+    title: 'BetterBuilt',
+    titleLine2: 'BetterBuilt',
+    client: 'BetterBuilt',
+    category: 'branding // website design',
     year: '2026',
-    image: '/images/projects/casual-shirt-marketing.webp',
-    imageAlt: 'Man holding a yellow TV with static',
-    headline: 'Casualwear campaigns with cultural energy',
+    image: '/images/staging/betterbuilt/site/bb-site-04.png',
+    imageAlt:
+      'BetterBuilt storefront hero: Better Gear / Better Performance / Better You over gym-ready product photography',
+    headline: 'Better gear. Better performance. Better you.',
     intro:
-      'Easy Fashion needed marketing creative that felt youthful, kinetic, and instantly shareable across social drops.',
+      'BetterBuilt is a South African gym-apparel and accessories store. We captured the storefront, collections, and identity so the brand reads as performance gear — not generic fitness merch.',
     challenges: [
-      'Seasonal content burnout',
-      'Weak brand memorability',
-      'Inconsistent campaign photography',
+      'Fitness retail that looks like every other gym shop',
+      'Collections (bundles, apparel, accessories) without a clear visual system',
+      'A locked storefront that still needs to feel premium on first view',
     ],
     solutions: [
       {
-        title: 'Marketing',
-        items: ['Campaign Worlds', 'Shot Lists', 'Social Sequencing', 'Influencer Briefs'],
+        title: 'Branding',
+        items: ['BETTER BUILT™ speed-B lockup', 'Performance type hierarchy', 'Dark store chrome'],
       },
       {
-        title: 'Branding',
-        items: ['Visual Motifs', 'Type Lockups', 'Color Accents', 'Merch Extensions'],
+        title: 'Website Design',
+        items: ['Hero and collections rhythm', 'Product grid', 'Contact and service paths'],
       },
     ],
+    identity: {
+      colors: 'Black, White, Performance Pink',
+      typography: 'Condensed athletic sans, uppercase lockups',
+      style: 'Gym-performance retail, high-contrast product stills',
+    },
     relatedSlugs: ['crosswith-swag', 'custom-designed', 'only-the-brave'],
   },
 ];

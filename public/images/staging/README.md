@@ -8,6 +8,30 @@ Do not treat this folder as live case-study media. Template images under `public
 
 ## Inventory
 
+### `betterbuilt/`
+
+Better Built box / identity mark.
+
+- **Source:** Juran BB Logo email.
+- `bb-box-logo.png` — box logo as provided.
+
+Not referenced from `projects.ts` yet.
+
+### `birdseye/`
+
+BXRDS.EYE studio marks (not the Wikipedia / Nomad Foods Birds Eye frozen-food logo).
+
+- **Source:** Bakang Bxrds.eye logos email.
+- `logo.png` — full colour lockup.
+- `logo-word.png` — wordmark.
+- `logo-mark.png` — mark / diamond axis.
+- Colour variants: `logo-sand.png`, `logo-cyprus-green.png`, `logo-imperial-red.png`.
+- Wordmark colour variants: `logo-word-sand.png`, `logo-word-cyprus-green.png`, `logo-word-imperial-red.png`.
+- Mark colour variants: `logo-mark-sand.png`, `logo-mark-cyprus-green.png`, `logo-mark-imperial-red.png`.
+- **When wiring later, prefer `logo-mark-sand.png` / `logo-word-sand.png` for dark backgrounds.**
+
+Not referenced from `projects.ts` yet. Bakang’s large campaign drop under `assets/website-2.0/` is client work, not the studio logo — do not copy it here.
+
 ### `crosswith/`
 
 Crosswith / SWAG campaign and identity stills.
@@ -28,13 +52,3 @@ Crosswith / SWAG campaign and identity stills.
   - `freeperiod-01.png` — dark-mode hero (“Lesson plans in seconds, not hours”)
   - `freeperiod-02.png` — “Why Teachers Love FreePeriod” feature cards
   - `freeperiod-03.png` — closing CTA (“Ready to reclaim your evenings?”)
-
-### `birdseye/`
-
-- Studio marks **not copied yet** (this agent cannot read the private source repo).
-- **Intended files** from [odwamanitshana/bxrds-eye-website](https://github.com/odwamanitshana/bxrds-eye-website) branch `cursor/brand-export-logos-7bcf` (PR #2):
-  - `brand-export/bxrds-eye-lockup-sand-transparent.png` → PRIMARY sand lockup for dark backgrounds
-  - `brand-export/bxrds-eye-diamond-axis-cyprus-transparent.png` → icon only
-- Bakang’s big drop lives on `development` under `assets/website-2.0/` (client campaigns — **not** the studio logo). Not copied.
-- Do **not** use the Wikipedia / Nomad Foods Birds Eye frozen-food logo.
-- GitHub App / environment grant is only `tashivxo/Nova_Industries`, so clone/API of that repo 404s. See `birdseye/README.md`.

@@ -39,7 +39,7 @@ function isActive(href: string, path: string) {
     Contact
   </a>
 
-  <button type="button" class="mobile-toggle" aria-label="Open menu" data-menu-toggle>
+  <button type="button" class="mobile-toggle" aria-label="Menu" aria-expanded="false" data-menu-toggle>
     <span></span><span></span><span></span>
   </button>
 </header>
@@ -59,7 +59,8 @@ function isActive(href: string, path: string) {
 
 <style>
   .site-header {
-    position: fixed;
+    /* Framer's nav scrolls away with the page; fixed made it sit on top of every section. */
+    position: absolute;
     inset: 0 0 auto 0;
     z-index: 50;
     display: grid;
@@ -153,7 +154,7 @@ function isActive(href: string, path: string) {
   .mobile-drawer {
     position: fixed;
     inset: 0;
-    z-index: 60;
+    z-index: 40; /* under the header so the toggle stays tappable to close */
     background: rgba(13, 13, 13, 0.98);
     padding: 5.5rem var(--page-x) 2rem;
   }
@@ -212,5 +213,6 @@ function isActive(href: string, path: string) {
     const open = !drawer?.hasAttribute('hidden');
     if (open) drawer?.setAttribute('hidden', '');
     else drawer?.removeAttribute('hidden');
+    toggle?.setAttribute('aria-expanded', String(!open));
   });
 </script>

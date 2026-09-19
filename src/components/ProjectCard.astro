@@ -18,9 +18,11 @@ const { project } = Astro.props;
     class:list={[
       'media',
       {
-        'media-top': project.slug === 'free-period' || project.slug === 'better-built',
+        'media-top': project.slug === 'free-period' || project.slug === 'betterbuilt',
+        'media-contain': project.imageFit === 'contain',
       },
     ]}
+    style={project.imagePosition ? `--media-pos: ${project.imagePosition}` : undefined}
   >
     <img src={project.image} alt={project.imageAlt} loading="lazy" />
   </div>
@@ -62,11 +64,17 @@ const { project } = Astro.props;
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: var(--media-pos, center);
     transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
   }
 
   .media-top img {
-    object-position: center top;
+    object-position: var(--media-pos, center top);
+  }
+
+  .media-contain img {
+    object-fit: contain;
+    padding: clamp(1.25rem, 8%, 3rem);
   }
 
   .project-card:hover .media img,

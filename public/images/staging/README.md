@@ -10,10 +10,18 @@ Do not treat this folder as live case-study media. Template images under `public
 
 ### `betterbuilt/`
 
-Better Built box / identity mark.
+Better Built identity marks and store research.
 
-- **Source:** Juran BB Logo email.
-- `bb-box-logo.png` — box logo as provided.
+- **Logo sources (two different files — do not treat as the same asset):**
+  - `bb-box-logo.png` — box logo from Juran’s BB Logo email (Gmail).
+  - `bb-logo-whatsapp.jpeg` — BETTER BUILT™ speed-B lockup from WhatsApp.
+- **Site research** (password-gated store at [betterbuilt.co.za](https://betterbuilt.co.za/) — do **not** commit the store password):
+  - `site/bb-site-01.png` — home/header and hero opening view
+  - `site/bb-site-02.png` — Products collection page
+  - `site/bb-site-03.png` — Contact page
+  - `site/bb-site-04.png` — home hero (“BETTER GEAR / BETTER PERFORMANCE / BETTER YOU”)
+  - `site/bb-site-05.png` — home Collections section (BUNDLES, GYM APPAREL, ACCESSORIES)
+  - `site/site-notes.md` — captured page titles, copy, products, and contact info
 
 Not referenced from `projects.ts` yet.
 

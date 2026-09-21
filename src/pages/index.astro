@@ -45,25 +45,6 @@ const skillKeys = (i: number, rest: Record<string, number>, peak: Record<string,
         <h1 class="display-hero agency" data-appear style="--ay:170;--ad:.7">Agency</h1>
         <p class="for-tech" data-appear style="--ay:100;--ad:.8">For tech brands</p>
       </div>
-      <!-- Framer desktop video is a sibling overlay (z-index 10), not nested in the lockup.
-           Scale 1→5.6 + y 0→1240 keeps it in view as Hero Content (100vh) scrolls. -->
-      <div class="hero-overlay" data-appear style="--ay:170;--ad:.3" data-hero-track=".hero-slot">
-        <div
-          class="hero-scrub"
-          data-scrub-min="1200"
-          data-scrub='[{"at":0,"v":{}},{"at":"#hero-m1","v":{"scale":2.2,"y":400}},{"at":"#hero-m2","v":{"scale":3.4,"y":700}},{"at":"#hero-m3","v":{"scale":4.8,"y":1000}},{"at":"#hero-m4","v":{"scale":5.6,"y":1240}}]'
-        >
-          <video
-            src="/images/hero/hero-loop.mp4"
-            autoplay
-            muted
-            loop
-            playsinline
-            preload="metadata"
-            aria-hidden="true"
-          ></video>
-        </div>
-      </div>
       <div class="hero-stats" data-appear style="--ay:170;--ad:.9">
         {
           homeHeroStats.map((s) => (
@@ -78,6 +59,27 @@ const skillKeys = (i: number, rest: Record<string, number>, peak: Record<string,
         <span class="lead">We don’t believe in one-size-fits-all solutions.</span>
         Every brand has its own story. Our job is to align strategy.
       </p>
+    </div>
+    <!-- Sticky viewport clip. Scale-only scrub (no y) — y-compensation fought Lenis
+         because the overlay lived in the scrolling 100vh hero. -->
+    <div class="hero-pin" aria-hidden="true">
+      <div class="hero-overlay" data-appear style="--ay:170;--ad:.3" data-hero-track=".hero-slot">
+        <div
+          class="hero-scrub"
+          data-scrub-min="1200"
+          data-scrub-spring="none"
+          data-scrub='[{"at":0,"v":{}},{"at":"#hero-m1","v":{"scale":2.2}},{"at":"#hero-m2","v":{"scale":3.4}},{"at":"#hero-m3","v":{"scale":4.8}},{"at":"#hero-m4","v":{"scale":5.6}}]'
+        >
+          <video
+            src="/images/hero/hero-loop.mp4"
+            autoplay
+            muted
+            loop
+            playsinline
+            preload="metadata"
+          ></video>
+        </div>
+      </div>
     </div>
     {[1, 2, 3, 4].map((i) => <span class="hero-marker" id={`hero-m${i}`} style={`--i:${i - 1}`} aria-hidden="true" />)}
   </section>
@@ -246,10 +248,11 @@ const skillKeys = (i: number, rest: Record<string, number>, peak: Record<string,
 </script>
 
 <style>
-  /* Framer Hero Section: overflow hidden, height = 100vh content + 4×300px markers + 3×24px gaps. */
+  /* Hero Section is overflow:visible so a sticky pin can hold the video. The pin
+     itself clips the expand to 100vh. Extra height = 4×300px markers + 3×24px gaps. */
   .hero-section {
     position: relative;
-    overflow: hidden;
+    overflow: visible;
   }
 
   .hero {
@@ -326,8 +329,9 @@ const skillKeys = (i: number, rest: Record<string, number>, peak: Record<string,
     background: #111;
   }
 
-  /* Desktop overlay: Framer `.framer-1uvli6n-container` — absolute in the 100vh
-     Hero Content, z-index 10, starts at the slot then scale+y scrubs independently. */
+  /* Desktop overlay: Framer `.framer-1uvli6n-container` — rest size ~19%×19vh,
+     z-index 10. We pin it in a sticky 100vh clip instead of fake-pinning with y. */
+  .hero-pin,
   .hero-overlay {
     display: none;
   }
@@ -861,19 +865,43 @@ const skillKeys = (i: number, rest: Record<string, number>, peak: Record<string,
       visibility: hidden;
     }
 
+    .hero-pin {
+      display: block;
+      position: sticky;
+      top: 0;
+      height: 100svh;
+      margin-top: -100svh;
+      overflow: hidden;
+      z-index: 10;
+      pointer-events: none;
+    }
+
     .hero-overlay {
       display: block;
       position: absolute;
-      z-index: 10;
-      /* Framer rest rect; JS `data-hero-track` overwrites to the live slot. */
+      /* Framer rest rect; JS `data-hero-track` overwrites from the live slot. */
       width: 19%;
       height: 19vh;
       top: calc(46.125% - 9.5vh);
       left: 41.1207%;
       overflow: visible;
-      background: #111;
+      background: transparent;
       pointer-events: none;
-      will-change: transform;
+    }
+
+    .hero-scrub {
+      position: absolute;
+      inset: 0;
+      background: transparent;
+    }
+
+    .hero-overlay video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
     }
   }
 

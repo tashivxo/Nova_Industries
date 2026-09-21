@@ -152,8 +152,8 @@ function layoutTop(el: HTMLElement) {
   return y;
 }
 
-// Pin the desktop overlay to the lockup slot's rest rect (Framer sizes it 19%×19vh
-// over the gap; Nova's slot is the live source so Design vs Creative still lines up).
+// Pin the desktop overlay to the lockup slot's *layout* rect (not getBoundingClientRect).
+// The overlay lives in a sticky 100vh clip; viewport rects would follow the scrolling slot.
 function placeHeroOverlay() {
   for (const el of document.querySelectorAll<HTMLElement>('[data-hero-track]')) {
     const min = parseFloat(el.querySelector<HTMLElement>('[data-scrub]')?.dataset.scrubMin || el.dataset.scrubMin || '0');
@@ -162,14 +162,20 @@ function placeHeroOverlay() {
       continue;
     }
     const slot = document.querySelector<HTMLElement>(el.dataset.heroTrack!);
-    const parent = el.offsetParent as HTMLElement | null;
-    if (!slot || !parent) continue;
-    const sr = slot.getBoundingClientRect();
-    const pr = parent.getBoundingClientRect();
-    el.style.left = `${sr.left - pr.left}px`;
-    el.style.top = `${sr.top - pr.top}px`;
-    el.style.width = `${sr.width}px`;
-    el.style.height = `${sr.height}px`;
+    const hero = slot?.closest<HTMLElement>('.hero');
+    if (!slot || !hero) continue;
+    let l = 0;
+    let t = 0;
+    for (let e: HTMLElement | null = slot; e && e !== hero; e = e.offsetParent as HTMLElement | null) {
+      l += e.offsetLeft;
+      t += e.offsetTop;
+      const rel = parseFloat(getComputedStyle(e).top);
+      if (!Number.isNaN(rel)) t += rel;
+    }
+    el.style.left = `${l}px`;
+    el.style.top = `${t}px`;
+    el.style.width = `${slot.offsetWidth}px`;
+    el.style.height = `${slot.offsetHeight}px`;
   }
 }
 
@@ -285,7 +291,11 @@ if (!reduced) {
   inViewPlay();
   const tickScrub = scrollFx();
   const loop = (now: number) => {
-    lenis.raf(now);
+    try {
+      lenis.raf(now);
+    } catch {
+      /* keep the scrub loop alive if Lenis throws a frame */
+    }
     checkWatches();
     tickScrub(now);
     requestAnimationFrame(loop);

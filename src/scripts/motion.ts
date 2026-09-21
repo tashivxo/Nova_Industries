@@ -180,6 +180,38 @@ function placeHeroOverlay() {
   }
 }
 
+const CHROME_PIN = 180;
+
+function pinHeroChrome() {
+  const inner = document.querySelector<HTMLElement>('.hero-chrome-inner');
+  const section = document.querySelector<HTMLElement>('.hero-section');
+  if (!inner || !section) return;
+  if (innerWidth < 1200) {
+    inner.style.position = inner.style.top = inner.style.left = inner.style.right = inner.style.width = '';
+    return;
+  }
+  const h = inner.offsetHeight || 1;
+  const restTop = innerHeight - h;
+  const y = scrollNow();
+  const secTop = layoutTop(section);
+  const secH = section.offsetHeight;
+  const natural = restTop - (y - secTop);
+  const keepFixed = secTop + secH - y > CHROME_PIN + h;
+  inner.style.left = '0';
+  inner.style.right = '0';
+  inner.style.width = '100%';
+  if (natural > CHROME_PIN) {
+    inner.style.position = 'absolute';
+    inner.style.top = `${restTop}px`;
+  } else if (keepFixed) {
+    inner.style.position = 'fixed';
+    inner.style.top = `${CHROME_PIN}px`;
+  } else {
+    inner.style.position = 'absolute';
+    inner.style.top = `${secH - h}px`;
+  }
+}
+
 function scrollFx() {
   const items: Item[] = [];
   const base = { pos: [], top: 0, h: 0, x: null, v: {} };
@@ -205,6 +237,7 @@ function scrollFx() {
     const vh = innerHeight;
     const max = document.documentElement.scrollHeight - vh;
     placeHeroOverlay();
+    pinHeroChrome();
     for (const it of items) {
       if (it.rise) {
         it.top = layoutTop(it.el);
@@ -252,14 +285,19 @@ function scrollFx() {
       if (!it.x || !it.spring) it.x = { ...t };
       else {
         const [k, c, m] = it.spring;
-        const n = Math.max(1, Math.ceil(dt / 0.004));
+        // Framer k400/d60/m0.1 has a ~0.0017s fast pole; 4ms Euler steps explode.
+        const n = Math.max(1, Math.ceil(dt / 0.0005));
         const h = dt / n;
         for (const p in t) {
-          let x = it.x[p];
+          let x = it.x[p] ?? t[p];
           let v = it.v[p] ?? 0;
           for (let s = 0; s < n; s++) {
             v += ((-k * (x - t[p]) - c * v) / m) * h;
             x += v * h;
+          }
+          if (!Number.isFinite(x) || !Number.isFinite(v) || Math.abs(x) > 1e5) {
+            x = t[p];
+            v = 0;
           }
           it.x[p] = x;
           it.v[p] = v;
@@ -298,6 +336,7 @@ if (!reduced) {
       /* keep the scrub loop alive if Lenis throws a frame */
     }
     checkWatches();
+    pinHeroChrome();
     tickScrub(now);
     requestAnimationFrame(loop);
   };

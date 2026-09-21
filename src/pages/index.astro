@@ -46,10 +46,9 @@ const skillKeys = (i: number, rest: Record<string, number>, peak: Record<string,
         <p class="for-tech" data-appear style="--ay:100;--ad:.8">For tech brands</p>
       </div>
     </div>
-    <!-- Framer `.framer-2ii1f9` Description: sticky top 180px, z-index 1, so stats/copy
-         stay in the video’s cover path instead of escaping to the corners. -->
+    <!-- Framer Description `.framer-2ii1f9`: rest on the 100vh bottom, then pin at
+         180px / z-index 1 so the expand covers stats/copy instead of them escaping. -->
     <div class="hero-chrome">
-      <div class="hero-chrome-spacer" aria-hidden="true"></div>
       <div class="hero-chrome-inner">
         <div class="hero-stats" data-appear style="--ay:170;--ad:.9">
           {
@@ -254,11 +253,12 @@ const skillKeys = (i: number, rest: Record<string, number>, peak: Record<string,
 </script>
 
 <style>
-  /* Framer Hero Section: overflow hidden (clips expand + contains sticky chrome).
-     Extra height = 4×300px markers + 3×24px gaps. */
+  /* Framer Hero Section clips the expand; we clip on `.hero-pin` instead so
+     `position: sticky` chrome can use the viewport as its scrollport. Extra
+     height = 4×300px markers + 3×24px gaps. */
   .hero-section {
     position: relative;
-    overflow: hidden;
+    overflow: visible;
   }
 
   .hero {
@@ -876,30 +876,25 @@ const skillKeys = (i: number, rest: Record<string, number>, peak: Record<string,
       visibility: hidden;
     }
 
-    /* Out of flow so it doesn’t shift the sticky pin. Spacer + sticky inner
-       matches Framer Description (top 180px) from the 100vh rest through unpin. */
+    /* Track is the full section so JS can pin the row at 180px (Framer Description)
+       without overflow:hidden killing `position: sticky`. Rest CSS is the 100vh bottom. */
     .hero-chrome {
       position: absolute;
-      inset: 0 0 auto;
-      height: calc(100svh + 1272px);
-      pointer-events: none;
+      inset: 0;
       z-index: 1;
-    }
-
-    .hero-chrome-spacer {
-      height: calc(100svh - 2.35rem - 5.05rem);
+      pointer-events: none;
     }
 
     .hero-chrome-inner {
-      position: sticky;
-      top: 180px;
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: calc(100svh - 2.35rem - 5.05rem);
       display: flex;
       justify-content: space-between;
       align-items: flex-end;
       gap: 2rem;
       width: 100%;
-      max-width: 1320px;
-      margin-inline: auto;
       padding: 0 var(--page-x) 2.35rem;
       box-sizing: border-box;
       pointer-events: none;
@@ -974,13 +969,10 @@ const skillKeys = (i: number, rest: Record<string, number>, peak: Record<string,
       pointer-events: none;
     }
 
-    .hero-chrome-spacer {
-      display: none;
-    }
-
     .hero-chrome-inner {
       position: relative;
       height: 100%;
+      top: auto;
     }
   }
 

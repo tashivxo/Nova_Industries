@@ -8,8 +8,9 @@
 //                          data-reveal-root on an ancestor makes that ancestor the in-view trigger.
 //   data-scrub='[...]'     scroll-linked keyframes (see Key), data-scrub-min="1200" desktop only,
 //                          data-scrub-spring="none" for Framer's raw onScroll (no smoothing)
-//   data-hero-track        desktop overlay: copy the slot's rest rect so scale+y runs from the lockup gap
-//                          (Framer's video is a z-index 10 sibling of Hero Content, not nested in it)
+//   data-hero-track        desktop overlay: copy the slot's rest rect so scale runs from the lockup gap
+//                          (Framer's video is a z-index 10 sibling of Hero Content; we pin with sticky
+//                          instead of Framer's y 0→1240, which lagged Lenis and rode off-screen)
 //   data-count="a,b"       number counter (data-prefix / data-suffix), once in view, spring 2s bounce 0
 //   data-flip              company Text Flip, once 5% in view, desktop >= 1024
 //   data-inview-play       video plays only while on screen

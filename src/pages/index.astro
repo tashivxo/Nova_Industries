@@ -45,29 +45,35 @@ const skillKeys = (i: number, rest: Record<string, number>, peak: Record<string,
         <h1 class="display-hero agency" data-appear style="--ay:170;--ad:.7">Agency</h1>
         <p class="for-tech" data-appear style="--ay:100;--ad:.8">For tech brands</p>
       </div>
-      <div class="hero-stats" data-appear style="--ay:170;--ad:.9">
-        {
-          homeHeroStats.map((s) => (
-            <div>
-              <strong>{s.value}</strong>
-              <span>{s.label}</span>
-            </div>
-          ))
-        }
-      </div>
-      <p class="hero-copy" data-appear style="--ay:170;--ad:.9">
-        <span class="lead">We don’t believe in one-size-fits-all solutions.</span>
-        Every brand has its own story. Our job is to align strategy.
-      </p>
     </div>
-    <!-- Sticky viewport clip. Scale-only scrub (no y) — y-compensation fought Lenis
-         because the overlay lived in the scrolling 100vh hero. -->
+    <!-- Framer `.framer-2ii1f9` Description: sticky top 180px, z-index 1, so stats/copy
+         stay in the video’s cover path instead of escaping to the corners. -->
+    <div class="hero-chrome">
+      <div class="hero-chrome-spacer" aria-hidden="true"></div>
+      <div class="hero-chrome-inner">
+        <div class="hero-stats" data-appear style="--ay:170;--ad:.9">
+          {
+            homeHeroStats.map((s) => (
+              <div>
+                <strong>{s.value}</strong>
+                <span>{s.label}</span>
+              </div>
+            ))
+          }
+        </div>
+        <p class="hero-copy" data-appear style="--ay:170;--ad:.9">
+          <span class="lead">We don’t believe in one-size-fits-all solutions.</span>
+          Every brand has its own story. Our job is to align strategy.
+        </p>
+      </div>
+    </div>
+    <!-- Sticky viewport clip matches Framer’s y 0→1240 pin without fighting Lenis.
+         Scale 1→5.6 uses Framer’s scroll spring (k400 d60 m0.1). -->
     <div class="hero-pin" aria-hidden="true">
       <div class="hero-overlay" data-appear style="--ay:170;--ad:.3" data-hero-track=".hero-slot">
         <div
           class="hero-scrub"
           data-scrub-min="1200"
-          data-scrub-spring="none"
           data-scrub='[{"at":0,"v":{}},{"at":"#hero-m1","v":{"scale":2.2}},{"at":"#hero-m2","v":{"scale":3.4}},{"at":"#hero-m3","v":{"scale":4.8}},{"at":"#hero-m4","v":{"scale":5.6}}]'
         >
           <video
@@ -248,11 +254,11 @@ const skillKeys = (i: number, rest: Record<string, number>, peak: Record<string,
 </script>
 
 <style>
-  /* Hero Section is overflow:visible so a sticky pin can hold the video. The pin
-     itself clips the expand to 100vh. Extra height = 4×300px markers + 3×24px gaps. */
+  /* Framer Hero Section: overflow hidden (clips expand + contains sticky chrome).
+     Extra height = 4×300px markers + 3×24px gaps. */
   .hero-section {
     position: relative;
-    overflow: visible;
+    overflow: hidden;
   }
 
   .hero {
@@ -351,6 +357,11 @@ const skillKeys = (i: number, rest: Record<string, number>, peak: Record<string,
     height: 100%;
     max-width: 100%;
     object-fit: cover;
+  }
+
+  .hero-chrome {
+    position: relative;
+    z-index: 1;
   }
 
   .hero-stats {
@@ -865,6 +876,50 @@ const skillKeys = (i: number, rest: Record<string, number>, peak: Record<string,
       visibility: hidden;
     }
 
+    /* Out of flow so it doesn’t shift the sticky pin. Spacer + sticky inner
+       matches Framer Description (top 180px) from the 100vh rest through unpin. */
+    .hero-chrome {
+      position: absolute;
+      inset: 0 0 auto;
+      height: calc(100svh + 1272px);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .hero-chrome-spacer {
+      height: calc(100svh - 2.35rem - 5.05rem);
+    }
+
+    .hero-chrome-inner {
+      position: sticky;
+      top: 180px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 2rem;
+      width: 100%;
+      max-width: 1320px;
+      margin-inline: auto;
+      padding: 0 var(--page-x) 2.35rem;
+      box-sizing: border-box;
+      pointer-events: none;
+    }
+
+    .hero-stats,
+    .hero-copy {
+      position: static;
+      left: auto;
+      right: auto;
+      bottom: auto;
+      width: auto;
+      z-index: auto;
+    }
+
+    .hero-copy {
+      text-align: right;
+      width: min(22rem, 34vw);
+    }
+
     .hero-pin {
       display: block;
       position: sticky;
@@ -902,6 +957,30 @@ const skillKeys = (i: number, rest: Record<string, number>, peak: Record<string,
       height: 100%;
       object-fit: cover;
       display: block;
+    }
+  }
+
+  @media (max-width: 1199px) {
+    .hero-section {
+      overflow: visible;
+    }
+
+    .hero-chrome {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      height: 100svh;
+      pointer-events: none;
+    }
+
+    .hero-chrome-spacer {
+      display: none;
+    }
+
+    .hero-chrome-inner {
+      position: relative;
+      height: 100%;
     }
   }
 
@@ -965,6 +1044,17 @@ const skillKeys = (i: number, rest: Record<string, number>, peak: Record<string,
       top: auto !important;
       width: 100% !important;
       height: 100% !important;
+    }
+
+    .hero-chrome {
+      position: static;
+      height: auto;
+      padding: 0 var(--page-x) 2.5rem;
+      pointer-events: auto;
+    }
+
+    .hero-chrome-inner {
+      display: contents;
     }
 
     .hero-stats,

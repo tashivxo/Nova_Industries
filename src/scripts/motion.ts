@@ -196,19 +196,16 @@ function pinHeroChrome() {
   const secTop = layoutTop(section);
   const secH = section.offsetHeight;
   const natural = restTop - (y - secTop);
-  const keepFixed = secTop + secH - y > CHROME_PIN + h;
+  const pinRange = Math.max(0, secH - innerHeight);
   inner.style.left = '0';
   inner.style.right = '0';
   inner.style.width = '100%';
-  if (natural > CHROME_PIN) {
+  if (natural > CHROME_PIN || y - secTop >= pinRange) {
     inner.style.position = 'absolute';
     inner.style.top = `${restTop}px`;
-  } else if (keepFixed) {
+  } else {
     inner.style.position = 'fixed';
     inner.style.top = `${CHROME_PIN}px`;
-  } else {
-    inner.style.position = 'absolute';
-    inner.style.top = `${secH - h}px`;
   }
 }
 

@@ -8,6 +8,8 @@
 //                          data-reveal-root on an ancestor makes that ancestor the in-view trigger.
 //   data-scrub='[...]'     scroll-linked keyframes (see Key), data-scrub-min="1200" desktop only,
 //                          data-scrub-spring="none" for Framer's raw onScroll (no smoothing)
+//   data-hero-track        desktop overlay: copy the slot's rest rect so scale+y runs from the lockup gap
+//                          (Framer's video is a z-index 10 sibling of Hero Content, not nested in it)
 //   data-count="a,b"       number counter (data-prefix / data-suffix), once in view, spring 2s bounce 0
 //   data-flip              company Text Flip, once 5% in view, desktop >= 1024
 //   data-inview-play       video plays only while on screen
@@ -22,10 +24,20 @@ const cssNum = (cs: CSSStyleDeclaration, name: string, d: number) => {
   return s === '' ? d : parseFloat(s);
 };
 
+type LenisHandle = { raf: (n: number) => void; scroll: number; on: (e: string, cb: () => void) => void };
+
 // Framer's Lenis component passes no lerp/duration, so this is Lenis defaults.
-function smoothScroll() {
-  (window as any).lenis = new Lenis({ autoRaf: true, anchors: true, allowNestedScroll: true, stopInertiaOnNavigate: true });
+// autoRaf is off so the scrub spring and Lenis share one rAF (otherwise they fight).
+function smoothScroll(): LenisHandle {
+  const lenis = new Lenis({ autoRaf: false, anchors: true, allowNestedScroll: true, stopInertiaOnNavigate: true });
+  (window as any).lenis = lenis;
+  return lenis as unknown as LenisHandle;
 }
+
+const scrollNow = () => {
+  const l = (window as any).lenis as LenisHandle | undefined;
+  return l && typeof l.scroll === 'number' ? l.scroll : window.scrollY;
+};
 
 function appear() {
   for (const el of document.querySelectorAll<HTMLElement>('[data-appear]')) {
@@ -140,6 +152,27 @@ function layoutTop(el: HTMLElement) {
   return y;
 }
 
+// Pin the desktop overlay to the lockup slot's rest rect (Framer sizes it 19%×19vh
+// over the gap; Nova's slot is the live source so Design vs Creative still lines up).
+function placeHeroOverlay() {
+  for (const el of document.querySelectorAll<HTMLElement>('[data-hero-track]')) {
+    const min = parseFloat(el.querySelector<HTMLElement>('[data-scrub]')?.dataset.scrubMin || el.dataset.scrubMin || '0');
+    if (innerWidth < min) {
+      el.style.left = el.style.top = el.style.width = el.style.height = '';
+      continue;
+    }
+    const slot = document.querySelector<HTMLElement>(el.dataset.heroTrack!);
+    const parent = el.offsetParent as HTMLElement | null;
+    if (!slot || !parent) continue;
+    const sr = slot.getBoundingClientRect();
+    const pr = parent.getBoundingClientRect();
+    el.style.left = `${sr.left - pr.left}px`;
+    el.style.top = `${sr.top - pr.top}px`;
+    el.style.width = `${sr.width}px`;
+    el.style.height = `${sr.height}px`;
+  }
+}
+
 function scrollFx() {
   const items: Item[] = [];
   const base = { pos: [], top: 0, h: 0, x: null, v: {} };
@@ -159,11 +192,12 @@ function scrollFx() {
   for (const el of document.querySelectorAll<HTMLElement>('[data-rise]'))
     // Framer onInView transform: useScroll(['start end','end end']) smoothed by spring k500 d60 m1.
     items.push({ el, rise: true, keys: [], min: 0, spring: [500, 60, 1], ...base, v: {} });
-  if (!items.length) return;
+  if (!items.length) return () => {};
 
   const measure = () => {
     const vh = innerHeight;
     const max = document.documentElement.scrollHeight - vh;
+    placeHeroOverlay();
     for (const it of items) {
       if (it.rise) {
         it.top = layoutTop(it.el);
@@ -173,14 +207,15 @@ function scrollFx() {
       it.pos = it.keys.map((k) => {
         if (typeof k.at === 'number') return k.at;
         if (k.at === 'end') return max;
-        const m = document.querySelector(k.at)!.getBoundingClientRect();
-        return m.top + scrollY + (k.edge === 'top' ? 0 : m.height) - vh * (k.th ?? 1);
+        const m = document.querySelector<HTMLElement>(k.at);
+        if (!m) return 0;
+        return layoutTop(m) + (k.edge === 'top' ? 0 : m.offsetHeight) - vh * (k.th ?? 1);
       });
     }
   };
 
   const target = (it: Item): Record<string, number> => {
-    const y = scrollY;
+    const y = scrollNow();
     if (it.rise) {
       const p = Math.min(1, Math.max(0, (y + innerHeight - it.top) / it.h));
       return { y: riseDist() * (1 - p) };
@@ -196,12 +231,11 @@ function scrollFx() {
     return out;
   };
 
-  let last = 0;
-  let running = false;
+  let last = performance.now();
   const tick = (now: number) => {
-    const dt = Math.min(now - last, 64) / 1000;
+    const dt = Math.min(Math.max(now - last, 0), 64) / 1000;
     last = now;
-    let moving = false;
+    if (dt === 0) return;
     for (const it of items) {
       if (innerWidth < it.min) {
         if (it.x) (it.el.style.transform = ''), (it.el.style.opacity = ''), (it.x = null);
@@ -222,43 +256,39 @@ function scrollFx() {
           }
           it.x[p] = x;
           it.v[p] = v;
-          if (Math.abs(x - t[p]) > 0.01 || Math.abs(v) > 0.01) moving = true;
         }
       }
-      const c = it.x;
-      if (it.rise) it.el.style.transform = `translate3d(0, ${c.y}px, 0)`;
+      const cur = it.x;
+      if (it.rise) it.el.style.transform = `translate3d(0, ${cur.y}px, 0)`;
       else {
-        it.el.style.transform = `translate3d(${c.x}px, ${c.y}px, 0) scale(${c.scale})`;
-        it.el.style.opacity = String(c.opacity);
+        it.el.style.transform = `translate3d(${cur.x}px, ${cur.y}px, 0) scale(${cur.scale})`;
+        it.el.style.opacity = String(cur.opacity);
       }
     }
-    running = moving;
-    if (moving) requestAnimationFrame(tick);
-  };
-  const kick = () => {
-    checkWatches();
-    if (running) return;
-    running = true;
-    last = performance.now();
-    requestAnimationFrame(tick);
   };
 
   measure();
-  kick();
-  addEventListener('scroll', kick, { passive: true });
-  addEventListener('resize', () => (measure(), kick()));
+  addEventListener('resize', measure);
+  addEventListener('load', measure);
+  document.fonts?.ready.then(measure);
   // Lazy images and fonts shift layout after load; re-measure whenever the page resizes.
-  new ResizeObserver(() => (measure(), kick())).observe(document.body);
+  new ResizeObserver(measure).observe(document.body);
+  return tick;
 }
 
 if (!reduced) {
-  smoothScroll();
+  const lenis = smoothScroll();
   appear();
   reveal();
   count();
   flip();
   inViewPlay();
-  scrollFx();
-  addEventListener('scroll', checkWatches, { passive: true });
-  checkWatches();
+  const tickScrub = scrollFx();
+  const loop = (now: number) => {
+    lenis.raf(now);
+    checkWatches();
+    tickScrub(now);
+    requestAnimationFrame(loop);
+  };
+  requestAnimationFrame(loop);
 }

@@ -30,26 +30,39 @@ const skillKeys = (i: number, rest: Record<string, number>, peak: Record<string,
         <p class="we-are" data-appear style="--ay:100;--ad:.1">WE ARE</p>
         <h1 class="display-hero" data-appear style="--ay:170;--ad:.3">Design</h1>
         <div class="hero-slot">
-          <div class="hero-media" data-appear style="--ay:170;--ad:.3">
-            <div
-              class="hero-scrub"
-              data-scrub-min="1200"
-              data-scrub='[{"at":0,"v":{}},{"at":"#hero-m1","v":{"scale":2.2,"y":400}},{"at":"#hero-m2","v":{"scale":3.4,"y":700}},{"at":"#hero-m3","v":{"scale":4.8,"y":1000}},{"at":"#hero-m4","v":{"scale":5.6,"y":1240}}]'
-            >
-              <video
-                src="/images/hero/hero-loop.mp4"
-                autoplay
-                muted
-                loop
-                playsinline
-                preload="metadata"
-                aria-label="Studio motion reel"
-              ></video>
-            </div>
+          <div class="hero-media hero-inline" data-appear style="--ay:170;--ad:.3">
+            <video
+              src="/images/hero/hero-loop.mp4"
+              autoplay
+              muted
+              loop
+              playsinline
+              preload="metadata"
+              aria-label="Studio motion reel"
+            ></video>
           </div>
         </div>
         <h1 class="display-hero agency" data-appear style="--ay:170;--ad:.7">Agency</h1>
         <p class="for-tech" data-appear style="--ay:100;--ad:.8">For tech brands</p>
+      </div>
+      <!-- Framer desktop video is a sibling overlay (z-index 10), not nested in the lockup.
+           Scale 1→5.6 + y 0→1240 keeps it in view as Hero Content (100vh) scrolls. -->
+      <div class="hero-overlay" data-appear style="--ay:170;--ad:.3" data-hero-track=".hero-slot">
+        <div
+          class="hero-scrub"
+          data-scrub-min="1200"
+          data-scrub='[{"at":0,"v":{}},{"at":"#hero-m1","v":{"scale":2.2,"y":400}},{"at":"#hero-m2","v":{"scale":3.4,"y":700}},{"at":"#hero-m3","v":{"scale":4.8,"y":1000}},{"at":"#hero-m4","v":{"scale":5.6,"y":1240}}]'
+        >
+          <video
+            src="/images/hero/hero-loop.mp4"
+            autoplay
+            muted
+            loop
+            playsinline
+            preload="metadata"
+            aria-hidden="true"
+          ></video>
+        </div>
       </div>
       <div class="hero-stats" data-appear style="--ay:170;--ad:.9">
         {
@@ -233,10 +246,10 @@ const skillKeys = (i: number, rest: Record<string, number>, peak: Record<string,
 </script>
 
 <style>
-  /* Framer: hero section clips, hero content does not; the video scales past it. */
+  /* Framer Hero Section: overflow hidden, height = 100vh content + 4×300px markers + 3×24px gaps. */
   .hero-section {
     position: relative;
-    overflow: clip;
+    overflow: hidden;
   }
 
   .hero {
@@ -269,7 +282,8 @@ const skillKeys = (i: number, rest: Record<string, number>, peak: Record<string,
     text-align: center;
     width: max-content;
     max-width: calc(100% - 2rem);
-    z-index: 5;
+    z-index: 2;
+    overflow: clip;
   }
 
   .we-are {
@@ -302,11 +316,20 @@ const skillKeys = (i: number, rest: Record<string, number>, peak: Record<string,
     position: static;
   }
 
-  .hero-media {
+  .hero-media,
+  .hero-inline {
     width: 100%;
     height: 100%;
     position: relative;
     z-index: 2;
+    overflow: hidden;
+    background: #111;
+  }
+
+  /* Desktop overlay: Framer `.framer-1uvli6n-container` — absolute in the 100vh
+     Hero Content, z-index 10, starts at the slot then scale+y scrubs independently. */
+  .hero-overlay {
+    display: none;
   }
 
   .hero-scrub {
@@ -314,9 +337,12 @@ const skillKeys = (i: number, rest: Record<string, number>, peak: Record<string,
     height: 100%;
     overflow: hidden;
     background: #111;
+    will-change: transform;
+    transform-origin: center center;
   }
 
-  .hero-media video {
+  .hero-inline video,
+  .hero-scrub video {
     width: 100%;
     height: 100%;
     max-width: 100%;
@@ -329,7 +355,7 @@ const skillKeys = (i: number, rest: Record<string, number>, peak: Record<string,
     bottom: 2.35rem;
     display: grid;
     gap: 0.55rem;
-    z-index: 4;
+    z-index: 1;
   }
 
   .hero-stats div {
@@ -364,7 +390,7 @@ const skillKeys = (i: number, rest: Record<string, number>, peak: Record<string,
     font-weight: 500;
     line-height: 1.45;
     text-transform: uppercase;
-    z-index: 4;
+    z-index: 1;
     color: var(--muted);
   }
 
@@ -825,6 +851,30 @@ const skillKeys = (i: number, rest: Record<string, number>, peak: Record<string,
     .hero-section {
       height: calc(100svh + 1272px);
     }
+
+    .hero {
+      height: 100svh;
+      min-height: 100svh;
+    }
+
+    .hero-inline {
+      visibility: hidden;
+    }
+
+    .hero-overlay {
+      display: block;
+      position: absolute;
+      z-index: 10;
+      /* Framer rest rect; JS `data-hero-track` overwrites to the live slot. */
+      width: 19%;
+      height: 19vh;
+      top: calc(46.125% - 9.5vh);
+      left: 41.1207%;
+      overflow: hidden;
+      background: #111;
+      pointer-events: none;
+      will-change: transform;
+    }
   }
 
   @media (max-width: 900px) {
@@ -862,6 +912,7 @@ const skillKeys = (i: number, rest: Record<string, number>, peak: Record<string,
       width: 100%;
       max-width: none;
       align-items: flex-start;
+      overflow: visible;
     }
 
     .we-are {
@@ -879,6 +930,7 @@ const skillKeys = (i: number, rest: Record<string, number>, peak: Record<string,
       position: relative;
     }
 
+    .hero-inline,
     .hero-media {
       position: relative !important;
       left: auto !important;
@@ -973,6 +1025,7 @@ const skillKeys = (i: number, rest: Record<string, number>, peak: Record<string,
       display: none;
     }
 
+    .hero-overlay,
     .hero-media,
     .hero-lockup,
     .hero-stats,

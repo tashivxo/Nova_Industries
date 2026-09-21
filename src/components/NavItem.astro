@@ -1,6 +1,6 @@
 ---
 // Framer "Nav Item" (AV1wFq83v): flex row, 4px gap. Brackets mount instantly;
-// spacers spring to one glyph + 4px so the label FLIPs (Primary: 0.4s bounce 0.1;
+// spacers spring to one live glyph + 4px so the label FLIPs (Primary: 0.4s bounce 0.1;
 // Footer: 0.6s bounce 0, delay 0.1s). Color flips are instant (plain :hover /
 // current-link tokens). In-flow spacers keep centered mobile items balanced.
 interface Props {
@@ -30,7 +30,8 @@ const { href, label, active = false, size = 'sm', external = false, appear = fal
 
 <style>
   .nav-item {
-    --bw: 0.62em;
+    /* Fallback ≈ Geist `[` advance (0.62em was nearly 2× the glyph). JS overwrites with a live measure. */
+    --bw: 0.35em;
     --shift: calc(var(--bw) + 4px);
     position: relative;
     display: inline-flex;
@@ -76,8 +77,6 @@ const { href, label, active = false, size = 'sm', external = false, appear = fal
   .br {
     position: absolute;
     top: 0;
-    width: var(--bw);
-    overflow: visible;
     visibility: hidden;
   }
 
@@ -87,7 +86,6 @@ const { href, label, active = false, size = 'sm', external = false, appear = fal
 
   .br.r {
     right: 0;
-    text-align: right;
   }
 
   .nav-item:hover .br,
@@ -100,3 +98,16 @@ const { href, label, active = false, size = 'sm', external = false, appear = fal
     width: var(--shift);
   }
 </style>
+
+<script>
+  const measure = () => {
+    for (const item of document.querySelectorAll<HTMLElement>('.nav-item')) {
+      const br = item.querySelector<HTMLElement>('.br.l');
+      if (!br) continue;
+      const w = br.getBoundingClientRect().width;
+      if (w > 0) item.style.setProperty('--bw', `${w}px`);
+    }
+  };
+  document.fonts.ready.then(measure);
+  measure();
+</script>

@@ -7,7 +7,9 @@ interface Props {
 }
 
 const { activePath = '/' } = Astro.props;
-const arrow = '<svg viewBox="0 0 11 12"><path d="M1.5 10.5 9.5 2.5M3.5 2.5h6v6" /></svg>';
+// Framer Contact Button glyph: filled 11.25² arrow, drawn 11×12, #ff531a.
+const arrow =
+  '<svg viewBox="0 0 11.25 11.25"><path d="M 11.25 0.625 L 11.25 8.75 C 11.25 9.095 10.97 9.375 10.625 9.375 C 10.28 9.375 10 9.095 10 8.75 L 10 2.134 L 1.068 11.067 C 0.824 11.311 0.428 11.312 0.183 11.067 C -0.061 10.823 -0.061 10.427 0.183 10.183 L 9.117 1.25 L 2.5 1.25 C 2.155 1.25 1.875 0.97 1.875 0.625 C 1.875 0.28 2.155 0 2.5 0 L 10.625 0 C 10.97 0 11.25 0.28 11.25 0.625 Z" /></svg>';
 
 function isActive(href: string, path: string) {
   if (href === '/') return path === '/';
@@ -42,27 +44,27 @@ function isActive(href: string, path: string) {
     <nav aria-label="Mobile">
       {
         navItems.map((item) => (
-          <a href={item.href} class:list={[{ active: isActive(item.href, activePath) }]}>
-            {item.label}
-          </a>
+          <NavItem href={item.href} label={item.label} active={isActive(item.href, activePath)} />
         ))
       }
-      <a href="/contact">Contact</a>
+      <NavItem href="/contact" label="Contact" active={isActive('/contact', activePath)} />
     </nav>
   </div>
 </header>
 
 <style>
   .site-header {
-    /* Framer's nav scrolls away with the page; fixed made it sit on top of every section. */
+    /* Framer template overlay: absolute top, z-index 10. Hero video is z-index 10
+       later in the tree so the expand covers chrome; we sit just under the lockup. */
     position: absolute;
     inset: 0 0 auto 0;
-    z-index: 50;
+    z-index: 4;
     display: grid;
     grid-template-columns: 1fr auto 1fr;
     align-items: start;
     padding: 1.75rem var(--page-x) 0;
     pointer-events: none;
+    overflow: visible;
   }
 
   .site-header > * {
@@ -72,8 +74,9 @@ function isActive(href: string, path: string) {
   .site-nav {
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
+    gap: 12px;
     align-items: flex-start;
+    overflow: visible;
   }
 
   .wordmark {
@@ -93,7 +96,9 @@ function isActive(href: string, path: string) {
     white-space: nowrap;
   }
 
-  /* Framer "Contact Button": arrows swap sides instantly, the text slides 21px (spring k400 d40). */
+  /* Framer Contact Button: flex row, 10px gap, 11px arrow. Arrows mount/unmount
+     instantly; the label springs 21px (11+10) with k400 d40. Right-aligned so the
+     trailing edge stays put. */
   .contact-cta {
     justify-self: end;
     position: relative;
@@ -122,9 +127,7 @@ function isActive(href: string, path: string) {
     display: block;
     width: 11px;
     height: 12px;
-    fill: none;
-    stroke: currentColor;
-    stroke-width: 1.5;
+    fill: currentColor;
   }
 
   .ca.l {
@@ -186,7 +189,7 @@ function isActive(href: string, path: string) {
     display: block;
   }
 
-  /* Framer phone nav: a dropdown whose height springs open (k400 d50); links never fade. */
+  /* Framer phone nav: height springs open (k400 d50); links never fade. */
   .mobile-drawer {
     grid-column: 1 / -1;
     grid-template-rows: 0fr;
@@ -205,25 +208,18 @@ function isActive(href: string, path: string) {
     gap: 24px;
   }
 
+  .menu-open .mobile-drawer nav {
+    overflow: visible;
+  }
+
+  /* Phone Open content-wrapper gap is 32px. */
   .mobile-drawer nav::before {
     content: '';
-    height: 8px;
+    height: 32px;
   }
 
-  .mobile-drawer a {
-    font-size: 14px;
-    font-weight: 500;
-    text-transform: uppercase;
-    color: #808080;
-  }
-
-  .mobile-drawer a:last-child {
+  .mobile-drawer nav :global(a:last-child) {
     margin-bottom: 16px;
-  }
-
-  .mobile-drawer a.active,
-  .mobile-drawer a:hover {
-    color: #fff;
   }
 
   @media (max-width: 900px) {
@@ -235,7 +231,13 @@ function isActive(href: string, path: string) {
     .site-header {
       grid-template-columns: 1fr auto;
       align-items: center;
-      padding-block: 1.15rem 0;
+      z-index: 50;
+      background: var(--bg);
+      padding: 16px var(--page-x) 0;
+    }
+
+    .menu-open.site-header {
+      padding: 16px var(--page-x);
     }
 
     .wordmark {
@@ -246,11 +248,6 @@ function isActive(href: string, path: string) {
     .wordmark-text {
       font-size: 0.78rem;
       letter-spacing: 0.04em;
-    }
-
-    .site-header {
-      background: var(--bg);
-      padding: 16px var(--page-x) 0;
     }
 
     .mobile-toggle {

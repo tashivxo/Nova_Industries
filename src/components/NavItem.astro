@@ -1,6 +1,8 @@
 ---
-// Framer "Nav Item": on hover the [ ] brackets appear instantly and the label springs right
-// by one bracket + 4px gap. Color flips are instant (Framer uses plain :hover).
+// Framer "Nav Item" (AV1wFq83v): flex row, 4px gap. Brackets mount instantly;
+// spacers spring to one live glyph + 4px so the label FLIPs (Primary: 0.4s bounce 0.1;
+// Footer: 0.6s bounce 0, delay 0.1s). Color flips are instant (plain :hover /
+// current-link tokens). In-flow spacers keep centered mobile items balanced.
 interface Props {
   href: string;
   label: string;
@@ -19,17 +21,21 @@ const { href, label, active = false, size = 'sm', external = false, appear = fal
   target={external ? '_blank' : undefined}
   rel={external ? 'noreferrer' : undefined}
 >
+  <span class="sp" aria-hidden="true"></span>
   <span class="br l" aria-hidden="true">[</span>
   <span class="label">{label}</span>
   <span class="br r" aria-hidden="true">]</span>
+  <span class="sp" aria-hidden="true"></span>
 </a>
 
 <style>
   .nav-item {
-    --bw: 0.36em;
+    /* Fallback ≈ Geist `[` advance (0.62em was nearly 2× the glyph). JS overwrites with a live measure. */
+    --bw: 0.35em;
     --shift: calc(var(--bw) + 4px);
     position: relative;
     display: inline-flex;
+    align-items: flex-start;
     font-weight: 500;
     text-transform: uppercase;
     white-space: nowrap;
@@ -37,14 +43,14 @@ const { href, label, active = false, size = 'sm', external = false, appear = fal
 
   .sm {
     font-size: 14px;
-    line-height: 1.25;
+    line-height: 20px;
     color: #808080;
   }
 
   .lg {
     font-size: 28px;
-    line-height: 1.2;
-    letter-spacing: -0.56px;
+    line-height: 36px;
+    letter-spacing: -0.02em;
     color: #fff;
   }
 
@@ -54,12 +60,18 @@ const { href, label, active = false, size = 'sm', external = false, appear = fal
     color: #fff;
   }
 
-  .label {
-    transition: transform var(--dur-nav) var(--ease-nav);
+  .sp {
+    flex: none;
+    width: 0;
+    transition: width var(--dur-nav) var(--ease-nav);
   }
 
-  .lg .label {
-    transition: transform var(--dur-nav-footer) var(--ease-nav-footer) 0.1s;
+  .lg .sp {
+    transition: width var(--dur-nav-footer) var(--ease-nav-footer) 0.1s;
+  }
+
+  .label {
+    flex: none;
   }
 
   .br {
@@ -73,7 +85,7 @@ const { href, label, active = false, size = 'sm', external = false, appear = fal
   }
 
   .br.r {
-    left: calc(100% + var(--shift) + 4px);
+    right: 0;
   }
 
   .nav-item:hover .br,
@@ -81,8 +93,21 @@ const { href, label, active = false, size = 'sm', external = false, appear = fal
     visibility: visible;
   }
 
-  .nav-item:hover .label,
-  .nav-item:focus-visible .label {
-    transform: translateX(var(--shift));
+  .nav-item:hover .sp,
+  .nav-item:focus-visible .sp {
+    width: var(--shift);
   }
 </style>
+
+<script>
+  const measure = () => {
+    for (const item of document.querySelectorAll<HTMLElement>('.nav-item')) {
+      const br = item.querySelector<HTMLElement>('.br.l');
+      if (!br) continue;
+      const w = br.getBoundingClientRect().width;
+      if (w > 0) item.style.setProperty('--bw', `${w}px`);
+    }
+  };
+  document.fonts.ready.then(measure);
+  measure();
+</script>

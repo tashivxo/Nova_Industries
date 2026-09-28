@@ -6,7 +6,9 @@ import { projects } from '../../data/projects';
 
 <BaseLayout title="Works — Nova Industries" activePath="/project">
   <section class="hero">
-    <div class="hero-bg orb-field" data-appear style="--ad:.1" aria-hidden="true"></div>
+    <div class="hero-bg" data-appear style="--ad:.1" aria-hidden="true">
+      <span class="wb-c1"></span><span class="wb-c2"></span><span class="wb-h"></span><span class="wb-d"></span>
+    </div>
     <div class="lockup">
       <p class="our" data-appear style="--ay:170;--ad:.3">Our</p>
       <h1 class="display-hero">
@@ -24,29 +26,77 @@ import { projects } from '../../data/projects';
 </BaseLayout>
 
 <style>
+  /* Framer Works Background (viewport-tall): two hairline circles, a flat line and a
+     line tilted -17deg, all #1a1a1a. */
   .hero-bg {
     position: absolute;
-    inset: 0;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 100svh;
     pointer-events: none;
   }
 
+  .hero-bg span {
+    position: absolute;
+  }
+
+  .wb-c1,
+  .wb-c2 {
+    border: 1px solid #1a1a1a;
+    border-radius: 50%;
+  }
+
+  .wb-h,
+  .wb-d {
+    height: 1px;
+    background: #1a1a1a;
+  }
+
+  .wb-c1 {
+    width: 302px;
+    height: 302px;
+    left: 100px;
+    bottom: 240px;
+  }
+
+  .wb-c2 {
+    width: 422px;
+    height: 422px;
+    right: -100px;
+    top: 0;
+  }
+
+  .wb-h {
+    width: 143%;
+    right: -185px;
+    bottom: 300px;
+  }
+
+  .wb-d {
+    width: 200%;
+    right: -545px;
+    bottom: 403px;
+    transform: rotate(-17deg);
+  }
+
+  /* Framer Hero: OUR at 232px, lockup centred, first pair 240px below it. */
   .hero {
     position: relative;
-    min-height: 100svh;
-    display: grid;
-    place-items: center;
-    padding: 5.5rem 1rem 3.5rem;
+    padding: 232px 1rem 240px;
     overflow: hidden;
   }
 
   .lockup {
+    position: relative;
     width: max-content;
     max-width: 100%;
+    margin-inline: auto;
   }
 
   .our {
     width: max-content;
-    margin: 0 0 0.2rem 0.22em;
+    margin: 0 0 12px 16px;
     font-size: 1rem;
     font-weight: 400;
     letter-spacing: 0;
@@ -58,19 +108,16 @@ import { projects } from '../../data/projects';
     margin: 0;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
+    gap: 10px;
   }
 
   .line {
     display: block;
   }
 
-  .work {
-    margin-left: 0.42em;
-  }
-
   .works {
-    padding-block: 1rem 8rem;
+    padding-block: 0 8rem;
   }
 
   .works .stagger-grid {
@@ -80,13 +127,11 @@ import { projects } from '../../data/projects';
 
   @media (max-width: 900px) {
     .hero {
-      min-height: 0;
-      place-items: start center;
-      padding: 5.25rem 1.15rem 2.25rem;
+      padding: 98px 1.15rem 100px;
     }
 
     .our {
-      margin-left: 0.12em;
+      margin: 0 0 12px 0.12em;
       font-size: 0.9rem;
     }
 
@@ -94,12 +139,41 @@ import { projects } from '../../data/projects';
       font-size: clamp(4.4rem, 22.5vw, 5.5rem);
     }
 
-    .work {
-      margin-left: 0.28em;
+    .wb-c1 {
+      width: 100px;
+      height: 100px;
+      left: calc(13% - 50px);
+      top: calc(35% - 50px);
+      bottom: auto;
+    }
+
+    .wb-c2 {
+      width: 120px;
+      height: 120px;
+      left: calc(85% - 60px);
+      top: calc(7% - 60px);
+      right: auto;
+    }
+
+    .wb-h {
+      width: 776px;
+      left: -200px;
+      top: 302px;
+      right: auto;
+      bottom: auto;
+    }
+
+    .wb-d {
+      width: 659px;
+      left: -142px;
+      top: 168px;
+      right: auto;
+      bottom: auto;
+      transform: rotate(-40deg);
     }
 
     .works {
-      padding-block: 0.5rem 4rem;
+      padding-block: 0 4rem;
     }
   }
 </style>

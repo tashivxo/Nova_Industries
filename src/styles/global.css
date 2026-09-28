@@ -119,16 +119,6 @@ img {
   padding-inline: var(--page-x);
 }
 
-.orb-field {
-  background-image:
-    radial-gradient(circle at 12% 118%, transparent 26%, rgba(255, 255, 255, 0.07) 26.12%, transparent 26.4%),
-    radial-gradient(circle at 108% -8%, transparent 28%, rgba(255, 255, 255, 0.06) 28.12%, transparent 28.4%),
-    linear-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px);
-  background-size: 42rem 42rem, 46rem 46rem, 100% 1px;
-  background-position: 0 100%, 100% 0, center 64%;
-  background-repeat: no-repeat;
-}
-
 .mark {
   display: inline-block;
   width: 22px;

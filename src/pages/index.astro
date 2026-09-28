@@ -601,7 +601,6 @@ const skillKeys = (i: number, rest: Record<string, number>, peak: Record<string,
 
   .skills {
     padding-block: 4.5rem 5rem;
-    border-top: 1px solid var(--line);
   }
 
   .skills h2 {
@@ -613,16 +612,35 @@ const skillKeys = (i: number, rest: Record<string, number>, peak: Record<string,
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 2rem 1.5rem;
-    align-items: start;
+    align-items: center;
     margin-bottom: 4.25rem;
   }
 
   .skills-copy {
     margin: 0;
-    color: var(--muted);
-    font-size: 0.92rem;
-    line-height: 1.5;
-    max-width: 16.5rem;
+    font-size: 16px;
+    line-height: 24px;
+    max-width: 278px;
+  }
+
+  .skills-copy.right {
+    max-width: 303px;
+  }
+
+  /* Framer Core Skills: 168 top, 100 under the 127px title and under the copy, no bottom pad.
+     The h2's box is 144 (mask descender room), hence 83. */
+  @media (min-width: 901px) {
+    .skills {
+      padding-block: 168px 0;
+    }
+
+    .skills h2 {
+      margin-bottom: 83px;
+    }
+
+    .skills-intro {
+      margin-bottom: 100px;
+    }
   }
 
   .skills-copy.right {
@@ -826,7 +844,6 @@ const skillKeys = (i: number, rest: Record<string, number>, peak: Record<string,
     position: relative;
     overflow: clip;
     padding-block: 4rem 5rem;
-    border-top: 1px solid var(--line);
   }
 
   /* Framer overlay wipe: a page-coloured 2000px block parked 1400px over the chart, then
@@ -923,7 +940,6 @@ const skillKeys = (i: number, rest: Record<string, number>, peak: Record<string,
 
   .journal {
     padding-block: 4rem 2rem;
-    border-top: 1px solid var(--line);
   }
 
   .journal h2 {

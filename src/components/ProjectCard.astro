@@ -8,7 +8,8 @@ interface Props {
 }
 
 const { project } = Astro.props;
-const arrow = '<svg viewBox="0 0 21 21" aria-hidden="true"><path d="M5 16 16 5M7.5 5H16v8.5" /></svg>';
+const arrow =
+  '<svg viewBox="0 0 20.982 20.982" aria-hidden="true"><path d="M 20.981 1.167 L 20.981 16.333 C 20.981 16.978 20.459 17.5 19.814 17.5 C 19.17 17.5 18.648 16.978 18.648 16.333 L 18.648 3.983 L 1.974 20.659 C 1.516 21.097 0.791 21.088 0.342 20.64 C -0.106 20.192 -0.115 19.467 0.322 19.008 L 17 2.333 L 4.648 2.333 C 4.003 2.333 3.481 1.811 3.481 1.167 C 3.481 0.522 4.003 0 4.648 0 L 19.814 0 C 20.124 0 20.421 0.122 20.64 0.341 C 20.859 0.56 20.982 0.857 20.982 1.167 Z" /></svg>';
 ---
 
 <a class="project-card" href={`/project/${project.slug}`} data-rise data-scramble-card>
@@ -145,7 +146,7 @@ const arrow = '<svg viewBox="0 0 21 21" aria-hidden="true"><path d="M5 16 16 5M7
   .titles {
     display: flex;
     justify-content: space-between;
-    align-items: flex-start;
+    align-items: center;
     gap: 1rem;
   }
 
@@ -174,6 +175,7 @@ const arrow = '<svg viewBox="0 0 21 21" aria-hidden="true"><path d="M5 16 16 5M7
     flex: 0 0 auto;
     width: 21px;
     height: 21px;
+    margin-right: 4px;
     overflow: hidden;
     color: #ff531a;
   }
@@ -188,9 +190,7 @@ const arrow = '<svg viewBox="0 0 21 21" aria-hidden="true"><path d="M5 16 16 5M7
     display: block;
     width: 21px;
     height: 21px;
-    fill: none;
-    stroke: currentColor;
-    stroke-width: 1.6;
+    fill: currentColor;
   }
 
   .a-in {

@@ -46,8 +46,8 @@ const skillKeys = (i: number, rest: Record<string, number>, peak: Record<string,
         <p class="for-tech" data-appear style="--ay:100;--ad:.8">For tech brands</p>
       </div>
     </div>
-    <!-- Framer Description `.framer-2ii1f9`: rest on the 100vh bottom, then pin at
-         180px / z-index 1 so the expand covers stats/copy instead of them escaping. -->
+    <!-- Framer Description `.framer-2ii1f9`: sits on the 100vh bottom and scrolls away with
+         the page (no pin); the expanding video (z-index 10) passes over it. -->
     <div class="hero-chrome">
       <div class="hero-chrome-inner">
         <div class="hero-stats" data-appear style="--ay:170;--ad:.9">
@@ -66,14 +66,15 @@ const skillKeys = (i: number, rest: Record<string, number>, peak: Record<string,
         </p>
       </div>
     </div>
-    <!-- Sticky viewport clip matches Framer’s y 0→1240 pin without fighting Lenis.
-         Scale 1→5.6 uses Framer’s scroll spring (k400 d60 m0.1). -->
+    <!-- Sticky viewport clip stands in for Framer’s y 0→1240 so Lenis can’t make it lag.
+         The scrub y is Framer’s y minus scroll: the video drifts ~100px down while it
+         grows, then climbs back (measured at 1440×900). Spring k400 d60 m0.1. -->
     <div class="hero-pin" aria-hidden="true">
       <div class="hero-overlay" data-appear style="--ay:170;--ad:.3" data-hero-track=".hero-slot">
         <div
           class="hero-scrub"
           data-scrub-min="1200"
-          data-scrub='[{"at":0,"v":{}},{"at":"#hero-m1","v":{"scale":2.2}},{"at":"#hero-m2","v":{"scale":3.4}},{"at":"#hero-m3","v":{"scale":4.8}},{"at":"#hero-m4","v":{"scale":5.6}}]'
+          data-scrub='[{"at":0,"v":{}},{"at":"#hero-m1","v":{"scale":2.2,"y":100}},{"at":"#hero-m2","v":{"scale":3.4,"y":72}},{"at":"#hero-m3","v":{"scale":4.8,"y":38}},{"at":"#hero-m4","v":{"scale":5.6,"y":-32}}]'
         >
           <video
             src="/images/hero/hero-loop.mp4"
@@ -876,8 +877,6 @@ const skillKeys = (i: number, rest: Record<string, number>, peak: Record<string,
       visibility: hidden;
     }
 
-    /* Track is the full section so JS can pin the row at 180px (Framer Description)
-       without overflow:hidden killing `position: sticky`. Rest CSS is the 100vh bottom. */
     .hero-chrome {
       position: absolute;
       inset: 0;
@@ -885,19 +884,34 @@ const skillKeys = (i: number, rest: Record<string, number>, peak: Record<string,
       pointer-events: none;
     }
 
+    /* Framer Description: 100px row on the 100vh bottom, 20px top pad, 1320 max width. */
     .hero-chrome-inner {
       position: absolute;
       left: 0;
       right: 0;
-      top: calc(100svh - 2.35rem - 5.05rem);
+      top: calc(100svh - 100px);
+      height: 100px;
       display: flex;
       justify-content: space-between;
       align-items: flex-end;
       gap: 2rem;
-      width: 100%;
-      padding: 0 var(--page-x) 2.35rem;
-      box-sizing: border-box;
+      padding: 20px max(20px, (100% - 1320px) / 2) 0;
       pointer-events: none;
+    }
+
+    .hero-stats {
+      gap: 10px;
+    }
+
+    .hero-stats div {
+      grid-template-columns: 42px auto;
+      gap: 10px;
+    }
+
+    .hero-stats strong,
+    .hero-stats span,
+    .hero-copy {
+      line-height: 20px;
     }
 
     .hero-stats,
@@ -911,8 +925,8 @@ const skillKeys = (i: number, rest: Record<string, number>, peak: Record<string,
     }
 
     .hero-copy {
-      text-align: right;
-      width: min(22rem, 34vw);
+      text-align: left;
+      width: 276px;
     }
 
     .hero-pin {

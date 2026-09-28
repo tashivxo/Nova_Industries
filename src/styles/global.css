@@ -119,17 +119,6 @@ img {
   padding-inline: var(--page-x);
 }
 
-.crosshair {
-  background-image:
-    radial-gradient(circle at center, transparent 34%, rgba(255, 255, 255, 0.08) 34.12%, transparent 34.45%),
-    radial-gradient(circle at center, transparent 56%, rgba(255, 255, 255, 0.05) 56.12%, transparent 56.45%),
-    linear-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.08) 1px, transparent 1px);
-  background-size: min(52rem, 92vw) min(52rem, 92vw), min(84rem, 130vw) min(84rem, 130vw), 100% 1px, 1px 100%;
-  background-position: center, center, center, center;
-  background-repeat: no-repeat;
-}
-
 .orb-field {
   background-image:
     radial-gradient(circle at 12% 118%, transparent 26%, rgba(255, 255, 255, 0.07) 26.12%, transparent 26.4%),
@@ -224,10 +213,6 @@ html.js [data-reveal] {
 }
 
 @media (max-width: 900px) {
-  .crosshair {
-    background-size: 120% 70vw, 160% 110vw, 100% 1px, 1px 100%;
-  }
-
   .stagger-grid {
     grid-template-columns: 1fr;
     row-gap: 2.75rem;

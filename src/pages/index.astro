@@ -25,10 +25,17 @@ const skillKeys = (i: number, rest: Record<string, number>, peak: Record<string,
 <BaseLayout title="Nova Industries — Design Agency" activePath="/">
   <section class="hero-section">
     <div class="hero">
-      <div class="hero-bg crosshair" data-appear style="--as:0;--ad:.1" aria-hidden="true"></div>
+      <div class="hero-bg" data-appear style="--as:0;--ad:.1" aria-hidden="true">
+        <span class="hb-line"></span>
+        <svg class="hb-curb l" viewBox="0 0 85.277 504.243" preserveAspectRatio="none"><path d="M 76.589 0 C -28.645 152.243 -25.138 355.813 85.277 504.243" /></svg>
+        <span class="hb-circle"></span>
+        <svg class="hb-curb r" viewBox="0 0 84.515 504.243" preserveAspectRatio="none"><path d="M 8.61 0 C 112.905 152.243 109.428 355.813 0 504.243" /></svg>
+      </div>
       <div class="hero-lockup">
-        <p class="we-are" data-appear style="--ay:100;--ad:.1">WE ARE</p>
-        <h1 class="display-hero" data-appear style="--ay:170;--ad:.3">Design</h1>
+        <div class="hero-top">
+          <p class="we-are" data-appear style="--ay:100;--ad:.1">WE ARE</p>
+          <h1 class="display-hero" data-appear style="--ay:170;--ad:.3">Design</h1>
+        </div>
         <div class="hero-slot">
           <div class="hero-media hero-inline" data-appear style="--ay:170;--ad:.3">
             <video
@@ -269,10 +276,80 @@ const skillKeys = (i: number, rest: Record<string, number>, peak: Record<string,
     place-items: center;
   }
 
+  /* Framer Background: full-width hairline, a page-filled circle with its own cross,
+     and two arcs hugging it. Circle 100px phone / 180px tablet / 48vw desktop. */
   .hero-bg {
+    --hb-c: 100px;
+    --hb-cw: 20px;
+    --hb-ch: 91px;
     position: absolute;
     inset: 0;
     pointer-events: none;
+  }
+
+  .hb-line,
+  .hb-circle,
+  .hb-curb {
+    position: absolute;
+    top: 50%;
+  }
+
+  .hb-line {
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: #1a1a1a;
+  }
+
+  .hb-circle {
+    left: 50%;
+    width: var(--hb-c);
+    height: var(--hb-c);
+    transform: translate(-50%, -50%);
+    border: 1px solid #1a1a1a;
+    border-radius: 50%;
+    background:
+      linear-gradient(#1a1a1a, #1a1a1a) center / 100% 1px no-repeat,
+      linear-gradient(#1a1a1a, #1a1a1a) center / 1px 100% no-repeat,
+      var(--bg);
+  }
+
+  .hb-curb {
+    width: var(--hb-cw);
+    height: var(--hb-ch);
+    transform: translateY(-50%);
+    overflow: visible;
+    fill: var(--bg);
+    stroke: #1a1a1a;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .hb-curb path {
+    vector-effect: non-scaling-stroke;
+  }
+
+  .hb-curb.l {
+    right: calc(50% + var(--hb-c) / 2);
+  }
+
+  .hb-curb.r {
+    left: calc(50% + var(--hb-c) / 2);
+  }
+
+  @media (min-width: 810px) {
+    .hero-bg {
+      --hb-c: 180px;
+      --hb-cw: 32px;
+      --hb-ch: 146px;
+    }
+  }
+
+  @media (min-width: 1200px) {
+    .hero-bg {
+      --hb-c: 48vw;
+      --hb-cw: 86px;
+      --hb-ch: 504px;
+    }
   }
 
   /* Scroll markers for the hero scrub: keyframes fire as each is fully in view. */
@@ -296,10 +373,16 @@ const skillKeys = (i: number, rest: Record<string, number>, peak: Record<string,
     overflow: clip;
   }
 
+  .hero-top {
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Framer Badge: 32px in from the first word's left edge, 8px above it. */
   .we-are {
     margin: 0 0 0.5rem;
     align-self: flex-start;
-    padding-left: 0.22em;
+    padding-left: 32px;
     font-size: 1rem;
     font-weight: 400;
     letter-spacing: 0;

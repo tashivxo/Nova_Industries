@@ -497,8 +497,10 @@ const skillKeys = (i: number, rest: Record<string, number>, peak: Record<string,
     color: #fff;
   }
 
+  /* Framer Company Project Section: 80px top, 106px title gap, three 408 cards 48 apart
+     with left + bottom #242424 rules; logo row 25px, 90px down to the stats. */
   .impact {
-    padding-block: 5.5rem 4.5rem;
+    padding-block: 80px 0;
   }
 
   .impact h2 {
@@ -507,23 +509,24 @@ const skillKeys = (i: number, rest: Record<string, number>, peak: Record<string,
     font-weight: 500;
     letter-spacing: -0.04em;
     line-height: 1.17;
-    margin: 0 0 3rem;
+    margin: 0 0 106px;
   }
 
   .metrics {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 1.5rem 1.25rem;
+    gap: 48px;
   }
 
   .metric-card {
-    border-left: 1px solid var(--line);
-    padding: 0.15rem 0 0.35rem 1.35rem;
+    border-left: 1px solid #242424;
+    border-bottom: 1px solid #242424;
+    padding: 0 0 24px 24px;
   }
 
   .partner-logo-wrap {
-    height: 1.55rem;
-    margin-bottom: 1.85rem;
+    height: 25px;
+    margin-bottom: 90px;
     display: flex;
     align-items: center;
   }
@@ -566,28 +569,29 @@ const skillKeys = (i: number, rest: Record<string, number>, peak: Record<string,
   .pair {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 1rem;
+    gap: 20px;
   }
 
   .metrics .value {
     margin: 0;
-    font-size: clamp(2.6rem, 3.6vw, 3.15rem);
-    letter-spacing: -0.04em;
-    line-height: 0.95;
+    font-size: 32px;
+    letter-spacing: -0.2px;
+    line-height: 40px;
   }
 
   .metrics .label {
-    margin: 0.45rem 0 0;
+    margin: 32px 0 0;
     color: var(--muted);
-    font-size: 0.8rem;
+    font-size: 16px;
+    line-height: 24px;
   }
 
   .featured {
-    padding-block: 3.5rem 5rem;
+    padding-block: 168px 0;
   }
 
   .featured-head {
-    margin-bottom: 2.75rem;
+    margin-bottom: 100px;
   }
 
   .featured-head h2 {

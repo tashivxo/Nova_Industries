@@ -25,10 +25,17 @@ const skillKeys = (i: number, rest: Record<string, number>, peak: Record<string,
 <BaseLayout title="Nova Industries — Design Agency" activePath="/">
   <section class="hero-section">
     <div class="hero">
-      <div class="hero-bg crosshair" data-appear style="--as:0;--ad:.1" aria-hidden="true"></div>
+      <div class="hero-bg" data-appear style="--as:0;--ad:.1" aria-hidden="true">
+        <span class="hb-line"></span>
+        <svg class="hb-curb l" viewBox="0 0 85.277 504.243" preserveAspectRatio="none"><path d="M 76.589 0 C -28.645 152.243 -25.138 355.813 85.277 504.243" /></svg>
+        <span class="hb-circle"></span>
+        <svg class="hb-curb r" viewBox="0 0 84.515 504.243" preserveAspectRatio="none"><path d="M 8.61 0 C 112.905 152.243 109.428 355.813 0 504.243" /></svg>
+      </div>
       <div class="hero-lockup">
-        <p class="we-are" data-appear style="--ay:100;--ad:.1">WE ARE</p>
-        <h1 class="display-hero" data-appear style="--ay:170;--ad:.3">Design</h1>
+        <div class="hero-top">
+          <p class="we-are" data-appear style="--ay:100;--ad:.1">WE ARE</p>
+          <h1 class="display-hero" data-appear style="--ay:170;--ad:.3">Design</h1>
+        </div>
         <div class="hero-slot">
           <div class="hero-media hero-inline" data-appear style="--ay:170;--ad:.3">
             <video
@@ -46,8 +53,8 @@ const skillKeys = (i: number, rest: Record<string, number>, peak: Record<string,
         <p class="for-tech" data-appear style="--ay:100;--ad:.8">For tech brands</p>
       </div>
     </div>
-    <!-- Framer Description `.framer-2ii1f9`: rest on the 100vh bottom, then pin at
-         180px / z-index 1 so the expand covers stats/copy instead of them escaping. -->
+    <!-- Framer Description `.framer-2ii1f9`: sits on the 100vh bottom and scrolls away with
+         the page (no pin); the expanding video (z-index 10) passes over it. -->
     <div class="hero-chrome">
       <div class="hero-chrome-inner">
         <div class="hero-stats" data-appear style="--ay:170;--ad:.9">
@@ -66,14 +73,15 @@ const skillKeys = (i: number, rest: Record<string, number>, peak: Record<string,
         </p>
       </div>
     </div>
-    <!-- Sticky viewport clip matches Framer’s y 0→1240 pin without fighting Lenis.
-         Scale 1→5.6 uses Framer’s scroll spring (k400 d60 m0.1). -->
+    <!-- Sticky viewport clip stands in for Framer’s y 0→1240 so Lenis can’t make it lag.
+         The scrub y is Framer’s y minus scroll: the video drifts ~100px down while it
+         grows, then climbs back (measured at 1440×900). Spring k400 d60 m0.1. -->
     <div class="hero-pin" aria-hidden="true">
       <div class="hero-overlay" data-appear style="--ay:170;--ad:.3" data-hero-track=".hero-slot">
         <div
           class="hero-scrub"
           data-scrub-min="1200"
-          data-scrub='[{"at":0,"v":{}},{"at":"#hero-m1","v":{"scale":2.2}},{"at":"#hero-m2","v":{"scale":3.4}},{"at":"#hero-m3","v":{"scale":4.8}},{"at":"#hero-m4","v":{"scale":5.6}}]'
+          data-scrub='[{"at":0,"v":{}},{"at":"#hero-m1","v":{"scale":2.2,"y":100}},{"at":"#hero-m2","v":{"scale":3.4,"y":72}},{"at":"#hero-m3","v":{"scale":4.8,"y":38}},{"at":"#hero-m4","v":{"scale":5.6,"y":-32}}]'
         >
           <video
             src="/images/hero/hero-loop.mp4"
@@ -268,10 +276,80 @@ const skillKeys = (i: number, rest: Record<string, number>, peak: Record<string,
     place-items: center;
   }
 
+  /* Framer Background: full-width hairline, a page-filled circle with its own cross,
+     and two arcs hugging it. Circle 100px phone / 180px tablet / 48vw desktop. */
   .hero-bg {
+    --hb-c: 100px;
+    --hb-cw: 20px;
+    --hb-ch: 91px;
     position: absolute;
     inset: 0;
     pointer-events: none;
+  }
+
+  .hb-line,
+  .hb-circle,
+  .hb-curb {
+    position: absolute;
+    top: 50%;
+  }
+
+  .hb-line {
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: #1a1a1a;
+  }
+
+  .hb-circle {
+    left: 50%;
+    width: var(--hb-c);
+    height: var(--hb-c);
+    transform: translate(-50%, -50%);
+    border: 1px solid #1a1a1a;
+    border-radius: 50%;
+    background:
+      linear-gradient(#1a1a1a, #1a1a1a) center / 100% 1px no-repeat,
+      linear-gradient(#1a1a1a, #1a1a1a) center / 1px 100% no-repeat,
+      var(--bg);
+  }
+
+  .hb-curb {
+    width: var(--hb-cw);
+    height: var(--hb-ch);
+    transform: translateY(-50%);
+    overflow: visible;
+    fill: var(--bg);
+    stroke: #1a1a1a;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .hb-curb path {
+    vector-effect: non-scaling-stroke;
+  }
+
+  .hb-curb.l {
+    right: calc(50% + var(--hb-c) / 2);
+  }
+
+  .hb-curb.r {
+    left: calc(50% + var(--hb-c) / 2);
+  }
+
+  @media (min-width: 810px) {
+    .hero-bg {
+      --hb-c: 180px;
+      --hb-cw: 32px;
+      --hb-ch: 146px;
+    }
+  }
+
+  @media (min-width: 1200px) {
+    .hero-bg {
+      --hb-c: 48vw;
+      --hb-cw: 86px;
+      --hb-ch: 504px;
+    }
   }
 
   /* Scroll markers for the hero scrub: keyframes fire as each is fully in view. */
@@ -295,10 +373,16 @@ const skillKeys = (i: number, rest: Record<string, number>, peak: Record<string,
     overflow: clip;
   }
 
+  .hero-top {
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Framer Badge: 32px in from the first word's left edge, 8px above it. */
   .we-are {
     margin: 0 0 0.5rem;
     align-self: flex-start;
-    padding-left: 0.22em;
+    padding-left: 32px;
     font-size: 1rem;
     font-weight: 400;
     letter-spacing: 0;
@@ -413,8 +497,10 @@ const skillKeys = (i: number, rest: Record<string, number>, peak: Record<string,
     color: #fff;
   }
 
+  /* Framer Company Project Section: 80px top, 106px title gap, three 408 cards 48 apart
+     with left + bottom #242424 rules; logo row 25px, 90px down to the stats. */
   .impact {
-    padding-block: 5.5rem 4.5rem;
+    padding-block: 80px 0;
   }
 
   .impact h2 {
@@ -423,23 +509,24 @@ const skillKeys = (i: number, rest: Record<string, number>, peak: Record<string,
     font-weight: 500;
     letter-spacing: -0.04em;
     line-height: 1.17;
-    margin: 0 0 3rem;
+    margin: 0 0 106px;
   }
 
   .metrics {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 1.5rem 1.25rem;
+    gap: 48px;
   }
 
   .metric-card {
-    border-left: 1px solid var(--line);
-    padding: 0.15rem 0 0.35rem 1.35rem;
+    border-left: 1px solid #242424;
+    border-bottom: 1px solid #242424;
+    padding: 0 0 24px 24px;
   }
 
   .partner-logo-wrap {
-    height: 1.55rem;
-    margin-bottom: 1.85rem;
+    height: 25px;
+    margin-bottom: 90px;
     display: flex;
     align-items: center;
   }
@@ -482,28 +569,29 @@ const skillKeys = (i: number, rest: Record<string, number>, peak: Record<string,
   .pair {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 1rem;
+    gap: 20px;
   }
 
   .metrics .value {
     margin: 0;
-    font-size: clamp(2.6rem, 3.6vw, 3.15rem);
-    letter-spacing: -0.04em;
-    line-height: 0.95;
+    font-size: 32px;
+    letter-spacing: -0.2px;
+    line-height: 40px;
   }
 
   .metrics .label {
-    margin: 0.45rem 0 0;
+    margin: 32px 0 0;
     color: var(--muted);
-    font-size: 0.8rem;
+    font-size: 16px;
+    line-height: 24px;
   }
 
   .featured {
-    padding-block: 3.5rem 5rem;
+    padding-block: 168px 0;
   }
 
   .featured-head {
-    margin-bottom: 2.75rem;
+    margin-bottom: 100px;
   }
 
   .featured-head h2 {
@@ -513,7 +601,6 @@ const skillKeys = (i: number, rest: Record<string, number>, peak: Record<string,
 
   .skills {
     padding-block: 4.5rem 5rem;
-    border-top: 1px solid var(--line);
   }
 
   .skills h2 {
@@ -525,16 +612,35 @@ const skillKeys = (i: number, rest: Record<string, number>, peak: Record<string,
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 2rem 1.5rem;
-    align-items: start;
+    align-items: center;
     margin-bottom: 4.25rem;
   }
 
   .skills-copy {
     margin: 0;
-    color: var(--muted);
-    font-size: 0.92rem;
-    line-height: 1.5;
-    max-width: 16.5rem;
+    font-size: 16px;
+    line-height: 24px;
+    max-width: 278px;
+  }
+
+  .skills-copy.right {
+    max-width: 303px;
+  }
+
+  /* Framer Core Skills: 168 top, 100 under the 127px title and under the copy, no bottom pad.
+     The h2's box is 144 (mask descender room), hence 83. */
+  @media (min-width: 901px) {
+    .skills {
+      padding-block: 168px 0;
+    }
+
+    .skills h2 {
+      margin-bottom: 83px;
+    }
+
+    .skills-intro {
+      margin-bottom: 100px;
+    }
   }
 
   .skills-copy.right {
@@ -738,7 +844,6 @@ const skillKeys = (i: number, rest: Record<string, number>, peak: Record<string,
     position: relative;
     overflow: clip;
     padding-block: 4rem 5rem;
-    border-top: 1px solid var(--line);
   }
 
   /* Framer overlay wipe: a page-coloured 2000px block parked 1400px over the chart, then
@@ -835,7 +940,6 @@ const skillKeys = (i: number, rest: Record<string, number>, peak: Record<string,
 
   .journal {
     padding-block: 4rem 2rem;
-    border-top: 1px solid var(--line);
   }
 
   .journal h2 {
@@ -876,8 +980,6 @@ const skillKeys = (i: number, rest: Record<string, number>, peak: Record<string,
       visibility: hidden;
     }
 
-    /* Track is the full section so JS can pin the row at 180px (Framer Description)
-       without overflow:hidden killing `position: sticky`. Rest CSS is the 100vh bottom. */
     .hero-chrome {
       position: absolute;
       inset: 0;
@@ -885,19 +987,34 @@ const skillKeys = (i: number, rest: Record<string, number>, peak: Record<string,
       pointer-events: none;
     }
 
+    /* Framer Description: 100px row on the 100vh bottom, 20px top pad, 1320 max width. */
     .hero-chrome-inner {
       position: absolute;
       left: 0;
       right: 0;
-      top: calc(100svh - 2.35rem - 5.05rem);
+      top: calc(100svh - 100px);
+      height: 100px;
       display: flex;
       justify-content: space-between;
       align-items: flex-end;
       gap: 2rem;
-      width: 100%;
-      padding: 0 var(--page-x) 2.35rem;
-      box-sizing: border-box;
+      padding: 20px max(20px, (100% - 1320px) / 2) 0;
       pointer-events: none;
+    }
+
+    .hero-stats {
+      gap: 10px;
+    }
+
+    .hero-stats div {
+      grid-template-columns: 42px auto;
+      gap: 10px;
+    }
+
+    .hero-stats strong,
+    .hero-stats span,
+    .hero-copy {
+      line-height: 20px;
     }
 
     .hero-stats,
@@ -911,8 +1028,8 @@ const skillKeys = (i: number, rest: Record<string, number>, peak: Record<string,
     }
 
     .hero-copy {
-      text-align: right;
-      width: min(22rem, 34vw);
+      text-align: left;
+      width: 276px;
     }
 
     .hero-pin {

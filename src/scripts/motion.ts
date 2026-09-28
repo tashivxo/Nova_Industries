@@ -165,47 +165,17 @@ function placeHeroOverlay() {
     const slot = document.querySelector<HTMLElement>(el.dataset.heroTrack!);
     const hero = slot?.closest<HTMLElement>('.hero');
     if (!slot || !hero) continue;
+    // offsetTop already includes `position: relative` offsets (the lockup's top: -50px).
     let l = 0;
     let t = 0;
     for (let e: HTMLElement | null = slot; e && e !== hero; e = e.offsetParent as HTMLElement | null) {
       l += e.offsetLeft;
       t += e.offsetTop;
-      const rel = parseFloat(getComputedStyle(e).top);
-      if (!Number.isNaN(rel)) t += rel;
     }
     el.style.left = `${l}px`;
     el.style.top = `${t}px`;
     el.style.width = `${slot.offsetWidth}px`;
     el.style.height = `${slot.offsetHeight}px`;
-  }
-}
-
-const CHROME_PIN = 180;
-
-function pinHeroChrome() {
-  const inner = document.querySelector<HTMLElement>('.hero-chrome-inner');
-  const section = document.querySelector<HTMLElement>('.hero-section');
-  if (!inner || !section) return;
-  if (innerWidth < 1200) {
-    inner.style.position = inner.style.top = inner.style.left = inner.style.right = inner.style.width = '';
-    return;
-  }
-  const h = inner.offsetHeight || 1;
-  const restTop = innerHeight - h;
-  const y = scrollNow();
-  const secTop = layoutTop(section);
-  const secH = section.offsetHeight;
-  const natural = restTop - (y - secTop);
-  const pinRange = Math.max(0, secH - innerHeight);
-  inner.style.left = '0';
-  inner.style.right = '0';
-  inner.style.width = '100%';
-  if (natural > CHROME_PIN || y - secTop >= pinRange) {
-    inner.style.position = 'absolute';
-    inner.style.top = `${restTop}px`;
-  } else {
-    inner.style.position = 'fixed';
-    inner.style.top = `${CHROME_PIN}px`;
   }
 }
 
@@ -234,7 +204,6 @@ function scrollFx() {
     const vh = innerHeight;
     const max = document.documentElement.scrollHeight - vh;
     placeHeroOverlay();
-    pinHeroChrome();
     for (const it of items) {
       if (it.rise) {
         it.top = layoutTop(it.el);
@@ -333,7 +302,6 @@ if (!reduced) {
       /* keep the scrub loop alive if Lenis throws a frame */
     }
     checkWatches();
-    pinHeroChrome();
     tickScrub(now);
     requestAnimationFrame(loop);
   };

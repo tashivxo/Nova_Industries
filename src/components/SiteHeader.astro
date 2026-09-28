@@ -154,6 +154,13 @@ function isActive(href: string, path: string) {
     visibility: visible;
   }
 
+  /* Framer Desktop nav: 1360 max content, 20px floor (40px at 1440). */
+  @media (min-width: 1200px) {
+    .site-header {
+      padding-inline: max(20px, (100% - 1360px) / 2);
+    }
+  }
+
   .mobile-toggle,
   .mobile-drawer {
     display: none;

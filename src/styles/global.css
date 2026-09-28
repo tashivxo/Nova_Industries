@@ -189,27 +189,43 @@ html.js [data-reveal] {
   display: block;
 }
 
+/* Framer Features Body: pairs of 400px cards, 48 apart, 200 between pairs, laid out
+   left pair / right pair / outer pair / right pair. Two grid columns; % margins resolve
+   against the card's grid area, so the offsets hold at any container width.
+   nth-of-type: Astro renders the ProjectCard <script> inside the grid. */
 .stagger-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  column-gap: 1.35rem;
-  row-gap: 4.75rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 48px;
+  row-gap: 200px;
 }
 
-.stagger-grid > :nth-child(4n + 1) {
+.stagger-grid > a {
+  --card: min(400px, 100%);
+  width: var(--card);
+}
+
+.stagger-grid > a:nth-of-type(8n + 1),
+.stagger-grid > a:nth-of-type(8n + 5) {
   grid-column: 1;
 }
 
-.stagger-grid > :nth-child(4n + 2) {
+.stagger-grid > a:nth-of-type(8n + 2) {
   grid-column: 2;
+  margin-left: calc(var(--card) - 100%);
 }
 
-.stagger-grid > :nth-child(4n + 3) {
-  grid-column: 2;
+.stagger-grid > a:nth-of-type(8n + 3),
+.stagger-grid > a:nth-of-type(8n + 7) {
+  grid-column: 1;
+  margin-left: calc(200% - 2 * var(--card));
 }
 
-.stagger-grid > :nth-child(4n + 4) {
-  grid-column: 3;
+.stagger-grid > a:nth-of-type(8n + 4),
+.stagger-grid > a:nth-of-type(8n + 6),
+.stagger-grid > a:nth-of-type(8n + 8) {
+  grid-column: 2;
+  justify-self: end;
 }
 
 @media (max-width: 900px) {
@@ -218,8 +234,11 @@ html.js [data-reveal] {
     row-gap: 2.75rem;
   }
 
-  .stagger-grid > :nth-child(n) {
+  .stagger-grid > a:nth-of-type(n) {
     grid-column: 1;
+    justify-self: stretch;
+    width: auto;
+    margin-left: 0;
   }
 }
 

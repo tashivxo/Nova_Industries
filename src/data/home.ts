@@ -100,7 +100,7 @@ export const processSteps = [
 export const testimonials: { quote: string; name: string; role: string; image: string; href?: string }[] = [
   {
     quote:
-      'Tashiv has the eye. I bring the build and the AI. Nova makes the brand look right, Redolanse makes sure every call it brings in gets answered.',
+      "I rebuilt this site with Tashiv, so I know how he works. He handles the design, I handle the build and the AI, and we go back and forth until it's right.",
     name: 'Arham Hafeez',
     role: 'Partner. Founder, Redolanse',
     image: '/images/partners/arham-hafeez.webp',

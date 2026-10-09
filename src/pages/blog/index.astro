@@ -41,14 +41,38 @@ import { posts } from '../../data/posts';
 </BaseLayout>
 
 <style>
+  /* Framer blog hero: centred Oswald 140/127 at y232 (64/62 at y98 on phones), clear of the left nav.
+     main already adds 84px on top, so paddings here are Framer's y minus 84. */
   .hero {
-    padding-block: 2.5rem 1.5rem;
+    padding-block: 148px 40px;
+    text-align: center;
   }
 
   h1 {
     margin: 0;
-    font-size: clamp(4.75rem, 18vw, 13rem);
-    line-height: 0.76;
+    font-size: 140px;
+    line-height: 127px;
+    letter-spacing: -7px;
+  }
+
+  @media (max-width: 1199px) {
+    h1 {
+      font-size: clamp(64px, 11.6vw, 140px);
+      line-height: 0.91;
+      letter-spacing: -0.05em;
+    }
+  }
+
+  @media (max-width: 809px) {
+    .hero {
+      padding-block: 14px 40px;
+    }
+
+    h1 {
+      font-size: 64px;
+      line-height: 62px;
+      letter-spacing: -3.2px;
+    }
   }
 
   .list {

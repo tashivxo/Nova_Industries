@@ -96,27 +96,14 @@ export const processSteps = [
   },
 ];
 
-// TEMPLATE PLACEHOLDERS from the X-axis template. Replace with real Nova client quotes before launch.
-export const testimonials = [
+// Partners shown in the home carousel. Add more entries as partners come on; arrows appear at 2+.
+export const testimonials: { quote: string; name: string; role: string; image: string; href?: string }[] = [
   {
     quote:
-      "Before joining Be-tech, I was just going through the motions. Now, I'm part of a team that's genuinely changing the world. The support here is incredible.",
-    name: 'Neatian Meyal',
-    role: 'Head of Product, SaaS Company',
-    image: '/images/ui/testimonial.jpg',
-  },
-  {
-    quote:
-      "I came in skeptical, but Be-tech changed everything. The culture, the people, the mission — it's unlike anywhere I've worked before.",
-    name: 'James Whitford',
-    role: 'Engineering Lead, Fintech Company',
-    image: '/images/ui/testimonial-2.png',
-  },
-  {
-    quote:
-      'Be-tech gave me the confidence to step up. The mentorship and resources here pushed me further than I ever thought possible.',
-    name: 'Priya Kalani',
-    role: 'Product Manager, SaaS Platform',
-    image: '/images/ui/testimonial-3.png',
+      'Tashiv has the eye. I bring the build and the AI. Nova makes the brand look right, Redolanse makes sure every call it brings in gets answered.',
+    name: 'Arham Hafeez',
+    role: 'Partner. Founder, Redolanse',
+    image: '/images/partners/arham-hafeez.webp',
+    href: 'https://theredolanse.com',
   },
 ];

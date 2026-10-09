@@ -187,16 +187,20 @@ const skillKeys = (i: number, rest: Record<string, number>, peak: Record<string,
               <blockquote>{t.quote}</blockquote>
               <div class="person">
                 <p class="name">{t.name}</p>
-                <p class="role">{t.role}</p>
+                <p class="role">{t.href ? <a href={t.href} target="_blank" rel="noopener">{t.role}</a> : t.role}</p>
               </div>
             </div>
           </article>
         ))
       }
-      <div class="t-arrows">
-        <button type="button" class="t-arrow" data-prev aria-label="Previous testimonial" set:html={'<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3 5 8l5 5" /></svg>'} />
-        <button type="button" class="t-arrow right" data-next aria-label="Next testimonial" set:html={'<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3 5 8l5 5" /></svg>'} />
-      </div>
+      {
+        testimonials.length > 1 && (
+        <div class="t-arrows">
+          <button type="button" class="t-arrow" data-prev aria-label="Previous partner" set:html={'<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3 5 8l5 5" /></svg>'} />
+          <button type="button" class="t-arrow right" data-next aria-label="Next partner" set:html={'<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3 5 8l5 5" /></svg>'} />
+        </div>
+        )
+      }
     </div>
   </section>
 
@@ -255,8 +259,8 @@ const skillKeys = (i: number, rest: Record<string, number>, peak: Record<string,
       for (const el of cards[i].querySelectorAll<HTMLElement>('.t-img, .t-desc'))
         animate(el, { opacity: [0, 1], y: [170, 0] }, { type: 'spring', stiffness: 300, damping: 60, delay: 0.3 });
     };
-    root.querySelector('[data-prev]')!.addEventListener('click', () => show(i - 1));
-    root.querySelector('[data-next]')!.addEventListener('click', () => show(i + 1));
+    root.querySelector('[data-prev]')?.addEventListener('click', () => show(i - 1));
+    root.querySelector('[data-next]')?.addEventListener('click', () => show(i + 1));
   }
 </script>
 

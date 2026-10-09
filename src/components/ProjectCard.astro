@@ -115,22 +115,45 @@ const arrow =
     display: grid;
     align-content: start;
     gap: 10px;
+    min-width: 0;
     color: inherit;
   }
 
+  .project-card > * {
+    min-width: 0;
+  }
+
+  /* Framer category row is a fixed 20px line (14/20 Geist medium, #808080, no wrap).
+     Longer local categories ellipsize so the year stays put and the card stays 590. */
   .meta {
     display: flex;
     justify-content: space-between;
-    align-items: baseline;
+    align-items: center;
     gap: 1rem;
+    height: 20px;
+    overflow: hidden;
   }
 
   .meta .eyebrow {
-    font-size: 0.875rem;
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 500;
     color: #808080;
+    white-space: pre;
+  }
+
+  .meta .eyebrow:not(.year) {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .meta .year {
+    flex: 0 0 auto;
   }
 
   .project-card :global(.media) {
+    width: 100%;
     aspect-ratio: 400 / 494;
   }
 
@@ -154,7 +177,7 @@ const arrow =
     margin: 0;
     font-size: 16px;
     line-height: 24px;
-    font-weight: 500;
+    font-weight: 400;
     color: #808080;
     text-transform: uppercase;
   }

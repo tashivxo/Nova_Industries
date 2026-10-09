@@ -1,3 +1,5 @@
+// `image` is optional: drop a photo under public/images/company/ and set the path here.
+// Team cards crop to 408x440 (cover); without one the card shows a neutral initial tile.
 export type TeamMember = {
   name: string;
   role: string;
@@ -20,6 +22,10 @@ export const companyStats = [
   { from: 2, to: 9, suffix: '+', label: 'Years Creative Experience' },
   { from: 82, to: 98, suffix: '%', label: 'Client Satisfaction Rate' },
 ];
+
+// Founder quote under the "Creative Powerhouse" headline. Set `image` (e.g.
+// '/images/company/tashiv.jpg', portrait ~367x453) to replace the placeholder tile.
+export const founder: TeamMember = { name: 'Tashiv', role: 'Founder, Nova Industries' };
 
 export const coreStandards = [
   {

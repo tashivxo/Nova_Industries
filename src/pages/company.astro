@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { companyStats, coreStandards, team } from '../data/company';
+import { companyStats, coreStandards, founder, team } from '../data/company';
 
 // Cursor trail images: Nova's own staged client work.
 const trailImages = [
@@ -11,65 +11,109 @@ const trailImages = [
   '/images/staging/crosswith/crosswith-06.jpg',
   '/images/staging/freeperiod/freeperiod-03.png',
 ];
+
+// The two small images set inside the "Creative Powerhouse" headline (Framer: 164x104).
+const inlineA = '/images/staging/crosswith/crosswith-kloofstreet.png';
+const inlineB = '/images/work/betterbuilt-hero.webp';
+
+// Core Standards icons, same order as coreStandards. Drawn on Framer's 60-wide canvas;
+// evenodd so overlaps/cut-outs read as holes.
+const icons = [
+  { vb: '0 0 60 40', d: 'M20 0a20 20 0 1 0 0 40a20 20 0 1 0 0-40zM40 0a20 20 0 1 0 0 40a20 20 0 1 0 0-40z' },
+  { vb: '0 0 60 48', d: 'M20 0a20 20 0 1 0 0 40a20 20 0 1 0 0-40zM6.4 6.4h27.2v27.2H6.4z' },
+  { vb: '0 0 60 48', d: 'M20 40a20 20 0 1 1 0-40zM40 40a20 20 0 1 1 0-40z' },
+  { vb: '0 0 60 48', d: 'M20.5 3a20.5 20.5 0 1 0 0 41a20.5 20.5 0 1 0 0-41zM20.5 7.4a16.1 16.1 0 1 1 0 32.2a16.1 16.1 0 1 1 0-32.2zM32.3 0a11.7 11.7 0 1 0 0 23.4a11.7 11.7 0 1 0 0-23.4z' },
+  { vb: '0 0 60 48', d: 'M20 4a20 20 0 1 0 0 40a20 20 0 1 0 0-40zM1.5 24a18.5 18.5 0 0 1 37 0z' },
+  { vb: '0 0 60 48', d: 'M13.33 13.33a13.33 13.33 0 0 0 0 26.67zM13.33 26.67a13.33 13.33 0 0 0 26.67 0zM26.67 26.67a13.33 13.33 0 0 0 0-26.67zM26.67 13.33a13.33 13.33 0 0 0-26.67 0z' },
+];
 ---
 
 <BaseLayout title="Company — Nova Industries" activePath="/company">
-  <section class="hero section-pad" data-trail={JSON.stringify(trailImages)}>
-    <p class="eyebrow" data-appear style="--ay:170;--ad:.3">WHO</p>
-    <h1 class="font-display">
-      <span class="mask"><span class="line" data-appear style="--ay:170;--ad:.5">Creative</span></span>
-      <span class="mask"><span class="line" data-appear style="--ay:170;--ad:.5">Systems</span></span>
-    </h1>
-    <p class="lede" data-appear style="--ay:170;--ad:.9">
-      A creative agency built on specialisation, systems, and craft.
-    </p>
-    <p class="body" data-appear style="--ay:170;--ad:.9">
-      We are a specialist creative agency working at the intersection of brand, design, and
-      technology. We partner with founders, product teams, and growing companies to build
-      identities and experiences that last.
-    </p>
-  </section>
-
-  <section class="stats section-pad">
-    <div class="reveal-shell" data-rise>
-      {
-        companyStats.map((s) => (
-          <article>
-            <p class="font-display value" data-count={`${s.from},${s.to}`} data-suffix={s.suffix}>{s.from}{s.suffix}</p>
-            <p class="label">{s.label}</p>
-          </article>
-        ))
-      }
+  <section class="hero" data-trail={JSON.stringify(trailImages)}>
+    <div class="hero-bg" data-appear style="--as:0;--ad:.1" aria-hidden="true">
+      <i></i>
+      <b></b>
+      <i></i>
+    </div>
+    <div class="hero-title">
+      <p class="who" data-appear style="--ay:170;--ad:.3">Who</p>
+      <h1>
+        <span data-appear style="--ay:170;--ad:.5">Creative</span>
+        <span data-appear style="--ay:170;--ad:.5">Systems</span>
+      </h1>
+      <p class="lede" data-appear style="--ay:170;--ad:.9">
+        A creative agency built on specialisation, systems, and craft.
+      </p>
     </div>
   </section>
 
-  <section class="powerhouse section-pad">
-    <div class="reveal-shell">
-      <h2 class="font-display" data-flip>
-        We're a
-        <br />
-        Creative
-        <br />
-        Powerhouse
-      </h2>
-      <blockquote data-rise>
-        In a world where everyone is trying to do everything, we choose to specialise in the
-        creative design, marketing and tech industries.
-      </blockquote>
-      <p class="by">Neatian Meyal</p>
-      <p class="role">CEO, Nova Industries tech agency</p>
-    </div>
-  </section>
-
-  <section class="standards section-pad">
-    <div class="reveal-shell">
-      <h2 class="font-display mask"><span class="line" data-rise>Core Standards</span></h2>
-      <div class="grid" data-rise>
+  <section class="stats sec">
+    <div class="wrap" data-rise>
+      <p class="about">
+        We are a specialist creative agency working at the intersection of brand, design, and
+        technology. We partner with founders, product teams, and growing companies to build
+        identities and experiences that last.
+      </p>
+      <div class="stat-list">
         {
-          coreStandards.map((s) => (
+          companyStats.map((s) => (
+            <div class="stat">
+              <p class="value" data-count={`${s.from},${s.to}`} data-suffix={s.suffix}>{s.from}{s.suffix}</p>
+              <p class="label">{s.label}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="powerhouse sec">
+    <h2 class="flip" data-flip>
+      <span class="row">
+        <span>We're a{' '}</span>
+        <img src={inlineA} alt="" loading="lazy" style="object-position: right top" />
+        <span>{' '}Creative</span>
+        <img class="phone-only" src={inlineB} alt="" loading="lazy" style="object-position: right center" />
+      </span>
+      <span class="row">
+        <img class="not-phone" src={inlineB} alt="" loading="lazy" style="object-position: right center" />
+        <span>{' '}Powerhouse</span>
+      </span>
+    </h2>
+  </section>
+
+  <section class="quote sec">
+    <div class="wrap" data-rise>
+      <div class="portrait">
+        {founder.image ? <img src={founder.image} alt={founder.name} loading="lazy" /> : <span aria-hidden="true">{founder.name.slice(0, 1)}</span>}
+      </div>
+      <figure>
+        <blockquote>
+          In a world where everyone is trying to do everything, we choose to specialise in the
+          creative design, marketing and tech industries.
+        </blockquote>
+        <figcaption>
+          <span class="name">{founder.name}</span>
+          <span class="role">{founder.role}</span>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="standards sec">
+    <div class="wrap">
+      <h2 class="big mask"><span class="line" data-rise>Core Standards</span></h2>
+      <div class="std-grid" data-rise>
+        {
+          coreStandards.map((s, i) => (
             <article>
-              <h3>{s.title}</h3>
-              <p>{s.body}</p>
+              <svg viewBox={icons[i].vb} width="60" height="40" aria-hidden="true">
+                <path d={icons[i].d} fill="#ccc" fill-rule="evenodd" />
+              </svg>
+              <div>
+                <h3>{s.title}</h3>
+                <p>{s.body}</p>
+              </div>
             </article>
           ))
         }
@@ -77,16 +121,25 @@ const trailImages = [
     </div>
   </section>
 
-  <section class="team section-pad">
-    <div class="reveal-shell">
-      <h2 class="font-display mask"><span class="line" data-rise>Meet the Team</span></h2>
+  <section class="team sec">
+    <div class="wrap">
+      <h2 class="big mask"><span class="line" data-rise>Meet the Team</span></h2>
       <div class="team-grid" data-rise>
         {
           team.map((m) => (
             <article>
-              <div class="avatar" aria-hidden="true">{m.name.slice(0, 1)}</div>
-              <h3>{m.name}</h3>
-              <p>{m.role}</p>
+              <div class="photo">
+                {m.image ? <img src={m.image} alt={m.name} loading="lazy" /> : <span aria-hidden="true">{m.name.slice(0, 1)}</span>}
+              </div>
+              <div class="meta">
+                <div>
+                  <h3>{m.name}</h3>
+                  <p>{m.role}</p>
+                </div>
+                <svg viewBox="0 0 15.736 15.736" width="16" height="16" aria-hidden="true">
+                  <path d="M3.5.9h11.36v11.35M14.86.9.9 14.86" fill="none" stroke="#fff" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </div>
             </article>
           ))
         }
@@ -126,9 +179,55 @@ const trailImages = [
 </script>
 
 <style>
+  /* All sizes are Framer's, measured at 1440 (desktop >= 1200), 1024 (tablet 810-1199)
+     and 390 (phone <= 809). --hair is Framer's #242424 rule colour. */
+  section {
+    --hair: #242424;
+  }
+
+  /* The site's Geist build sets ~1.1% wider than the Geist the Framer page serves; this
+     keeps paragraph line breaks identical to the reference. */
+  p {
+    letter-spacing: -0.011em;
+  }
+
+  section {
+    text-wrap: balance;
+  }
+
+  .std-grid p,
+  .team p {
+    text-wrap: wrap;
+  }
+
+  p,
+  h1,
+  h2,
+  h3,
+  figure,
+  blockquote {
+    margin: 0;
+  }
+
+  .sec {
+    padding: 168px 20px 0;
+  }
+
+  .wrap {
+    max-width: 1320px;
+    margin-inline: auto;
+  }
+
+  /* ---- Hero: one full viewport, pulled up under the absolute header (main has 5.25rem top). */
   .hero {
     position: relative;
-    padding-block: 2.5rem 3.5rem;
+    height: 100vh;
+    margin-top: -5.25rem;
+    padding-inline: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: clip;
   }
 
   .hero :global(.trail-img) {
@@ -140,141 +239,561 @@ const trailImages = [
     pointer-events: none;
   }
 
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .hero-bg i {
+    flex: none;
+    width: 50%;
+    max-width: 795px;
+    height: 80%;
+    max-height: 795px;
+    border: 1px solid var(--hair);
+    border-radius: 1000px;
+  }
+
+  .hero-bg b {
+    position: absolute;
+    inset: 50% 0 auto;
+    height: 1px;
+    background: var(--hair);
+  }
+
+  .hero-title {
+    --gap: 40px;
+    position: relative;
+    z-index: 1;
+    text-align: center;
+  }
+
+  .who {
+    padding-left: 16px;
+    text-align: left;
+    font-size: 16px;
+    line-height: 24px;
+    text-transform: uppercase;
+  }
+
+  .hero h1,
+  .flip,
+  .big {
+    font-family: var(--font-display);
+    text-transform: uppercase;
+  }
+
+  .hero h1 {
+    font-size: 180px;
+    line-height: 170px;
+    font-weight: 500;
+    letter-spacing: -9px;
+  }
+
+  .hero h1 span {
+    display: block;
+  }
+
+  .lede {
+    margin-top: var(--gap);
+    font-size: 20px;
+    line-height: 28px;
+    color: var(--muted);
+  }
+
+  /* ---- Stats */
+  .stats .wrap {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+
+  .about {
+    width: 249px;
+    font-size: 14px;
+    line-height: 20px;
+    color: var(--muted);
+  }
+
+  .stat-list {
+    width: 743px;
+    display: grid;
+    gap: 24px;
+  }
+
+  .stat {
+    display: flex;
+    align-items: flex-end;
+    gap: 32px;
+    padding-bottom: 27px;
+    border-bottom: 1px solid var(--hair);
+  }
+
+  .value {
+    width: 120px;
+    font-family: var(--font-display);
+    font-size: 48px;
+    line-height: 56px;
+    font-weight: 500;
+    letter-spacing: -0.2px;
+    font-variant-numeric: tabular-nums;
+    color: #ccc;
+  }
+
+  .label {
+    font-size: 20px;
+    line-height: 28px;
+    color: var(--muted);
+  }
+
+  /* ---- Creative Powerhouse */
   .powerhouse {
     perspective: 1400px;
   }
 
-  .hero h1 {
-    margin: 0.35rem 0 1.25rem;
-    font-size: clamp(4.75rem, 18vw, 13rem);
-    line-height: 0.76;
+  .flip {
     display: grid;
+    gap: 10px;
+    margin-top: -4px;
+    font-size: 120px;
+    line-height: 132px;
+    font-weight: 600;
+    letter-spacing: -4.8px;
   }
 
-  .lede {
-    max-width: 28rem;
-    font-size: 1.15rem;
-    margin: 0 0 0.85rem;
+  /* Framer's words carry a real space next to each image ("We're a ", " Creative"). */
+  .flip .row {
+    white-space: pre;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
   }
 
-  .body {
-    max-width: 40rem;
-    color: var(--muted);
-    line-height: 1.55;
-    font-size: 0.9rem;
+  .flip img {
+    width: 164px;
+    height: 104px;
+    object-fit: cover;
   }
 
-  .stats :global(.reveal-shell) {
+  .phone-only {
+    display: none;
+  }
+
+  /* ---- Founder quote */
+  .quote .wrap {
+    max-width: 1112px;
+    display: flex;
+    gap: 57px;
+  }
+
+  .portrait {
+    flex: none;
+    width: 367px;
+    aspect-ratio: 367 / 453;
+  }
+
+  .portrait,
+  .photo {
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 1rem;
+    place-items: center;
+    overflow: clip;
+    background: #1a1a1a;
+    font-family: var(--font-display);
+    font-size: 96px;
+    font-weight: 500;
+    color: #3d3d3d;
   }
 
-  .stats {
-    padding-block: 2.5rem;
-    border-top: 1px solid var(--line);
+  .portrait img,
+  .photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 
-  .value {
-    margin: 0;
-    font-size: clamp(2.5rem, 7vw, 4.5rem);
-    line-height: 0.9;
-  }
-
-  .label {
-    margin: 0.4rem 0 0;
-    color: var(--muted);
-    font-size: 0.85rem;
-  }
-
-  .powerhouse {
-    padding-block: 4rem;
-    border-top: 1px solid var(--line);
-  }
-
-  .powerhouse h2 {
-    margin: 0 0 1.5rem;
-    font-size: clamp(2.8rem, 9vw, 6rem);
-    line-height: 0.9;
+  .quote figure {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 100px;
+    box-shadow: inset 0 1px #1a1a1a, inset 0 -1px #1a1a1a;
   }
 
   blockquote {
-    margin: 0;
-    max-width: 40rem;
-    font-size: 1.1rem;
-    line-height: 1.45;
+    max-width: 607px;
+    font-size: 32px;
+    line-height: 40px;
+    font-weight: 500;
+    letter-spacing: -0.96px;
   }
 
-  .by {
-    margin: 1.25rem 0 0.15rem;
-    font-weight: 600;
+  figcaption {
+    display: grid;
+    gap: 10px;
+  }
+
+  .name,
+  h3 {
+    font-size: 28px;
+    line-height: 36px;
+    font-weight: 500;
+    letter-spacing: -0.56px;
+  }
+
+  .name,
+  .team h3 {
+    text-transform: uppercase;
   }
 
   .role {
-    margin: 0;
+    font-size: 14px;
+    line-height: 20px;
     color: var(--muted);
-    font-size: 0.85rem;
   }
 
-  .standards,
-  .team {
-    padding-block: 3.5rem;
-    border-top: 1px solid var(--line);
+  /* ---- Core Standards + Team */
+  .big {
+    margin-bottom: calc(110px - 0.12em);
+    font-size: 140px;
+    line-height: 127px;
+    font-weight: 600;
+    letter-spacing: -7px;
+    text-align: center;
   }
 
-  .standards h2,
-  .team h2 {
-    margin: 0 0 1.5rem;
-    font-size: clamp(2.5rem, 8vw, 5rem);
-    line-height: 0.9;
+  .std-grid {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 80px;
   }
 
-  .grid,
+  .std-grid article {
+    width: 300px;
+    display: grid;
+    gap: 40px;
+  }
+
+  .std-grid svg {
+    display: block;
+  }
+
+  .std-grid article div {
+    display: grid;
+    gap: 12px;
+  }
+
+  .std-grid p,
+  .team p {
+    font-size: 16px;
+    line-height: 24px;
+    color: var(--muted);
+  }
+
   .team-grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 1.25rem;
+    gap: 124px 48px;
   }
 
-  .grid h3,
-  .team-grid h3 {
-    margin: 0 0 0.4rem;
-    font-size: 1.05rem;
-  }
-
-  .grid p,
-  .team-grid p {
-    margin: 0;
-    color: var(--muted);
-    line-height: 1.45;
-    font-size: 0.9rem;
-  }
-
-  .avatar {
-    width: 100%;
-    aspect-ratio: 1;
+  .team article {
     display: grid;
-    place-items: center;
-    background: #171717;
-    border: 1px solid var(--line);
-    margin-bottom: 0.75rem;
-    font-family: var(--font-display);
-    font-size: 3rem;
+    gap: 20px;
   }
 
-  @media (max-width: 900px) {
-    .stats :global(.reveal-shell),
-    .grid,
+  .photo {
+    aspect-ratio: 408 / 440;
+  }
+
+  /* Framer card hover: photo goes from greyscale to colour and zooms to 1.2. */
+  .photo img {
+    filter: grayscale(1);
+    transition:
+      transform var(--dur-card) var(--ease-card),
+      filter var(--dur-card) var(--ease-card);
+  }
+
+  .team article:hover .photo img {
+    filter: grayscale(0);
+    transform: scale(1.2);
+  }
+
+  .meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .meta div {
+    flex: 1;
+    display: grid;
+    gap: 4px;
+  }
+
+  .meta svg {
+    flex: none;
+    margin: 6px;
+  }
+
+  /* ---- Tablet */
+  @media (max-width: 1199px) {
+    .sec {
+      padding-top: 120px;
+    }
+
+    .wrap {
+      max-width: 750px;
+    }
+
+    .hero-bg i {
+      height: 50%;
+    }
+
+    .hero-title {
+      --gap: 24px;
+    }
+
+    .hero h1 {
+      font-size: 160px;
+      line-height: 152px;
+      letter-spacing: -8px;
+    }
+
+    .lede,
+    .label {
+      font-size: 18px;
+      line-height: 26px;
+    }
+
+    .stats {
+      padding-top: 60px;
+    }
+
+    .about {
+      width: 190px;
+    }
+
+    .stat-list {
+      width: 480px;
+      gap: 20px;
+    }
+
+    .value {
+      width: 80px;
+      font-size: 32px;
+      line-height: 40px;
+    }
+
+    .flip {
+      margin-top: 90px;
+      font-size: 80px;
+      line-height: 80px;
+      letter-spacing: -3.2px;
+    }
+
+    .quote .wrap {
+      max-width: 750px;
+      gap: 28px;
+    }
+
+    .portrait {
+      flex: 1;
+      width: auto;
+      height: 340px;
+      aspect-ratio: auto;
+    }
+
+    .quote figure {
+      gap: 48px;
+    }
+
+    blockquote {
+      font-size: 26px;
+      line-height: 34px;
+      letter-spacing: -0.78px;
+    }
+
+    .name,
+    h3 {
+      font-size: 22px;
+      line-height: 30px;
+      letter-spacing: -0.44px;
+    }
+
+    .big {
+      margin-bottom: calc(60px - 0.12em);
+      font-size: 112px;
+      line-height: 106px;
+      letter-spacing: -5.6px;
+    }
+
+    .std-grid {
+      gap: 42px 24px;
+    }
+
     .team-grid {
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 32px 24px;
+    }
+
+    .photo {
+      aspect-ratio: 363 / 322;
     }
   }
 
-  @media (max-width: 560px) {
-    .stats :global(.reveal-shell),
-    .grid,
+  /* ---- Phone */
+  @media (max-width: 809px) {
+    .sec {
+      padding: 100px 20px 0;
+    }
+
+    .hero {
+      padding-inline: 16px;
+    }
+
+    .hero-bg i {
+      height: 40%;
+    }
+
+    .hero-title {
+      --gap: 16px;
+      width: 300px;
+    }
+
+    .who {
+      font-size: 14px;
+      line-height: 21px;
+    }
+
+    .hero h1 {
+      font-size: 88px;
+      line-height: 80px;
+      letter-spacing: -4.4px;
+    }
+
+    .lede,
+    .label {
+      font-size: 16px;
+      line-height: 24px;
+    }
+
+    .stats {
+      padding: 0 16px;
+    }
+
+    .stats .wrap {
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    .about,
+    .stat-list {
+      width: 100%;
+    }
+
+    .stat-list {
+      gap: 16px;
+    }
+
+    .stat {
+      padding-bottom: 15px;
+    }
+
+    .powerhouse {
+      padding-inline: 16px;
+    }
+
+    .flip {
+      margin-top: 0;
+      font-size: 52px;
+      line-height: 52px;
+      letter-spacing: -2.08px;
+    }
+
+    .flip .row {
+      flex-wrap: wrap;
+    }
+
+    .flip img {
+      width: 100px;
+      height: 63px;
+    }
+
+    .phone-only {
+      display: block;
+    }
+
+    .not-phone {
+      display: none;
+    }
+
+    .quote .wrap {
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .portrait {
+      flex: none;
+      width: 220px;
+      height: auto;
+      aspect-ratio: 220 / 197;
+      font-size: 64px;
+    }
+
+    .quote figure {
+      width: 100%;
+      gap: 42px;
+    }
+
+    blockquote {
+      font-size: 20px;
+      line-height: 28px;
+      letter-spacing: -0.6px;
+    }
+
+    .name,
+    h3 {
+      font-size: 18px;
+      line-height: 26px;
+      letter-spacing: -0.36px;
+    }
+
+    .big {
+      margin-bottom: calc(48px - 0.12em);
+      font-size: 64px;
+      line-height: 62px;
+      letter-spacing: -3.2px;
+    }
+
+    .std-grid {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 24px;
+    }
+
+    .std-grid p,
+    .team p {
+      font-size: 14px;
+      line-height: 21px;
+    }
+
+    /* Framer's phone layout has no scroll rise on the team list (motion.ts sets it inline). */
     .team-grid {
       grid-template-columns: 1fr;
+      gap: 24px;
+      transform: none !important;
+    }
+
+    .photo {
+      aspect-ratio: 350 / 301;
+      font-size: 72px;
     }
   }
 </style>

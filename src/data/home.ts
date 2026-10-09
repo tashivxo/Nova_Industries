@@ -100,7 +100,7 @@ export const processSteps = [
 export const testimonials: { quote: string; name: string; role: string; image: string; href?: string }[] = [
   {
     quote:
-      "I rebuilt this site with Tashiv, so I know how he works. He handles the design, I handle the build and the AI, and we go back and forth until it's right.",
+      'If it needs to look good, I send it to Tashiv. If it needs AI behind it, he sends it to me. Kinda like Freddie Gibbs & The Alchemist.',
     name: 'Arham Hafeez',
     role: 'Partner. Founder, Redolanse',
     image: '/images/partners/arham-hafeez.webp',

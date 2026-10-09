@@ -17,9 +17,10 @@ const related = getRelatedProjects(project.slug);
 
 <BaseLayout title={`${project.title} — Nova Industries`} activePath="/project">
   <section class="hero section-pad">
-    <p class="eyebrow" data-appear style="--ay:170;--ad:.3">{project.category}</p>
-    <p class="eyebrow year" data-appear style="--ay:170;--ad:.3">{project.year}</p>
-    <h1 class="font-display mask"><span class="line" data-appear style="--ay:170;--ad:.3">{project.title}</span></h1>
+    <div class="head">
+      <h1 class="mask"><span class="line" data-appear style="--ay:170;--ad:.3">{project.title}</span></h1>
+      <p class="cat" data-appear style="--ay:170;--ad:.3"><span>{project.category}</span><span>{project.year}</span></p>
+    </div>
     <div
       data-appear
       class:list={['media', { 'media-contain': project.imageFit === 'contain' }]}
@@ -96,23 +97,52 @@ const related = getRelatedProjects(project.slug);
 </BaseLayout>
 
 <style>
-  .hero {
-    padding-block: 1rem 2rem;
+  /* Framer project page: 1160 column (140 inset at 1440), title at y200, 56/64 Geist, media 1160x664.
+     main already adds 84px on top, so paddings here are Framer's y minus 84. */
+  .hero,
+  .narrative,
+  .related {
+    padding-inline: max(var(--page-x), calc((100vw - 1160px) / 2));
   }
 
-  .year {
-    margin-top: 0.35rem;
+  .hero {
+    padding-block: 116px 2rem;
+  }
+
+  .head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1.5rem;
+    margin-bottom: 24px;
   }
 
   h1 {
-    margin: 0.75rem 0 1.5rem;
-    font-size: clamp(4rem, 9.8vw, 8.75rem);
-    line-height: 0.91;
+    margin: 0;
+    font-size: 56px;
+    line-height: 64px;
+    font-weight: 600;
+    letter-spacing: -2.24px;
+    text-transform: uppercase;
+    /* uppercase title: drop .mask's descender allowance so the 64px line box matches Framer */
+    padding-bottom: 0;
+    margin-bottom: 0;
+  }
+
+  .cat {
+    display: flex;
+    gap: 1.5rem;
+    margin: 0;
+    font-size: 14px;
+    line-height: 20px;
+    color: var(--muted);
+    text-transform: lowercase;
+    white-space: nowrap;
   }
 
   .media {
     overflow: hidden;
-    aspect-ratio: 16 / 9;
+    aspect-ratio: 1160 / 664;
     background: #151515;
   }
 
@@ -134,10 +164,12 @@ const related = getRelatedProjects(project.slug);
   }
 
   .narrative h2 {
-    max-width: 40rem;
-    font-size: clamp(1.5rem, 3vw, 2.2rem);
+    max-width: 790px;
+    font-size: 32px;
+    line-height: 40px;
     font-weight: 500;
-    margin: 0 0 1rem;
+    letter-spacing: -0.96px;
+    margin: 0 0 20px;
   }
 
   .intro,
@@ -148,7 +180,9 @@ const related = getRelatedProjects(project.slug);
   }
 
   .intro {
-    max-width: 46rem;
+    max-width: 790px;
+    font-size: 20px;
+    line-height: 28px;
   }
 
   .narrative h3 {
@@ -226,6 +260,41 @@ const related = getRelatedProjects(project.slug);
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 1.5rem;
+  }
+
+  @media (max-width: 809px) {
+    .hero {
+      padding-top: 0;
+    }
+
+    .head {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 6px;
+      margin-bottom: 16px;
+    }
+
+    h1 {
+      font-size: 36px;
+      line-height: 44px;
+      letter-spacing: -1.44px;
+    }
+
+    .cat {
+      justify-content: flex-end;
+      white-space: normal;
+    }
+
+    .narrative h2 {
+      font-size: 20px;
+      line-height: 28px;
+      letter-spacing: -0.6px;
+    }
+
+    .intro {
+      font-size: 16px;
+      line-height: 24px;
+    }
   }
 
   @media (max-width: 900px) {

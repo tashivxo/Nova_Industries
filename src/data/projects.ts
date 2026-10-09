@@ -12,6 +12,8 @@ export type Project = {
   category: string;
   year: string;
   image: string;
+  /** Portrait cover for the 400x494 works card; falls back to `image`. */
+  cardImage?: string;
   imageAlt: string;
   imageFit?: 'cover' | 'contain';
   imagePosition?: string;
@@ -95,12 +97,13 @@ const projectList: Project[] = [
     client: 'Free Period',
     category: 'UI/UX design // product // SaaS // app development',
     year: '2026',
-    image: '/images/staging/freeperiod/freeperiod-01-card.png',
+    image: '/images/work/freeperiod-hero.webp',
+    cardImage: '/images/work/freeperiod-card.webp',
     imageAlt:
       'Dark-mode Free Period marketing hero: “Lesson plans in seconds, not hours” beside a coffee-cup clock pictogram, with Start for free and Sign in actions',
     headline: 'Lesson plans in seconds — evenings given back to teachers',
     intro:
-      'Free Period is an AI lesson planner for teachers. Upload curriculum docs, describe the lesson, and the product returns a complete twelve-section plan — objectives, activities, differentiation, and assessment — ready to edit inline and export. The case study uses marketing screenshots from free-period.vercel.app. No personal student data is collected or shown.',
+      'Free Period is an AI lesson planner for teachers. Upload curriculum docs, describe the lesson, and the product returns a complete twelve-section plan — objectives, activities, differentiation, and assessment — ready to edit inline and export. The case study uses marketing screenshots from freeperiod.co.za. No personal student data is collected or shown.',
     challenges: [
       'Planning still eats evenings even when teachers know the material',
       'Generic AI output dumps unstructured text instead of a trusted lesson shape',
@@ -141,10 +144,11 @@ const projectList: Project[] = [
     client: 'Better Built',
     category: 'branding // ecommerce // website',
     year: '2026',
-    image: '/images/staging/betterbuilt/site/bb-site-05.png',
+    image: '/images/work/betterbuilt-hero.webp',
+    cardImage: '/images/work/betterbuilt-card.webp',
+    imagePosition: 'left center',
     imageAlt:
-      'Better Built collections: Bundles, Gym Apparel, and Accessories cards with leak-proof bottles, MagGrip bag, and gym towel',
-    imagePosition: 'center 22%',
+      'Better Built store hero: BETTER GEAR, BETTER PERFORMANCE, BETTER YOU beside an athlete lifting a kettlebell',
     headline: 'BETTER GEAR / BETTER PERFORMANCE / BETTER YOU',
     intro:
       'Better Built is a South African gym-gear store at betterbuilt.co.za. Collections cover Bundles, Gym Apparel, and Accessories — leak-proof water bottle, MagGrip gym bag, premium towel, and the Ultimate Gym Bundle — with delivery anywhere in South Africa and free delivery on orders over R750. Home promo: complimentary gift with every bundle. Contact: support@betterbuilt.co.za. The case study uses store screenshots and the supplied BETTER BUILT™ lockup.',

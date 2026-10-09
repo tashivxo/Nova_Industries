@@ -18,7 +18,7 @@ const arrow =
     <span class="eyebrow year">{project.year}</span>
   </div>
   <ImageFlip
-    src={project.image}
+    src={project.cardImage ?? project.image}
     alt={project.imageAlt}
     class:list={[
       'media',
